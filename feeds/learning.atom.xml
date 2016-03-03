@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="/" rel="alternate"></link><link href="/feeds/learning.atom.xml" rel="self"></link><id>/</id><updated>2015-12-07T00:00:00+08:00</updated><entry><title>JavaScript表单</title><link href="/javascriptbiao-dan.html" rel="alternate"></link><updated>2015-12-07T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-12-07:javascriptbiao-dan.html</id><summary type="html">&lt;h2&gt;理解表单&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="www.lyon0804.com/" rel="alternate"></link><link href="www.lyon0804.com/feeds/learning.atom.xml" rel="self"></link><id>www.lyon0804.com/</id><updated>2015-12-07T00:00:00+08:00</updated><entry><title>JavaScript表单</title><link href="www.lyon0804.com/javascriptbiao-dan.html" rel="alternate"></link><updated>2015-12-07T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-12-07:www.lyon0804.com/javascriptbiao-dan.html</id><summary type="html">&lt;h2&gt;理解表单&lt;/h2&gt;
 &lt;p&gt;表单在HTML中使用&amp;lt;form&amp;gt;元素表示, 对应在JavaScript中为HTMLFormElement类型, 该类型继承HTMLElement, 并且拥有以下特有属性或方法:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;acceptCharset&lt;/code&gt;: 服务器能够处理的字符集;&lt;/li&gt;
@@ -14,7 +14,7 @@
 &lt;li&gt;&lt;code&gt;submit()&lt;/code&gt;: 提交表单;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;除了使用&lt;code&gt;getElementById()&lt;/code&gt;等方式获取表单元素之外, &lt;code&gt;document.forms&lt;/code&gt;可以一次性获取页面中的所有表单;&lt;/p&gt;
-&lt;p&gt;有两种方式可以提交表单, 一种是通过创建&lt;code&gt;submit&lt;/code&gt;按钮,&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript事件</title><link href="/javascriptshi-jian.html" rel="alternate"></link><updated>2015-12-03T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-12-03:javascriptshi-jian.html</id><summary type="html">&lt;p&gt;事件实现了HTML和JavaScript之间的交互工作;&lt;/p&gt;
+&lt;p&gt;有两种方式可以提交表单, 一种是通过创建&lt;code&gt;submit&lt;/code&gt;按钮,&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript事件</title><link href="www.lyon0804.com/javascriptshi-jian.html" rel="alternate"></link><updated>2015-12-03T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-12-03:www.lyon0804.com/javascriptshi-jian.html</id><summary type="html">&lt;p&gt;事件实现了HTML和JavaScript之间的交互工作;&lt;/p&gt;
 &lt;h2&gt;事件流&lt;/h2&gt;
 &lt;p&gt;当一个事件发生时, 不仅仅发生在某个元素上, 同时也在该元素的容器上发生, 为了描述接收事件的顺序, 引入了&lt;strong&gt;事件流&lt;/strong&gt;的概念, 由于历史原因, IE和Netscape浏览器在事件流的描述上采用完全不同的顺序: &lt;strong&gt;事件冒泡&lt;/strong&gt;和&lt;strong&gt;事件捕获&lt;/strong&gt;:&lt;/p&gt;
 &lt;ul&gt;
@@ -578,7 +578,7 @@
 &lt;li&gt;KeyboardEvent, 只在DOM3中存在;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;当浏览器中不支持某些事件时, 也可以通过&lt;code&gt;document.createEvent("Events")&lt;/code&gt;方法创建通用事件对象, 使用&lt;code&gt;initEvent()&lt;/code&gt;初始化, 然后给该对象赋予相应的属性, 再通过&lt;code&gt;dispatchEvent()&lt;/code&gt;方法触发;&lt;/p&gt;
-&lt;p&gt;而在IE浏览器中, 则需要调用&lt;code&gt;document.createEventObject()&lt;/code&gt;方法创建event对象, 然后直接给该对象赋值相应的属性, 直到在触发事件时, 使用&lt;code&gt;fireEvent(type, event)&lt;/code&gt;才指定事件类型;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript之DOM</title><link href="/javascriptzhi-dom.html" rel="alternate"></link><updated>2015-11-27T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-27:javascriptzhi-dom.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;DOM&lt;/strong&gt;(文档对象模型)是针对XML和HTML文档的一个API, 分为3级, 其中:&lt;/p&gt;
+&lt;p&gt;而在IE浏览器中, 则需要调用&lt;code&gt;document.createEventObject()&lt;/code&gt;方法创建event对象, 然后直接给该对象赋值相应的属性, 直到在触发事件时, 使用&lt;code&gt;fireEvent(type, event)&lt;/code&gt;才指定事件类型;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript之DOM</title><link href="www.lyon0804.com/javascriptzhi-dom.html" rel="alternate"></link><updated>2015-11-27T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-27:www.lyon0804.com/javascriptzhi-dom.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;DOM&lt;/strong&gt;(文档对象模型)是针对XML和HTML文档的一个API, 分为3级, 其中:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;DOM1: 页面结构及查询标准;&lt;/li&gt;
 &lt;li&gt;DOM2: 扩展DOM1, 在已有类型基础上添加方法和属性, 引入更多的交互能力;&lt;/li&gt;
@@ -1089,7 +1089,7 @@
 &lt;p&gt;四个位置对应的是标签出现的先后, 如beforebegin表示调用元素开始之前, 也就是上一个同辈元素; afterbegin则是调用元素开始之后, 也就是第一个子元素;&lt;/p&gt;
 &lt;p&gt;使用上述属性方法替换或者插入元素时, 如果其中带有事件处理, 则有可能导致事件处理的内存占用, 应该手动释放事件处理有关的绑定;&lt;/p&gt;
 &lt;p&gt;HTML5添加了&lt;code&gt;scrollIntoView()&lt;/code&gt;方法, 使得元素在滚动页面时一直保持可见;&lt;/p&gt;
-&lt;p&gt;除了上述扩展之外, 不同浏览器之间还有一些没有被HTML5标准化的扩展, 就算已经标准化的扩展, 最好也需要查看一下浏览器的支持情况, 最新情况总是可以在文档中找到;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript浏览器</title><link href="/javascriptliu-lan-qi.html" rel="alternate"></link><updated>2015-11-24T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-24:javascriptliu-lan-qi.html</id><summary type="html">&lt;p&gt;在Web应用中, 浏览器作为客户端, 浏览器功能的访问和控制、浏览器类型的检测等等, 都是非常重要的知识;&lt;/p&gt;
+&lt;p&gt;除了上述扩展之外, 不同浏览器之间还有一些没有被HTML5标准化的扩展, 就算已经标准化的扩展, 最好也需要查看一下浏览器的支持情况, 最新情况总是可以在文档中找到;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript浏览器</title><link href="www.lyon0804.com/javascriptliu-lan-qi.html" rel="alternate"></link><updated>2015-11-24T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-24:www.lyon0804.com/javascriptliu-lan-qi.html</id><summary type="html">&lt;p&gt;在Web应用中, 浏览器作为客户端, 浏览器功能的访问和控制、浏览器类型的检测等等, 都是非常重要的知识;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;BOM&lt;/strong&gt;(browser object model)浏览器对象模型;&lt;/li&gt;
 &lt;li&gt;客户端检测;&lt;/li&gt;
@@ -1229,7 +1229,7 @@
 &lt;p&gt;注意浏览器能力检测并不是浏览器检测, 一个浏览器中的某个能力特色也并不足以证明就是该浏览器, 不应该只检测某一个比较典型的能力就认为是某种浏览器从而决定其他能力, 在逻辑上再清晰不过的错误, 很多网站上都存在(来自js高程书中原话);&lt;/p&gt;
 &lt;p&gt;除了浏览器能力的检测, 类似方法可以用来检测浏览器的缺陷(bug), 实现方式就是用一个判断函数来检查是否具有缺陷, 并尽可能解决; bug检测往往涉及运行代码, 所以应该仅仅检测关键bug, 并且在脚本开头就执行检测工作;&lt;/p&gt;
 &lt;p&gt;除了直接检查浏览器能力和bug, 还可以通过&lt;code&gt;navigator&lt;/code&gt;对象中的各种浏览器类型属性, 检测出浏览器的具体类型和版本等信息;&lt;/p&gt;
-&lt;p&gt;由于浏览器代理字串可以被轻易修改(爬虫中往往就会修改代理来仿照浏览器), 所以应该优先选择能力检测, 仅仅在能力检测等不可用或者需要使用浏览器代理检测来决定表现能力等必须使用代理检测的情况下, 才选择代理检测;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript函数表达式</title><link href="/javascripthan-shu-biao-da-shi.html" rel="alternate"></link><updated>2015-11-22T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-22:javascripthan-shu-biao-da-shi.html</id><summary type="html">&lt;h2&gt;函数的定义&lt;/h2&gt;
+&lt;p&gt;由于浏览器代理字串可以被轻易修改(爬虫中往往就会修改代理来仿照浏览器), 所以应该优先选择能力检测, 仅仅在能力检测等不可用或者需要使用浏览器代理检测来决定表现能力等必须使用代理检测的情况下, 才选择代理检测;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript函数表达式</title><link href="www.lyon0804.com/javascripthan-shu-biao-da-shi.html" rel="alternate"></link><updated>2015-11-22T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-22:www.lyon0804.com/javascripthan-shu-biao-da-shi.html</id><summary type="html">&lt;h2&gt;函数的定义&lt;/h2&gt;
 &lt;p&gt;JavaScript中函数可以通过两种形式定义:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;使用&lt;code&gt;function&lt;/code&gt;关键字声明, 函数的声明会在代码执行之前进行;&lt;/li&gt;
@@ -1534,7 +1534,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;上述代码中, 创建了一个单例对象&lt;code&gt;singleton&lt;/code&gt;, 并且构建了私有环境为其添加私有属性, 通过返回一个对象的方式, 完成其公有属性的定义;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript面向对象</title><link href="/javascriptmian-xiang-dui-xiang.html" rel="alternate"></link><updated>2015-11-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-18:javascriptmian-xiang-dui-xiang.html</id><summary type="html">&lt;h2&gt;理解&lt;/h2&gt;
+&lt;p&gt;上述代码中, 创建了一个单例对象&lt;code&gt;singleton&lt;/code&gt;, 并且构建了私有环境为其添加私有属性, 通过返回一个对象的方式, 完成其公有属性的定义;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript面向对象</title><link href="www.lyon0804.com/javascriptmian-xiang-dui-xiang.html" rel="alternate"></link><updated>2015-11-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-18:www.lyon0804.com/javascriptmian-xiang-dui-xiang.html</id><summary type="html">&lt;h2&gt;理解&lt;/h2&gt;
 &lt;p&gt;JavaScript中并没有类的概念, 对象的定义是一系列无序属性的集合, 通过给对象添加各种属性来完成对象的构造:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;str&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
     &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;lt;p&amp;gt;&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nx"&gt;str&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;lt;/p&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -1942,7 +1942,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;在上面的过程中, &lt;code&gt;Student.prototype&lt;/code&gt;指向了父类型原型, 而没有将父类型中的属性添加到自身, 这种方式是比较理想的继承范式;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript基础梳理</title><link href="/javascriptji-chu-shu-li.html" rel="alternate"></link><updated>2015-11-09T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-09:javascriptji-chu-shu-li.html</id><summary type="html">&lt;h2&gt;学习环境&lt;/h2&gt;
+&lt;p&gt;在上面的过程中, &lt;code&gt;Student.prototype&lt;/code&gt;指向了父类型原型, 而没有将父类型中的属性添加到自身, 这种方式是比较理想的继承范式;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>JavaScript基础梳理</title><link href="www.lyon0804.com/javascriptji-chu-shu-li.html" rel="alternate"></link><updated>2015-11-09T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-11-09:www.lyon0804.com/javascriptji-chu-shu-li.html</id><summary type="html">&lt;h2&gt;学习环境&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;浏览器: Safari(9.0.1);&lt;/li&gt;
 &lt;li&gt;使用Nginx配置最简单的web服务器;&lt;/li&gt;
@@ -2403,7 +2403,7 @@
 &lt;li&gt;&lt;code&gt;eval()&lt;/code&gt;方法用于执行某段字符串表示的代码, 慎用该方法, 避免&lt;strong&gt;代码注入攻击&lt;/strong&gt;;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Math&lt;/h3&gt;
-&lt;p&gt;Math对象提供一些简单的数学功能, 包括一些常用的常量以及常用计算方法, 如Math.E、Math.PI、min()、ceil()、floor()、round()、random()、sin()、sqrt()等等;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>urllib.request模块中的三大组件</title><link href="/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html" rel="alternate"></link><updated>2015-10-31T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-31:urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html</id><summary type="html">&lt;h2&gt;Request类&lt;/h2&gt;
+&lt;p&gt;Math对象提供一些简单的数学功能, 包括一些常用的常量以及常用计算方法, 如Math.E、Math.PI、min()、ceil()、floor()、round()、random()、sin()、sqrt()等等;&lt;/p&gt;</summary><category term="javascript"></category></entry><entry><title>urllib.request模块中的三大组件</title><link href="www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html" rel="alternate"></link><updated>2015-10-31T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-31:www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html</id><summary type="html">&lt;h2&gt;Request类&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;Request&lt;/code&gt;类用于生成请求对象，描述一个的URL请求的相关信息。其构造方法为：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Request&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{},&lt;/span&gt; &lt;span class="n"&gt;origin_req_host&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unverifiable&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;method&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -2452,7 +2452,7 @@
 &lt;li&gt;&lt;code&gt;HTTPSHandler&lt;/code&gt; : HTTPS处理句柄&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;通过以上这一些句柄定义具体的请求操作，并使用opener管理统筹整个过程的进行。&lt;/p&gt;
-&lt;h2&gt;补充实验&lt;/h2&gt;</summary><category term="python"></category><category term="urllib"></category><category term="http"></category></entry><entry><title>urllib初探</title><link href="/urllibchu-tan.html" rel="alternate"></link><updated>2015-10-28T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-28:urllibchu-tan.html</id><summary type="html">&lt;p&gt;&lt;code&gt;urllib&lt;/code&gt;是一个Python的内置库，用来完成url相关的相关处理，最主要的功能就是使用通过url来完成请求。常用但不限于HTTP协议。&lt;/p&gt;
+&lt;h2&gt;补充实验&lt;/h2&gt;</summary><category term="python"></category><category term="urllib"></category><category term="http"></category></entry><entry><title>urllib初探</title><link href="www.lyon0804.com/urllibchu-tan.html" rel="alternate"></link><updated>2015-10-28T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-28:www.lyon0804.com/urllibchu-tan.html</id><summary type="html">&lt;p&gt;&lt;code&gt;urllib&lt;/code&gt;是一个Python的内置库，用来完成url相关的相关处理，最主要的功能就是使用通过url来完成请求。常用但不限于HTTP协议。&lt;/p&gt;
 &lt;h2&gt;Python2.x和Python3.x的区别&lt;/h2&gt;
 &lt;p&gt;在Python2.x中，有两个不同的模块：&lt;/p&gt;
 &lt;ul&gt;
@@ -2611,7 +2611,7 @@
 &lt;li&gt;如何获取表单内容，使用Firefox浏览器，并安装HTTPfox插件，即可跟踪消息记录，获取到POST的内容，其中就有表单信息；&lt;/li&gt;
 &lt;li&gt;明文密码的安全问题，还没有搞清楚，但是可以肯定的是建立在SSL或者TSL的安全通道基础上，防止被第三方截获；&lt;/li&gt;
 &lt;li&gt;Referer首部，使用POST方法时，该首部不含有账号密码的信息，更加重要的是，网站为了验证是否由站点自身发起，加入首部可以伪装成站点自身；&lt;/li&gt;
-&lt;/ol&gt;</summary><category term="python"></category><category term="urllib"></category><category term="http"></category></entry><entry><title>HTTP初探及python实现</title><link href="/httpchu-tan-ji-pythonshi-xian.html" rel="alternate"></link><updated>2015-10-26T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-26:httpchu-tan-ji-pythonshi-xian.html</id><summary type="html">&lt;h2&gt;HTTP协议&lt;/h2&gt;
+&lt;/ol&gt;</summary><category term="python"></category><category term="urllib"></category><category term="http"></category></entry><entry><title>HTTP初探及python实现</title><link href="www.lyon0804.com/httpchu-tan-ji-pythonshi-xian.html" rel="alternate"></link><updated>2015-10-26T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-26:www.lyon0804.com/httpchu-tan-ji-pythonshi-xian.html</id><summary type="html">&lt;h2&gt;HTTP协议&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;HTTP&lt;/code&gt;协议(&lt;em&gt;HyperText Transfer Protocol&lt;/em&gt; 超文本转移协议，常又被称为超文本传输协议)是TCP/IP协议簇中的其中一种应用层协议，广泛应用于网页服务器和浏览器之间的通信。HTTP协议建立在&lt;code&gt;TCP&lt;/code&gt;协议的基础上，所以在建立HTTP通信之前必须建立TCP连接，HTTP的请求和响应必须符合协议规范，是比TCP更高层次的具体规定。&lt;/p&gt;
 &lt;p&gt;HTTP的请求和响应都由几个部分组成：&lt;code&gt;请求行/状态行&lt;/code&gt;、&lt;code&gt;请求首部/响应首部&lt;/code&gt;、&lt;code&gt;请求实体/响应实体&lt;/code&gt;，前两个部分统称&lt;code&gt;报文首部&lt;/code&gt;，和&lt;code&gt;报文实体&lt;/code&gt;通过&lt;code&gt;\r\n&lt;/code&gt;分割（有一些服务器支持只由&lt;code&gt;\n&lt;/code&gt;分割）。&lt;/p&gt;
 &lt;p&gt;一个HTTP请求实例：&lt;/p&gt;
@@ -2767,7 +2767,7 @@ nginx -s stop &lt;span class="c"&gt;# 发送以下四个命令控制服务：sto
 &lt;h2&gt;HTTP协议中的认证方式&lt;/h2&gt;
 &lt;p&gt;HTTP协议内的认证方式有两种：&lt;code&gt;BASIC&lt;/code&gt;认证、&lt;code&gt;DIGEST&lt;/code&gt;认证，这两种方式都是通过客户端请求-&amp;gt;服务器认证请求-&amp;gt;客户端发送认证信息这样三步完成，不同的是DIGEST认证增加了质询码的加密方式，但是总体来说，这两种方式都不安全且不灵活。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;SSL&lt;/code&gt;(Secure Socket Layer)客户端认证：该认证并不属于HTTP协议内容。通过值得信赖的第三方证书来完成认证过程，在SSL建立的安全线路基础上进行的HTTP通信，称为&lt;code&gt;HTTPS&lt;/code&gt;，这种方式HTTP并不直接和TCP对接，而是和SSL协议对接，由于第三方介入以及双因素认证等更加安全的措施，是一种比较安全的认证方式。但是向第三方证书发行机构购买证书会产生客观的额外费用。&lt;/p&gt;
-&lt;p&gt;表单认证是通常网页采取的认证方式，通过表单将用户名和密码与服务器的信息做匹配来完成。表单验证实际上是服务器的一个应用，所以安全性取决于服务器应用的设计，但是不会产生多余费用，基本上的网页都会采取表单认证的方式。&lt;/p&gt;</summary><category term="python"></category><category term="http"></category></entry><entry><title>Python2.x中的编码</title><link href="/python2xzhong-de-bian-ma.html" rel="alternate"></link><updated>2015-10-24T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-24:python2xzhong-de-bian-ma.html</id><summary type="html">&lt;h2&gt;unicode和UTF&lt;/h2&gt;
+&lt;p&gt;表单认证是通常网页采取的认证方式，通过表单将用户名和密码与服务器的信息做匹配来完成。表单验证实际上是服务器的一个应用，所以安全性取决于服务器应用的设计，但是不会产生多余费用，基本上的网页都会采取表单认证的方式。&lt;/p&gt;</summary><category term="python"></category><category term="http"></category></entry><entry><title>Python2.x中的编码</title><link href="www.lyon0804.com/python2xzhong-de-bian-ma.html" rel="alternate"></link><updated>2015-10-24T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-24:www.lyon0804.com/python2xzhong-de-bian-ma.html</id><summary type="html">&lt;h2&gt;unicode和UTF&lt;/h2&gt;
 &lt;p&gt;Python2.x中的字符串编码经常会引起一些困扰，根本原因往往是搞混了UTF-8和unicode的关系。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;unicode&lt;/code&gt;(&lt;em&gt;Universal Multiple-Octet Coded Character Set&lt;/em&gt;)是一种国际标准的字符集，是一张字符和编码的一张表格，用来表示世界上所有的语言。该字符集有两张表：&lt;code&gt;UCS-2&lt;/code&gt;和&lt;code&gt;UCS-4&lt;/code&gt;。这两张表的区别是使用多少个字节来表示一个字符，前者使用两个字节，后者使用四个字节，字节数越多说明可以表示的总字符量越大，下文中，将使用&lt;strong&gt;对照码&lt;/strong&gt;来表示这两张字符集中的码，用以区分实际存储的&lt;strong&gt;字节码&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;如果编译过Python的话，就会知道有一个编译选项：&lt;/p&gt;
@@ -2881,7 +2881,7 @@ nginx -s stop &lt;span class="c"&gt;# 发送以下四个命令控制服务：sto
 &lt;li&gt;其他涉及到encode和decode的方法时，都应该检查是否使用了正确的编码方法，而不是调用默认方法，或者修改系统的默认编码方法；&lt;/li&gt;
 &lt;li&gt;为了减少编码带来的问题，应该在每一个脚本的头部添加&lt;code&gt;magic comment&lt;/code&gt;；&lt;/li&gt;
 &lt;li&gt;尽可能使用python3.x&lt;/li&gt;
-&lt;/ol&gt;</summary><category term="python"></category><category term="编码"></category></entry><entry><title>TCP/IP协议及Python实现</title><link href="/tcpipxie-yi-ji-pythonshi-xian.html" rel="alternate"></link><updated>2015-10-24T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-24:tcpipxie-yi-ji-pythonshi-xian.html</id><summary type="html">&lt;h2&gt;OSI参考模型与TCP/IP协议&lt;/h2&gt;
+&lt;/ol&gt;</summary><category term="python"></category><category term="编码"></category></entry><entry><title>TCP/IP协议及Python实现</title><link href="www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html" rel="alternate"></link><updated>2015-10-24T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-24:www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html</id><summary type="html">&lt;h2&gt;OSI参考模型与TCP/IP协议&lt;/h2&gt;
 &lt;p&gt;OSI参考模型是由ISO提出的作为通信协议设计的模型。该模型将通信过程分成7个部分，又称OSI七层模型，通过这七层模型，将通信过程中的不同功能进行划分，每层仅需要对其上一层提供特定的接口，以及接收下一层提供的特定接口，从而对复杂的通信过程进行简化，只需要关注某一层的实现以及保持其接口统一即可。这七层模型为：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;物理层 : 该层决定数字电路中的0、1对应的电压状态，并且规定连接器和网线的规格，在物理层面上确保连接的畅通有效；&lt;/li&gt;
@@ -3033,7 +3033,7 @@ nginx -s stop &lt;span class="c"&gt;# 发送以下四个命令控制服务：sto
 &lt;p&gt;在数据传输以及确认应答的过程中，完成数据的传输，由于上述三个步骤的保证，在传输过程中，即使出现丢包(发送时丢包或者确认应答丢包)，都可以保证数据的准确性。&lt;/p&gt;
 &lt;p&gt;同样的，在完成连接传输之后，切断连接也需要进行握手，客户端发送&lt;code&gt;FIN&lt;/code&gt;的切断连接请求，而客户端则需要分别发送两个包：&lt;code&gt;ACK&lt;/code&gt;和&lt;code&gt;FIN&lt;/code&gt;(因为一旦切断确认就不能发送切断请求了，和连接时有所不同)，然后客户端再次发送&lt;code&gt;ACK&lt;/code&gt;确认切断连接。&lt;/p&gt;
 &lt;p&gt;也就是说，一次正常完整的TCP连接，除了发送的数据之外，需要额外的&lt;strong&gt;7&lt;/strong&gt;个数据包才能完成。&lt;/p&gt;
-&lt;p&gt;更多协议细节可以参考&lt;em&gt;《图解TCP/IP》&lt;/em&gt;中的内容。&lt;/p&gt;</summary><category term="python"></category><category term="TCP/IP"></category></entry><entry><title>Jinja2初探之api</title><link href="/jinja2chu-tan-zhi-api.html" rel="alternate"></link><updated>2015-10-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-18:jinja2chu-tan-zhi-api.html</id><summary type="html">&lt;h2&gt;加载模板&lt;/h2&gt;
+&lt;p&gt;更多协议细节可以参考&lt;em&gt;《图解TCP/IP》&lt;/em&gt;中的内容。&lt;/p&gt;</summary><category term="python"></category><category term="TCP/IP"></category></entry><entry><title>Jinja2初探之api</title><link href="www.lyon0804.com/jinja2chu-tan-zhi-api.html" rel="alternate"></link><updated>2015-10-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-18:www.lyon0804.com/jinja2chu-tan-zhi-api.html</id><summary type="html">&lt;h2&gt;加载模板&lt;/h2&gt;
 &lt;p&gt;最简单的模板使用方式是从字符串中导入模板，如：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;jinja2&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Template&lt;/span&gt;
 &lt;span class="n"&gt;template&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Template&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;this is a {{ value }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
@@ -3129,7 +3129,7 @@ nginx -s stop &lt;span class="c"&gt;# 发送以下四个命令控制服务：sto
 
 &lt;p&gt;并且通过环境添加该测试的绑定：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;env&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tests&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;prime&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;is_prime&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="jinja2"></category></entry><entry><title>Jinja2初探之模板语法</title><link href="/jinja2chu-tan-zhi-mo-ban-yu-fa.html" rel="alternate"></link><updated>2015-10-17T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-17:jinja2chu-tan-zhi-mo-ban-yu-fa.html</id><summary type="html">&lt;p&gt;在使用模板之前，首先要有一个模板，最常见的就是网页模板，因为这是Jinja2的起源(我觉得在脚本生成和组织上肯定也能够有很好地应用)，详细的模板语法可以参考&lt;a href="http://www.pythonfan.org/docs/python/jinja2/zh/templates.html"&gt;模板设计者文档&lt;/a&gt;。&lt;/p&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="jinja2"></category></entry><entry><title>Jinja2初探之模板语法</title><link href="www.lyon0804.com/jinja2chu-tan-zhi-mo-ban-yu-fa.html" rel="alternate"></link><updated>2015-10-17T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-17:www.lyon0804.com/jinja2chu-tan-zhi-mo-ban-yu-fa.html</id><summary type="html">&lt;p&gt;在使用模板之前，首先要有一个模板，最常见的就是网页模板，因为这是Jinja2的起源(我觉得在脚本生成和组织上肯定也能够有很好地应用)，详细的模板语法可以参考&lt;a href="http://www.pythonfan.org/docs/python/jinja2/zh/templates.html"&gt;模板设计者文档&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;Jinja2默认规定了几个分割符：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;变量插入分隔符：&lt;code&gt;{{ ... }}&lt;/code&gt;，里面的内容会被直接插入到模板中；&lt;/li&gt;
@@ -3374,7 +3374,7 @@ end string from base
 &lt;span class="x"&gt;        &lt;/span&gt;&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;item&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
 &lt;span class="x"&gt;    &lt;/span&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endblock&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
 &lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endfor&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="jinja2"></category></entry><entry><title>Python的上下文管理器</title><link href="/pythonde-shang-xia-wen-guan-li-qi.html" rel="alternate"></link><updated>2015-10-10T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-10:pythonde-shang-xia-wen-guan-li-qi.html</id><summary type="html">&lt;h2&gt;首先想到的&lt;/h2&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="python"></category><category term="jinja2"></category></entry><entry><title>Python的上下文管理器</title><link href="www.lyon0804.com/pythonde-shang-xia-wen-guan-li-qi.html" rel="alternate"></link><updated>2015-10-10T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-10:www.lyon0804.com/pythonde-shang-xia-wen-guan-li-qi.html</id><summary type="html">&lt;h2&gt;首先想到的&lt;/h2&gt;
 &lt;p&gt;看到上下文管理器的时候，立马闪进我脑海的是《&lt;em&gt;Ruby元编程&lt;/em&gt;》中使用ruby实现&lt;em&gt;C#&lt;/em&gt;中的using关键字的那段：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;RemoteConnection&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;RemoteConnection&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;my_server&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;stuff&lt;/span&gt; &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="n"&gt;conn&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;readStuff&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
@@ -3469,7 +3469,7 @@ end string from base
 
 
 &lt;p&gt;虽然没有变成关键字，并且需要借助&lt;code&gt;with&lt;/code&gt;，但是总算是看起来极其相像了吧？这里就用到了Python提供的更加方面的上下文管理库：&lt;strong&gt;contextlib&lt;/strong&gt;，有了它，就可以避免创建一个新的具有上下文管理的新类，而是在外部对其进行管理。&lt;/p&gt;
-&lt;p&gt;这里虽然用了&lt;em&gt;更加方便&lt;/em&gt;作为标题，但是并没有绝对的哪种方式更加好。当使用一个其他已有的类时，后面的方式避免创建继承的子类就完成了相应工作，更加直接，但是没有异常处理等功能；而当编写一个新的类时，如果需要用到上下文管理，则在类定义中直接添加，提供最基本的支持，就是更加好的方案。&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>PEP8</title><link href="/pep8.html" rel="alternate"></link><updated>2015-09-27T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-27:pep8.html</id><summary type="html">&lt;p&gt;&lt;a href="https://www.python.org/dev/peps/"&gt;&lt;strong&gt;PEP&lt;/strong&gt;&lt;/a&gt;(Python Enhancement Proposals)，是一系列关于Python的改进建议，其中的第8篇建议，即&lt;strong&gt;PEP8&lt;/strong&gt;（Title: Style Guide for Python Code），则是针对Python的代码编写规范提出的一些建议。本文记录一些比较个人比较在意的点。&lt;/p&gt;
+&lt;p&gt;这里虽然用了&lt;em&gt;更加方便&lt;/em&gt;作为标题，但是并没有绝对的哪种方式更加好。当使用一个其他已有的类时，后面的方式避免创建继承的子类就完成了相应工作，更加直接，但是没有异常处理等功能；而当编写一个新的类时，如果需要用到上下文管理，则在类定义中直接添加，提供最基本的支持，就是更加好的方案。&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>PEP8</title><link href="www.lyon0804.com/pep8.html" rel="alternate"></link><updated>2015-09-27T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-27:www.lyon0804.com/pep8.html</id><summary type="html">&lt;p&gt;&lt;a href="https://www.python.org/dev/peps/"&gt;&lt;strong&gt;PEP&lt;/strong&gt;&lt;/a&gt;(Python Enhancement Proposals)，是一系列关于Python的改进建议，其中的第8篇建议，即&lt;strong&gt;PEP8&lt;/strong&gt;（Title: Style Guide for Python Code），则是针对Python的代码编写规范提出的一些建议。本文记录一些比较个人比较在意的点。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Readability Counts&lt;/p&gt;
 &lt;/blockquote&gt;

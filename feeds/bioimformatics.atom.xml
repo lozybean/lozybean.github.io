@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="/" rel="alternate"></link><link href="/feeds/bioimformatics.atom.xml" rel="self"></link><id>/</id><updated>2016-02-16T00:00:00+08:00</updated><entry><title>使用Galaxy_01_介绍以及搭建</title><link href="/shi-yong-galaxy_01_jie-shao-yi-ji-da-jian.html" rel="alternate"></link><updated>2016-02-16T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2016-02-16:shi-yong-galaxy_01_jie-shao-yi-ji-da-jian.html</id><summary type="html">&lt;h2&gt;生物信息分析平台galaxy简介&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="www.lyon0804.com/" rel="alternate"></link><link href="www.lyon0804.com/feeds/bioimformatics.atom.xml" rel="self"></link><id>www.lyon0804.com/</id><updated>2016-02-16T00:00:00+08:00</updated><entry><title>使用Galaxy_01_介绍以及搭建</title><link href="www.lyon0804.com/shi-yong-galaxy_01_jie-shao-yi-ji-da-jian.html" rel="alternate"></link><updated>2016-02-16T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2016-02-16:www.lyon0804.com/shi-yong-galaxy_01_jie-shao-yi-ji-da-jian.html</id><summary type="html">&lt;h2&gt;生物信息分析平台galaxy简介&lt;/h2&gt;
 &lt;p&gt;生物信息分析平台主要是将一些生物信息分析过程抽离并且封装成可视化的界面, 使得没有编程经验的生物信息学分析人员, 也可以通过平台上搭建的已有流程进行数据分析;&lt;/p&gt;
 &lt;p&gt;目前生物信息学分析平台主要有以下几种:&lt;/p&gt;
 &lt;ul&gt;
@@ -85,7 +85,7 @@ vi galaxy.ini
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;重启服务后, 就可以从外部访问平台了。&lt;/p&gt;</summary><category term="galaxy"></category><category term="bioimpormatics"></category><category term="python"></category></entry><entry><title>树形结构数据可视化展示</title><link href="/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html" rel="alternate"></link><updated>2016-01-12T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2016-01-12:shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html</id><summary type="html">&lt;h2&gt;树形数据结构&lt;/h2&gt;
+&lt;p&gt;重启服务后, 就可以从外部访问平台了。&lt;/p&gt;</summary><category term="galaxy"></category><category term="bioimpormatics"></category><category term="python"></category></entry><entry><title>树形结构数据可视化展示</title><link href="www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html" rel="alternate"></link><updated>2016-01-12T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2016-01-12:www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html</id><summary type="html">&lt;h2&gt;树形数据结构&lt;/h2&gt;
 &lt;p&gt;树状结构是一种经典的数据类型, 一个树形结构的一层可以用一个父节点以及若干子节点表示, 而若干层这种结构则组成一颗树;&lt;/p&gt;
 &lt;p&gt;如一个完全二叉树的例子:
 &lt;img alt="完全二叉树" src="https://upload.wikimedia.org/wikipedia/commons/5/57/Binary-tree-structure.png" /&gt;&lt;/p&gt;
