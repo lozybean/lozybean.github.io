@@ -4,385 +4,385 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>www.lyon0804.com/</loc>
-<lastmod>2016-03-03T21:16:20-00:00</lastmod>
+<loc>/</loc>
+<lastmod>2016-03-03T21:40:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/archives.html</loc>
-<lastmod>2016-03-03T21:16:20-00:00</lastmod>
+<loc>/archives.html</loc>
+<lastmod>2016-03-03T21:40:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tags.html</loc>
-<lastmod>2016-03-03T21:16:20-00:00</lastmod>
+<loc>/tags.html</loc>
+<lastmod>2016-03-03T21:40:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/categories.html</loc>
-<lastmod>2016-03-03T21:16:20-00:00</lastmod>
+<loc>/categories.html</loc>
+<lastmod>2016-03-03T21:40:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/linuxjin-cheng-zhuang-tai.html</loc>
+<loc>/linuxjin-cheng-zhuang-tai.html</loc>
 <lastmod>2016-03-03T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/shi-yong-galaxy_01_jie-shao-yi-ji-da-jian.html</loc>
+<loc>/shi-yong-galaxy_01_jie-shao-yi-ji-da-jian.html</loc>
 <lastmod>2016-02-16T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html</loc>
+<loc>/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html</loc>
 <lastmod>2016-01-12T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/javascriptbiao-dan.html</loc>
+<loc>/javascriptbiao-dan.html</loc>
 <lastmod>2015-12-07T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/javascriptshi-jian.html</loc>
+<loc>/javascriptshi-jian.html</loc>
 <lastmod>2015-12-03T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/javascriptzhi-dom.html</loc>
+<loc>/javascriptzhi-dom.html</loc>
 <lastmod>2015-11-27T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/javascriptliu-lan-qi.html</loc>
+<loc>/javascriptliu-lan-qi.html</loc>
 <lastmod>2015-11-24T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/javascripthan-shu-biao-da-shi.html</loc>
+<loc>/javascripthan-shu-biao-da-shi.html</loc>
 <lastmod>2015-11-22T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/javascriptmian-xiang-dui-xiang.html</loc>
+<loc>/javascriptmian-xiang-dui-xiang.html</loc>
 <lastmod>2015-11-18T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/javascriptji-chu-shu-li.html</loc>
+<loc>/javascriptji-chu-shu-li.html</loc>
 <lastmod>2015-11-09T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html</loc>
+<loc>/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html</loc>
 <lastmod>2015-10-31T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/urllibchu-tan.html</loc>
+<loc>/urllibchu-tan.html</loc>
 <lastmod>2015-10-28T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/httpchu-tan-ji-pythonshi-xian.html</loc>
+<loc>/httpchu-tan-ji-pythonshi-xian.html</loc>
 <lastmod>2015-10-26T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/python2xzhong-de-bian-ma.html</loc>
+<loc>/python2xzhong-de-bian-ma.html</loc>
 <lastmod>2015-10-24T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html</loc>
+<loc>/tcpipxie-yi-ji-pythonshi-xian.html</loc>
 <lastmod>2015-10-24T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/jinja2chu-tan-zhi-api.html</loc>
+<loc>/jinja2chu-tan-zhi-api.html</loc>
 <lastmod>2015-10-18T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/jinja2chu-tan-zhi-mo-ban-yu-fa.html</loc>
+<loc>/jinja2chu-tan-zhi-mo-ban-yu-fa.html</loc>
 <lastmod>2015-10-17T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/wo-de-vimpei-zhi.html</loc>
+<loc>/wo-de-vimpei-zhi.html</loc>
 <lastmod>2015-10-14T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/pythonde-shang-xia-wen-guan-li-qi.html</loc>
+<loc>/pythonde-shang-xia-wen-guan-li-qi.html</loc>
 <lastmod>2015-10-10T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/pep8.html</loc>
+<loc>/pep8.html</loc>
 <lastmod>2015-09-27T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html</loc>
+<loc>/sgeji-qun-liu-cheng-she-ji.html</loc>
 <lastmod>2015-09-18T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html</loc>
+<loc>/zai-pelicanzhong-shi-yong-duo-shuo.html</loc>
 <lastmod>2015-09-18T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/xi-yang-xia-de-xi-hu.html</loc>
+<loc>/xi-yang-xia-de-xi-hu.html</loc>
 <lastmod>2015-09-12T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/hello-world.html</loc>
+<loc>/hello-world.html</loc>
 <lastmod>2015-09-11T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/category/bioimformatics.html</loc>
+<loc>/category/bioimformatics.html</loc>
 <lastmod>2016-02-16T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/category/learning.html</loc>
+<loc>/category/learning.html</loc>
 <lastmod>2015-12-07T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/category/pages.html</loc>
+<loc>/category/pages.html</loc>
 <lastmod>2016-03-03T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/category/photo.html</loc>
+<loc>/category/photo.html</loc>
 <lastmod>2015-09-12T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/comment.html</loc>
+<loc>/tag/comment.html</loc>
 <lastmod>2015-09-18T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/pelican.html</loc>
+<loc>/tag/pelican.html</loc>
 <lastmod>2015-09-18T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/photo.html</loc>
+<loc>/tag/photo.html</loc>
 <lastmod>2015-09-12T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/newick.html</loc>
+<loc>/tag/newick.html</loc>
 <lastmod>2016-01-12T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/linux.html</loc>
+<loc>/tag/linux.html</loc>
 <lastmod>2016-03-03T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/sge.html</loc>
+<loc>/tag/sge.html</loc>
 <lastmod>2015-09-18T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/galaxy.html</loc>
+<loc>/tag/galaxy.html</loc>
 <lastmod>2016-02-16T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/urllib.html</loc>
+<loc>/tag/urllib.html</loc>
 <lastmod>2015-10-31T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/gitcafe.html</loc>
+<loc>/tag/gitcafe.html</loc>
 <lastmod>2015-09-11T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/http.html</loc>
+<loc>/tag/http.html</loc>
 <lastmod>2015-10-31T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/python.html</loc>
+<loc>/tag/python.html</loc>
 <lastmod>2016-02-16T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/javascript.html</loc>
+<loc>/tag/javascript.html</loc>
 <lastmod>2015-12-07T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/jinja2.html</loc>
+<loc>/tag/jinja2.html</loc>
 <lastmod>2015-10-18T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/duoshuo.html</loc>
+<loc>/tag/duoshuo.html</loc>
 <lastmod>2015-09-18T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/vim.html</loc>
+<loc>/tag/vim.html</loc>
 <lastmod>2015-10-14T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/tcpip.html</loc>
+<loc>/tag/tcpip.html</loc>
 <lastmod>2015-10-24T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/pipeline.html</loc>
+<loc>/tag/pipeline.html</loc>
 <lastmod>2015-09-18T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/bioimpormatics.html</loc>
+<loc>/tag/bioimpormatics.html</loc>
 <lastmod>2016-02-16T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/ete3.html</loc>
+<loc>/tag/ete3.html</loc>
 <lastmod>2016-01-12T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/gitpages.html</loc>
+<loc>/tag/gitpages.html</loc>
 <lastmod>2015-09-11T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/pep8.html</loc>
+<loc>/tag/pep8.html</loc>
 <lastmod>2015-09-27T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/tag/bian-ma.html</loc>
+<loc>/tag/bian-ma.html</loc>
 <lastmod>2015-10-24T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>www.lyon0804.com/author/lyon.html</loc>
+<loc>/author/lyon.html</loc>
 <lastmod>2016-03-03T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>

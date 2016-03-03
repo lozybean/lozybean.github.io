@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="/" rel="alternate"></link><link href="/feeds/pages.atom.xml" rel="self"></link><id>/</id><updated>2016-03-03T00:00:00+08:00</updated><entry><title>Linux进程状态</title><link href="/linuxjin-cheng-zhuang-tai.html" rel="alternate"></link><updated>2016-03-03T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2016-03-03:linuxjin-cheng-zhuang-tai.html</id><summary type="html">&lt;h2&gt;查看当前运行进程&lt;/h2&gt;
+&lt;p&gt;有许多方式可以查看当前linux系统中的运行进程, 常用的有&lt;code&gt;top&lt;/code&gt;, &lt;code&gt;htop&lt;/code&gt; 以及 &lt;code&gt;ps&lt;/code&gt; 三个命令;&lt;/p&gt;
+&lt;p&gt;其中&lt;code&gt;htop&lt;/code&gt;比&lt;code&gt;top&lt;/code&gt;工具具备更好的显示方式:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="htop示例" src="http://ww4.sinaimg.cn/large/95202659gw1f1jo6zewr9j21z0168nbf.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;其中上方的CPU和内存信息可以帮助更好地监控整个机器的运行状态, 还提供了一些常用操作的快捷键, 如&lt;code&gt;F5&lt;/code&gt;树形结构展示进程树等等;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;htop&lt;/code&gt;命令的缺点是显示的内容是在一个独立页面中的, 无法通过linux管道做更多的操作, 而且如果进程数量太多的话, 进程的查看就不是那么直观;&lt;/p&gt;
+&lt;p&gt;使用&lt;code&gt;ps&lt;/code&gt;命令可以得到标准输出的格式, &lt;code&gt;ps&lt;/code&gt;命令提供了一系列参数以调整输出内容, 具体参数可以通过&lt;code&gt;man ps&lt;/code&gt;了解;&lt;/p&gt;
+&lt;p&gt;为了便于观察, 我经常使用的命令参数为: &lt;code&gt;ps px&lt;/code&gt;, 此时会显示5列信息, 依次为:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;PID&lt;/strong&gt;: 进程号;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TTY&lt;/strong&gt;: 登陆者编号, 其中tty表示本地登陆者, pts表示远程登陆者;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;STAT&lt;/strong&gt;: 进程状态;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TIME&lt;/strong&gt;: 进程运行时间;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;COMMAND&lt;/strong&gt;: 树形结构展示的进程对应命令;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;除了&lt;strong&gt;STAT&lt;/strong&gt;用不知名字符表示之外(下面讲), 其他列的内容都非常容易理解;&lt;/p&gt;
+&lt;h2&gt;进程状态&lt;/h2&gt;
+&lt;p&gt;linux下的常见状态有: &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;R&lt;/strong&gt;: 正在运行状态或者在排队中的可运行状态, 如果用ps命令的话一般很难捕获到该状态;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;S&lt;/strong&gt;: 睡眠状态, 并且可以被中断;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;D&lt;/strong&gt;: 睡眠状态, 并且不能被中断, 该状态通常是由于IO堵塞造成;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;T&lt;/strong&gt;: 停止状态, 该状态下, 进程被暂停挂起;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Z&lt;/strong&gt;: 僵尸状态, 该状态的进程已经结束, 但是由于父进程没有回收, 所以显示状态;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;除了这些主要状态之外, 通常会发现后面还有一个标识状态, 如某个进程状态为&lt;strong&gt;Ss&lt;/strong&gt;, 主要常见下列标识:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&amp;lt;&lt;/strong&gt;: 高优先级;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;N&lt;/strong&gt;: 低优先级;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;L&lt;/strong&gt;: 页面锁定在内存;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;s&lt;/strong&gt;: 信息头;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;l&lt;/strong&gt;: 多线程状态;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;+&lt;/strong&gt;: 前台运行组;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在实际应用中, &lt;strong&gt;S&lt;/strong&gt;等状态&lt;em&gt;良民&lt;/em&gt;一般不会给我们造成困扰, 主要需要了解如何处理一些棘手的状态;&lt;/p&gt;
+&lt;p&gt;理解上述状态便于后续对这些状态进程的处理(挂起、恢复、杀死);&lt;/p&gt;
+&lt;h2&gt;操作进程&lt;/h2&gt;
+&lt;p&gt;进程操作可以通过&lt;code&gt;kill&lt;/code&gt;命令进行, &lt;code&gt;kill&lt;/code&gt;命令可以对进程发出很多的信号, 具体的信号可以参考&lt;em&gt;/usr/include/asm/signal.h&lt;/em&gt;头文件(不同系统会有所区别), 最重用的信号有:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SIGSTOP&lt;/strong&gt;: 挂起进程, 进程进入&lt;strong&gt;T&lt;/strong&gt;状态;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SIGCONT&lt;/strong&gt;: 继续进程, 使得&lt;strong&gt;T&lt;/strong&gt;状态的进程重新运行;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SIGKILL&lt;/strong&gt;: 杀死进程;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;使用&lt;code&gt;kill -sig [pid]&lt;/code&gt;的方式调用, 如需要杀死一个进程号为&lt;em&gt;5477&lt;/em&gt;的进程, 则可以使用: &lt;code&gt;kill -SIGKILL 5499&lt;/code&gt;来杀死这个进程;&lt;/p&gt;
+&lt;p&gt;对于一般的任务, 不需要发送信号就可以杀掉进程, 但是如果是想杀死上述所说的&lt;strong&gt;T&lt;/strong&gt;状态进程等, 则必须加上&lt;strong&gt;SIGKILL&lt;/strong&gt;信号; 但是对于&lt;strong&gt;D&lt;/strong&gt;状态进程, 则不推荐强行杀死, 而是等IO重新正常建立之后再杀死, 如检查网络使其正常连接等等;&lt;/p&gt;
+&lt;p&gt;当进程数量非常多的时候如一个父进程fork出几十个子进程, 如何批量杀死进程呢?&lt;/p&gt;
+&lt;p&gt;一种方式是用之前提到的管道, 然后通过&lt;code&gt;grep&lt;/code&gt;或者各种命令来筛出感兴趣的pid号, 然后使用&lt;code&gt;kill&lt;/code&gt;命令集体杀死, 如: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ps fx &lt;span class="p"&gt;|&lt;/span&gt; grep python &lt;span class="p"&gt;|&lt;/span&gt; awk &lt;span class="s1"&gt;&amp;#39;{print $1}&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="nb"&gt;read &lt;/span&gt;pid&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="nb"&gt;kill&lt;/span&gt; &lt;span class="nv"&gt;$pid&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;done&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;等等;&lt;/p&gt;
+&lt;p&gt;另外一种方式是递归杀死一颗进程树, 这样可以节省很多工作:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/env bash&lt;/span&gt;
+&lt;span class="k"&gt;function&lt;/span&gt; killtree&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt;
+    &lt;span class="nb"&gt;local &lt;/span&gt;&lt;span class="nv"&gt;_pid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+    &lt;span class="nb"&gt;local &lt;/span&gt;&lt;span class="nv"&gt;_sig&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;2&lt;/span&gt;&lt;span class="k"&gt;:-&lt;/span&gt;&lt;span class="nv"&gt;TERM&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+    &lt;span class="nb"&gt;kill&lt;/span&gt; -stop &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;_pid&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; _child in &lt;span class="k"&gt;$(&lt;/span&gt;ps -o pid --no-headers --ppid &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;_pid&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;do&lt;/span&gt;
+       killtree &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;_child&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;_sig&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+    &lt;span class="nb"&gt;kill&lt;/span&gt; -&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;_sig&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;_pid&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; &lt;span class="si"&gt;${#}&lt;/span&gt; -eq &lt;span class="m"&gt;0&lt;/span&gt; -o &lt;span class="si"&gt;${#}&lt;/span&gt; -gt &lt;span class="m"&gt;2&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;
+&lt;span class="k"&gt;then&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Usage: &lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;basename &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;0&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="s2"&gt; &amp;lt;pid&amp;gt; [signal]&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;exit &lt;/span&gt;1
+&lt;span class="k"&gt;fi&lt;/span&gt;
+
+killtree &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;以上程序参考网络, 具体哪里忘记了, 如果有侵犯到相关权益, 请告知&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;将上面的程序命名为&lt;em&gt;killtree&lt;/em&gt;, 并赋予&lt;strong&gt;x&lt;/strong&gt;权限, 把该文件放到某个&lt;code&gt;PATH&lt;/code&gt;路径下以便系统识别, 如: &lt;code&gt;~/bin&lt;/code&gt;等, 之后就可以使用&lt;code&gt;killtree&lt;/code&gt;命令杀死一个进程树了;&lt;/p&gt;</summary><category term="linux"></category></entry><entry><title>我的vim配置</title><link href="/wo-de-vimpei-zhi.html" rel="alternate"></link><updated>2015-10-14T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-14:wo-de-vimpei-zhi.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;『工欲善其事，必先利其器。』&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;自己家的配置才是最好的配置&lt;/h2&gt;
+&lt;p&gt;vim作为一个高度定制的文本编辑工具，怎么配置好vim决定了vim的功能是否强大，但是同样作为文本编辑工具本身，过多不必要的配置不仅会让使用者无所适从，而且还拖慢了编辑器的速度，如何在这之间找到平衡完全取决于使用者的需求。&lt;/p&gt;
+&lt;p&gt;所以，和&lt;em&gt;别人家的孩子都是好孩子&lt;/em&gt;不同，&lt;strong&gt;自己家的配置才是最好的配置&lt;/strong&gt;。所以并不推荐直接使用github上其他人的配置，但是他人的推荐却可以帮助了解更多可能有效的配置。我现在使用的配置是参考&lt;a href="https://github.com/wklken/k-vim"&gt;&lt;strong&gt;k-vim&lt;/strong&gt;&lt;/a&gt;的配置，并且修改不适合自己的内容后（比如使用方向键等）最终感觉最顺手的配置，如果有需要，可以参考。&lt;/p&gt;
+&lt;h2&gt;搜索、折叠、缩进、注释&lt;/h2&gt;
+&lt;p&gt;这些操作都是比较刚需的操作，并且vim已经自带这些功能。下面是一个针对python的设置示例，以及每条功能的注解：&lt;/p&gt;
+&lt;h3&gt;1. 搜索&lt;/h3&gt;
+&lt;p&gt;在普通模式下输入&lt;code&gt;/&lt;/code&gt;即可搜索，以下配置可以更加方便地搜索：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;showcmd&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; 在右下角显示输入的命令&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;showmode&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; 在左下角显示当前的模式&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;hlsearch&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; 高亮搜索结果&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;ignorecase&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; 忽略大小写&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;smartcase&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; 当输入的内容有一个以上大写字母时，不忽略大小写&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;incsearch&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; 设置该参数后，输入的同时会即使显示搜索结果，个人感觉看着晕&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;2. 折叠&lt;/h3&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; 折叠相关命令&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; zM 折叠所有&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; zR 打开所有&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; zc 折叠当前&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; zo 打开当前&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;foldenable&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; 开启折叠&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;foldmethod&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;indent       &lt;span class="c"&gt;&amp;quot; 使用缩进折叠&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;foldlevel&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;10&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; 打开文件时只折叠超过10层以上的&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;更加详细的设置方法，比如其他折叠类型等，很容易在网上可以查到。&lt;/p&gt;
+&lt;h3&gt;3. 缩进&lt;/h3&gt;
+&lt;p&gt;Python的缩进非常重要，所以下面的设置也非常重要：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;smartindent&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; 智能缩进&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;autoindent&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; 自动缩进&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;smarttab&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;expandtab&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; 将tab转为空格，重要！建议看下文说明&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;tabstop&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; 设置tab键宽度为4&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;softtabstop&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; 设置退格键删除4个空格&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;shiftwidth&lt;/span&gt;&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;4&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; 设置每次缩进对应4个空格&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;shiftround&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; 缩进时取整&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在Python中，使用4个空格比使用tab更加可靠（见PEP8），但是在编辑其他文件，特别是csv文件时，将tab自动转成空格将会导致更多错误，所以，更加可靠的做法是，只在编辑Python文件时，才启用&lt;code&gt;expandtab&lt;/code&gt;，如：&lt;code&gt;autocmd FileType python set expandtab&lt;/code&gt;，默认配置下，vim检查文件类型只会用默认后缀来识别，如果希望添加更多的后缀或者其他正则等，可以使用如下配置：&lt;code&gt;autocmd BufRead,BufNew *.cpy set filetype=python&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;在其他编辑器中，往往有比较好用的块缩进功能，在vim中也一样，按一下&lt;code&gt;v&lt;/code&gt;键进入&lt;em&gt;visual&lt;/em&gt;模式，然后选中你想要选中的行，按&lt;code&gt;&amp;gt;&lt;/code&gt;即可块缩进，按&lt;code&gt;&amp;lt;&lt;/code&gt;则取消一层块缩进，但是默认设置中，每次操作都会退出&lt;em&gt;visual&lt;/em&gt;模式，设置下面两项，保持&lt;em&gt;visual&lt;/em&gt;模式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;vnoremap&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;gv
+&lt;span class="nb"&gt;vnoremap&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt; &lt;span class="p"&gt;&amp;gt;&lt;/span&gt;gv
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;4. 注释&lt;/h3&gt;
+&lt;p&gt;无论什么代码，方便的注释功能都是非常重要的，vim中使用块注释的方法为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;块注释 &lt;code&gt;Ctrl+v&lt;/code&gt;，选中多行后，按&lt;code&gt;I&lt;/code&gt;，在第一行输入&lt;code&gt;#&lt;/code&gt;等内容，然后按&lt;code&gt;Esc&lt;/code&gt;，即可看到所有行都进行了注释。&lt;/li&gt;
+&lt;li&gt;取消注释，和注释的原理一样，不过这次不是按&lt;code&gt;I&lt;/code&gt;输入内容，而是选中多行的注释符号后，按&lt;code&gt;d&lt;/code&gt;统一删除。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;插件管理&lt;/h2&gt;
+&lt;p&gt;除了vim自带的设置之外，vim社区提供了非常丰富的插件，选择对自己有用的插件安装，插件多了之后，插件管理则显得非常重要。Vundle是比较常用的插件管理工具，其本身也是插件。&lt;/p&gt;
+&lt;p&gt;从github上clone并且安装或者升级：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; ! -e ~/bundle/vundle &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="k"&gt;then&lt;/span&gt;
+    git clone https://github.com/gmarik/vundle.git ~/bundle/vundle
+&lt;span class="k"&gt;else&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;~/bundle/vundle&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; git pull
+&lt;span class="k"&gt;fi&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;设置以下内容，建议和vimrc分离，单独弄一个文件管理插件：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;filetype&lt;/span&gt; off        &lt;span class="c"&gt;&amp;quot; 暂时关闭文件类型，必须设置&lt;/span&gt;
+&lt;span class="k"&gt;set&lt;/span&gt; &lt;span class="nb"&gt;rtp&lt;/span&gt;&lt;span class="p"&gt;+=~&lt;/span&gt;&lt;span class="sr"&gt;/.vim/&lt;/span&gt;bundle/vundle
+&lt;span class="k"&gt;call&lt;/span&gt; vundle#rc&lt;span class="p"&gt;()&lt;/span&gt;
+Bundle &lt;span class="s1"&gt;&amp;#39;gmarik/vundle&amp;#39;&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; 类似于这样，在Bundle 后面跟需要安装的插件名称&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; 在用vim编辑该文件时，使用下面的相关命令管理插件&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; :BundleInstall        安装配置中的插件&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; :BundleInstall!   跟新配置中的插件&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; :BundleClean      删除本地无用的插件&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;语法高亮、语法检查、格式化&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;hdima/python-syntax&lt;/strong&gt;插件提供了更加完善的语法高亮功能，&lt;strong&gt;kevinw/pyflakes-vim&lt;/strong&gt;插件则提供了完善地Python语法检查，不过语法检查插件更加建议选择&lt;strong&gt;scrooloose/syntastic&lt;/strong&gt;，不过不论选择哪一个，都必须安装一个python模块：&lt;code&gt;pip install pyflakes&lt;/code&gt;，另外，&lt;strong&gt;mindroit101/vim-yapf&lt;/strong&gt;插件可以对Python代码进行快速格式化，一键满足PEP8要求，同样需要安装一个python模块：&lt;code&gt;pip install yapf&lt;/code&gt;。这三个模块的配置如下：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; 安装使用python-syntax&lt;/span&gt;
+Bundle &lt;span class="s1"&gt;&amp;#39;hdima/python-syntax&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; python_highlight_all &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; 所有关键词高亮&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; 安装使用syntastic&lt;/span&gt;
+Bundle &lt;span class="s1"&gt;&amp;#39;scrooloose/syntastic&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_error_symbol&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;gt;&amp;gt;&amp;#39;&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; 错误行使用&amp;#39;&amp;gt;&amp;gt;&amp;#39; 标记&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_warning_symbol&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&amp;gt;&amp;#39;&lt;/span&gt;      &lt;span class="c"&gt;&amp;quot; 警告行使用&amp;#39;&amp;gt;&amp;#39; 标记&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_check_on_open&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; 打开文件时即开启语法检查&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_check_on_wq&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot; 保存时进行语法检查&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_enable_highlighting&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; 提示内容高亮显示&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; 设置Python检查规则为pyflakes和pep8&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_python_checkers&lt;span class="p"&gt;=&lt;/span&gt;[&lt;span class="s1"&gt;&amp;#39;pyflakes&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;pep8&amp;#39;&lt;/span&gt;]
+&lt;span class="c"&gt;&amp;quot; 提示内容显示相关&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_always_populate_loc_list &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_auto_loc_list &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:syntastic_loc_list_height &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;quot; 安装使用vim-yapf&lt;/span&gt;
+Bundle &lt;span class="s1"&gt;&amp;#39;mindriot101/vim-yapf&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;scriptencoding&lt;/span&gt; utf&lt;span class="m"&gt;-8&lt;/span&gt;        &lt;span class="c"&gt;&amp;quot; 设置编码为utf-8&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:yapf_style &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;pep8&amp;quot;&lt;/span&gt;       &lt;span class="s2"&gt;&amp;quot; 设置主题为pep8，或者&amp;quot;&lt;/span&gt;google&amp;quot;
+&lt;span class="nb"&gt;nnoremap&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;leader&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;y&lt;/span&gt; :&lt;span class="k"&gt;call&lt;/span&gt; Yapf&lt;span class="p"&gt;()&amp;lt;&lt;/span&gt;&lt;span class="k"&gt;cr&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;     &lt;span class="c"&gt;&amp;quot; 设置格式化快捷键为：&amp;#39;,y&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中，&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;nnoremap&lt;/code&gt; 指在普通模式下的键位映射，这里将&lt;code&gt;:call Yapf()&lt;/code&gt;映射为&lt;code&gt;&amp;lt;leader&amp;gt;y&lt;/code&gt;,&lt;/p&gt;
+&lt;p&gt;&lt;leader&gt;表示在普通模式下的命令头，如设置&lt;code&gt;let mapleader=','&lt;/code&gt;将其设置为&lt;code&gt;,&lt;/code&gt;，则，在普通模式下输入&lt;code&gt;,y&lt;/code&gt;即可将Python文件按照PEP8的建议格式化。&lt;/p&gt;
+&lt;h2&gt;导航&lt;/h2&gt;
+&lt;p&gt;使用&lt;strong&gt;scrooloose/nerdtree&lt;/strong&gt;插件，可以在vim中方便地使用导航功能，快速打开其他的文件等：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Bundle &lt;span class="s1"&gt;&amp;#39;scrooloose/nerdtree&amp;#39;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; 一些常用的键位&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; &amp;lt;leader&amp;gt;n : 打开导航&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; Ctrl + ww : 窗口键切换&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; &amp;lt;leader&amp;gt;o : 打开选中的文件&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; &amp;lt;leader&amp;gt;m : 根据提示新建或者删除文件&lt;/span&gt;
+map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;leader&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;&lt;span class="k"&gt;n&lt;/span&gt; :NERDTreeToggle&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; NERDTreeHighlightCursorline&lt;span class="p"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; NERDTreeIgnore&lt;span class="p"&gt;=&lt;/span&gt;[&lt;span class="s1"&gt;&amp;#39;\.pyc$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\.pyo$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\.o$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\.so$&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\.egg$&amp;#39;&lt;/span&gt;] &lt;span class="c"&gt;&amp;quot; 设置需要忽略的文件&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;自动补全&lt;/h2&gt;
+&lt;p&gt;自动补全是一项比较复杂的工作，所以需要设置的东西也相对比较多。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;vim编译时，必须添加python或者相关语言库；&lt;/li&gt;
+&lt;li&gt;编译安装&lt;strong&gt;YouCompleteMe&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;在vim中配置&lt;strong&gt;Valloric/YouCompleteMe&lt;/strong&gt;插件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;以下是配置内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;Bundle &lt;span class="s1"&gt;&amp;#39;Valloric/YouCompleteMe&amp;#39;&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_key_list_select_completion &lt;span class="p"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;&amp;#39;&amp;lt;Down&amp;gt;&amp;#39;&lt;/span&gt;]
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_key_list_previous_completion &lt;span class="p"&gt;=&lt;/span&gt; [&lt;span class="s1"&gt;&amp;#39;&amp;lt;Up&amp;gt;&amp;#39;&lt;/span&gt;] &lt;span class="c"&gt;&amp;quot;使用上下方向键来选择补全列表中的内容&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_complete_in_comments &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;  &lt;span class="c"&gt;&amp;quot;在注释中使用补全&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_complete_in_strings &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;       &lt;span class="c"&gt;&amp;quot;在字符串使用补全&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_use_ultisnips_completer &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;   &lt;span class="c"&gt;&amp;quot; 使用ultisnips提示&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_collect_identifiers_from_comments_and_strings &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="c"&gt;&amp;quot; 将注释和字符串中的内容收入到补全&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_collect_identifiers_from_tags_files &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="c"&gt;&amp;quot; 从tags文件中导入补全&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_seed_identifiers_with_syntax &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="c"&gt;&amp;quot; 打开关键字补全&lt;/span&gt;
+&lt;span class="c"&gt;&amp;quot; 在新窗口跳转到定义，设置快捷键为 &amp;lt;leader&amp;gt;jd&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_goto_buffer_command &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;horizontal-split&amp;#39;&lt;/span&gt;
+&lt;span class="nb"&gt;nnoremap&lt;/span&gt; &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;leader&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;jd :YcmCompleter GoToDefinitionElseDeclaration&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;CR&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="k"&gt;let&lt;/span&gt; &lt;span class="k"&gt;g&lt;/span&gt;:ycm_global_ycm_extra_conf &lt;span class="p"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py&amp;quot;&lt;/span&gt; &lt;span class="c"&gt;&amp;quot;补全三方python包&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;设置完上面的配置后，基本的补全功能就实现了，效率着实可以提升不少。更多功能参考：&lt;strong&gt;UltiSnips&lt;/strong&gt;。&lt;/p&gt;</summary><category term="python"></category><category term="vim"></category></entry><entry><title>SGE集群流程设计</title><link href="/sgeji-qun-liu-cheng-she-ji.html" rel="alternate"></link><updated>2015-09-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-18:sgeji-qun-liu-cheng-she-ji.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;由于华大基因等公司的大量使用，SGE计算集群在生物信息领域仍然有比较广泛的应用；生物大数据时代的到来，可靠、易维护的分析流程也日益重要。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;本文阐述本人在一次16S/ITS流程设计与搭建时的心得，大体思路如下：&lt;/p&gt;
+&lt;h2&gt;流程整体思路&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="pipeline" src="http://ww3.sinaimg.cn/mw1024/95202659gw1ew6qpe8f4ej21a413atf7.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;其中：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;src中的程序，包含比较复杂的逻辑实现（包含基于string.Tempelate的R语言脚本模板）；&lt;/li&gt;
+&lt;li&gt;script中脚本，规定程序的调用接口，默认值设置，帮助文档等内容；&lt;/li&gt;
+&lt;li&gt;bin中的功能模块，规定了脚本的调用顺序，以及读取和写出功能的配置文件，一个功能中的脚本之间不应该同时存在两个资源需求较大的脚本，并且不应该存在功能逻辑上明显可以区分的脚本；&lt;/li&gt;
+&lt;li&gt;Pipeline中是对功能模块的具体调用，以及针对不同集群系统的任务投递规则，功能模块之间串并行调用的选择，以及每个功能的资源分配等实现；&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其他来源的程序（如&lt;a href="http://qiime.org"&gt;qiime&lt;/a&gt;、&lt;a href="https://github.com/rdpstaff"&gt;RDPTools&lt;/a&gt;等），也必须通过script重新定义接口，以符合当前流程的需要，并且在script中调用。&lt;/p&gt;
+&lt;h2&gt;R和Python的交叉开发&lt;/h2&gt;
+&lt;p&gt;R语言中有大量可靠的统计分析函数，以及强大的科学作图功能，结合python更加强大的组织能力，两种语言（以及perl语言）结合开发是生物信息分析过程中较为常见的行为。&lt;/p&gt;
+&lt;p&gt;在python中使用r语言有rpy2等方式，但是这种方式并不是特别容易理解，利用python中的字符串模板，将R语言的实现逻辑和python的组织架构分离，并调用系统命令运行R语言，这样的好处是直接调用系统环境的R，方便更换R语言环境；&lt;/p&gt;
+&lt;p&gt;为了避免R中的&lt;code&gt;$&lt;/code&gt;符号使用和默认的模板分隔符冲突，改写Template，并将delimiter值改变为&lt;code&gt;@#&lt;/code&gt;；&lt;/p&gt;
+&lt;p&gt;思路如下：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="python_with_R" src="http://ww1.sinaimg.cn/mw1024/95202659gw1ew6qpe521zj212y11agpg.jpg" /&gt;&lt;/p&gt;
+&lt;h2&gt;流程搭建步骤&lt;/h2&gt;
+&lt;p&gt;通过将四种不同逻辑分离，在易于维护的同时，搭建其他不同的流程也将会变得比较清晰；一般流程搭建的步骤为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;设计功能模块的流程，明确需要用到的软件，以及需要开发的程序；&lt;/li&gt;
+&lt;li&gt;根据具体的分析要求，对上述软件和程序进行接口包装，流程只需要对接口负责，改变软件版本或者软件具体内容并不需要重新修改流程；&lt;/li&gt;
+&lt;li&gt;完成未有需要开发的程序开发，程序中尽量实现最小功能实现，避免并行处理，通过任务分配完成并行，最大限度地使用计算资源；完成单一程序的测试等；&lt;/li&gt;
+&lt;li&gt;功能模块测试，资源消耗的统计；&lt;/li&gt;
+&lt;li&gt;制定功能模块的调用规则，分配资源，对不产生依赖的功能之间并行投递任务，产生依赖的功能串行投递任务；&lt;/li&gt;
+&lt;/ol&gt;</summary><category term="SGE"></category><category term="pipeline"></category></entry><entry><title>在pelican中使用多说</title><link href="/zai-pelicanzhong-shi-yong-duo-shuo.html" rel="alternate"></link><updated>2015-09-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-18:zai-pelicanzhong-shi-yong-duo-shuo.html</id><summary type="html">&lt;p&gt;本文记录在pelican中实现评论系统的过程&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://disqus.com"&gt;&lt;code&gt;disqus&lt;/code&gt;&lt;/a&gt;是pelican默认支持的评论系统，然而由于墙内的原因，访问总是会有些问题（最近ss也不行了），国内的&lt;a href="http://duoshuo.com"&gt;&lt;code&gt;多说&lt;/code&gt;&lt;/a&gt;也是不错的选择，为了使用&lt;code&gt;多说&lt;/code&gt;，首先需要在多说上创建一个账号，填写使用的站点等信息之后，多说将会自动提示复制以下js代码：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;lt;!-- 多说评论框 start --&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ds-thread&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-thread-key=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;请将此处替换成文章在你的站点中的ID&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-title=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;请替换成文章的标题&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-url=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;请替换成文章的网址&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- 多说评论框 end --&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;duoshuoQuery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;short_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;lyon0804&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;script&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text/javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;protocol&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;//static.duoshuo.com/embed.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;charset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;head&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+         &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;appendChild&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;})();&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- 多说公共JS代码 end --&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;根据该代码内容的提示，需要替换以及修改部分内容，如：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;lt;!-- 多说评论框 start --&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ds-thread&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-thread-key=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ article.slug }}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-title=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ article.title }}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-url=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ SITEURL }}/{{ article.url }}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- 多说评论框 end --&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;duoshuoQuery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;short_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;lyon0804&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;script&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text/javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;protocol&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;//static.duoshuo.com/embed.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;charset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;head&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+         &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;appendChild&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;})();&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!-- 多说公共JS代码 end --&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;在pelican网页模板中添加代码&lt;/h2&gt;
+&lt;p&gt;由于每个主题生成的最终网页不同，pelican的网页模板当然是存放在每个主题中，根据下面的思路：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;找到pelican的安装地址，如：&lt;code&gt;/usr/local/Cellar/python/2.7.10_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pelican&lt;/code&gt;,主题的默认安装位置在该目录下的&lt;code&gt;themes&lt;/code&gt;中，到主题目录中，找到自己使用的主题，发现有一个&lt;code&gt;templates&lt;/code&gt;文件夹，这里面肯定就是存放模板了；&lt;/li&gt;
+&lt;li&gt;由于评论应该显示在文章中，所以想当然应该查看一下&lt;code&gt;article.html&lt;/code&gt;中的内容，找到显示文章主题的部分，并且在最后，发现以下内容：&lt;code&gt;{% include 'includes/comments.html' %}&lt;/code&gt;，所以应该是在该文件中加载评论信息；&lt;/li&gt;
+&lt;li&gt;编辑该文件，第一行显示：&lt;code&gt;{% if DISQUS_SITENAME %}&lt;/code&gt;，应该是使用全大写的全局常量来控制是否显示评论，由于默认支持的是&lt;code&gt;Disqus&lt;/code&gt;，这里检查的也就是&lt;code&gt;DISQUS_SITENAME&lt;/code&gt;是否设置了；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;找到模板之后就简单了，照葫芦画瓢，在相同文件下，添加以下内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;{% if DUOSHUO_SITENAME %}
+    &lt;span class="nt"&gt;&amp;lt;hr/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;section&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;comments&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;Comments&lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ds-thread&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-thread-key=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ article.slug }}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-title=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ article.title }}&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-url=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{ SITEURL }}/{{ article.url }}&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;duoshuoQuery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;short_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{{ DUOSHUO_SITENAME }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;script&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text/javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;protocol&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;//static.duoshuo.com/embed.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;charset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;head&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                 &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;appendChild&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="p"&gt;})();&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;noscript&amp;gt;&lt;/span&gt;Please enable JavaScript to view the &lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://duoshuo.com/&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;comments powered by
+        Duoshuo.&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&amp;lt;/noscript&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://duoshuo.com&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dsq-brlink&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;comments powered by &lt;span class="nt"&gt;&amp;lt;span&amp;gt;&lt;/span&gt;Duoshuo&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+{% endif %}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中最后第二行当用户关闭js的时候弹出提示，最后一行显示多说的链接，但是如果想要显示多说的logo，还需要在css中添加多说logo的字图；&lt;/p&gt;
+&lt;p&gt;接下来，到pelicanconf.py中，添加DUOSHUO_SITENAME，让这段代码通过判断，试试效果吧~&lt;/p&gt;
+&lt;h2&gt;异步加载&lt;/h2&gt;
+&lt;p&gt;为了让评论模块不影响页面加载速度，使用异步加载的方式，点击显示评论的时候才加载评论框，js还没怎么学，幸好已经&lt;a href="http://liam0205.me/2014/07/22/duoshuo-delay/"&gt;有人&lt;/a&gt;已经在hexo上实现了，根据pelican的特点，模仿者写了一段js：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;toggleDuoshuoComments&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;jQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;has&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;div&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;length&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+            &lt;span class="nx"&gt;jQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;empty&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;el&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;class&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ds-thread&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-thread-key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;title&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;DUOSHUO&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;EmbedThread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="nx"&gt;jQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;javascript:void(0);&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;onclick=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;toggleDuoshuoComments(&amp;#39;#comment-box&amp;#39;, &amp;#39;{{ article.slug }}&amp;#39;, &amp;#39;{{ article.title }}&amp;#39; , &amp;#39;{{ SITEURL }}/{{ article.url }}&amp;#39;);&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+查看评论&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;comment-box&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;hr/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后将之前的评论框加载注释掉：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;lt;!--         &amp;lt;div class=&amp;quot;ds-thread&amp;quot; data-thread-key=&amp;quot;{{ article.slug }}&amp;quot; data-title=&amp;quot;{{ article.title }}&amp;quot; data-url=&amp;quot;{{ SITEURL }}/{{ article.url }}&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; --&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;就完成异步加载的工作了&lt;/p&gt;
+&lt;h2&gt;代码一览&lt;/h2&gt;
+&lt;p&gt;最终总体代码看起来就像这样：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;{% if DUOSHUO_SITENAME %}
+    &lt;span class="nt"&gt;&amp;lt;hr/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;section&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;comments&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;comments&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;h2&amp;gt;&lt;/span&gt;Comments&lt;span class="nt"&gt;&amp;lt;/h2&amp;gt;&lt;/span&gt;
+&lt;span class="c"&gt;&amp;lt;!--         &amp;lt;div class=&amp;quot;ds-thread&amp;quot; data-thread-key=&amp;quot;{{ article.slug }}&amp;quot; data-title=&amp;quot;{{ article.title }}&amp;quot; data-url=&amp;quot;{{ SITEURL }}/{{ article.url }}&amp;quot;&amp;gt;&amp;lt;/div&amp;gt; --&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;duoshuoQuery&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="nx"&gt;short_name&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;{{ DUOSHUO_SITENAME }}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;
+            &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;ds&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;script&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text/javascript&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;async&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;location&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;protocol&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;https:&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;http:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;//static.duoshuo.com/embed.js&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;charset&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;UTF-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;head&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+                 &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;getElementsByTagName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;body&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]).&lt;/span&gt;&lt;span class="nx"&gt;appendChild&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;ds&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="p"&gt;})();&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;script &lt;/span&gt;&lt;span class="na"&gt;type=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+            &lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;toggleDuoshuoComments&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;title&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+                &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;jQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;has&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;div&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;length&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+                    &lt;span class="nx"&gt;jQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;empty&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+                    &lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="kd"&gt;var&lt;/span&gt; &lt;span class="nx"&gt;el&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;document&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;createElement&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;div&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;class&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;ds-thread&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-thread-key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-title&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;title&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;setAttribute&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;data-url&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;url&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;DUOSHUO&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;EmbedThread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                &lt;span class="nx"&gt;jQuery&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;container&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="nx"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;el&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;javascript:void(0);&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;onclick=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;toggleDuoshuoComments(&amp;#39;#comment-box&amp;#39;, &amp;#39;{{ article.slug }}&amp;#39;, &amp;#39;{{ article.title }}&amp;#39; , &amp;#39;{{ SITEURL }}/{{ article.url }}&amp;#39;);&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+        查看评论&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;comment-box&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;hr/&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;noscript&amp;gt;&lt;/span&gt;Please enable JavaScript to view the &lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://duoshuo.com/&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;comments powered by
+        Duoshuo.&lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&amp;lt;/noscript&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://duoshuo.com&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;dsq-brlink&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;comments powered by &lt;span class="nt"&gt;&amp;lt;span&amp;gt;&lt;/span&gt;Duoshuo&lt;span class="nt"&gt;&amp;lt;/span&amp;gt;&amp;lt;/a&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
+{% endif %}
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="comment"></category><category term="pelican"></category><category term="duoshuo"></category></entry><entry><title>Hello World!</title><link href="/hello-world.html" rel="alternate"></link><updated>2015-09-11T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-11:hello-world.html</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hello world!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;使用gitcafepages + pelican + Macdown 搭建第一个博客：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;注册使用gitcafe pages&lt;/li&gt;
+&lt;li&gt;使用pelican&lt;/li&gt;
+&lt;li&gt;第一篇文章！&lt;/li&gt;
+&lt;li&gt;更改主题&lt;/li&gt;
+&lt;li&gt;添加插件&lt;/li&gt;
+&lt;li&gt;域名绑定&lt;/li&gt;
+&lt;li&gt;一些好用的工具&lt;/li&gt;
+&lt;li&gt;感谢&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;1. 注册使用gitcafe pages：&lt;/h2&gt;
+&lt;p&gt;到&lt;code&gt;gitcafe&lt;/code&gt;上申请一个账号，如：username，新建仓库：username，gitcafe就自动识别为pages项目啦~&lt;/p&gt;
+&lt;p&gt;为什么没有用github呢？github访问速度不是很稳定啊（GFW你懂的），并且虽然只是自己的博客，但是不仅仅要考虑自己，也要考虑访问者的体验，所以还是选择gitcafe了。&lt;/p&gt;
+&lt;p&gt;有了仓库之后，需要添加ssh-key，这样，就可以建立ssh连接，在本地更改远程仓库了。&lt;/p&gt;
+&lt;p&gt;新建ssh-key：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;ssh-keygen -t rsa -C &lt;span class="s2"&gt;&amp;quot;youremail@example.com&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接着会提示保存的路径以及文件名，密码就留空好了，完成之后，将.pub结尾的那个公钥的内容添加到gitcafe账户中（在settings/SSH keys里面可以找到~），gitcafe pages就建立完成啦~&lt;/p&gt;
+&lt;h2&gt;2. 安装pelican&lt;/h2&gt;
+&lt;p&gt;Pelican是一套开源的博客生成软件，使用python编写，所以安装pelican和安装一般的python包是一样的，相信小伙伴们都有各种不同的方式安装了~&lt;/p&gt;
+&lt;p&gt;比如，我的环境是macos，使用homebrew管理软件，使用pip安装python包：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;brew install python
+pip install pelican
+pip install markdown
+pip install ghp-import
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;markdown支持包是必须的~ 这个ghp-import是可选的，如果想要使用默认的&lt;code&gt;make github&lt;/code&gt;命令，则需要安装这个包，我感觉还是自己写几行脚本容易理解...&lt;/p&gt;
+&lt;p&gt;如果成功的话就太好了，不过由于某GFW的原因，pelican可能安装会有一些慢（包括其他的python包），通过使用国内的镜像可以大大提高速度，如使用豆瓣源：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pip install pelican -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;pelican安装好之后，选择一个目录就可以初始化博客啦：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir blog
+&lt;span class="nb"&gt;cd &lt;/span&gt;blog
+pelican-quickstart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;之后会问你一系列的问题，按照要求回答就好啦，回答完成之后，会建立以下目录格式：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;blog/
+┣ Makefile             #一些设置，如FTP、SSH等服务器的设置，之前的问题中也会有，如果对自己的回答不满意，也可以在这里更改
+┣ content              #博客页面的源文件目录
+┣ develop_server.sh    #用于开启测试服务器的脚本
+┣ fabfile.py           #一些脚本的配置
+┣ output               #生成的输出文件
+┣ pelicanconf.py       #主要配置文件
+┣ publishconf.py       #发布脚本
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后，到&lt;code&gt;output&lt;/code&gt;文件夹下面，添加gitcafe仓库，并且设置本地git配置，git的教程大家可以看廖雪峰的博客：&lt;a href="http://www.liaoxuefeng.com"&gt;&lt;code&gt;廖雪峰的官方网站&lt;/code&gt;&lt;/a&gt;。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git config --local user.name &lt;span class="s1"&gt;&amp;#39;yourname&amp;#39;&lt;/span&gt;
+git config --local user.email &lt;span class="s1"&gt;&amp;#39;youremail@example.com&amp;#39;&lt;/span&gt;
+git init
+git remote add gitcafe &lt;span class="s1"&gt;&amp;#39;git@gitcafe.com:usrname/usrname.git&amp;#39;&lt;/span&gt;
+git checkout -b gh-pages
+touch Readme.md
+git add *
+git commit -m &lt;span class="s1"&gt;&amp;#39;init repo&amp;#39;&lt;/span&gt;
+git push -u gitcafe gh-pages
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意了，这里的分支一定要填写gh-pages，不仅可以兼容github，而且这样才可以启用gitcafe的pages服务，master是不能用pages服务的。&lt;/p&gt;
+&lt;p&gt;不同的情况下，添加远程仓库的方式会不一样，但是总之这一步要正确添加远程仓库就是了~&lt;/p&gt;
+&lt;p&gt;完成这些之后，就可以动手写博客啦~&lt;/p&gt;
+&lt;h2&gt;3. 第一篇文章！&lt;/h2&gt;
+&lt;p&gt;随便选择并且使用一款markdown编辑器，动手写吧~&lt;/p&gt;
+&lt;p&gt;在你的博客开头，添加以下的内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Title&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Hello&lt;/span&gt; &lt;span class="n"&gt;World&lt;/span&gt;
+&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2015&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;09&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;11&lt;/span&gt;
+&lt;span class="n"&gt;Category&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;pages&lt;/span&gt;
+&lt;span class="n"&gt;Tags&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gitcafe&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;gitpages&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;这些内容大家应该能猜到是什么作用了吧？&lt;/p&gt;
+&lt;p&gt;再下面就是你的博客正文啦，在完成大作之后，到项目目录下，执行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; ..
+make html
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;此时，就在output文件夹下面成功生成了博客页面了，在项目路径下，执行：&lt;code&gt;sh develop_server.sh start&lt;/code&gt;,然后通过&lt;a href="127.0.0.1:8000"&gt;127.0.0.1:8000&lt;/a&gt;就可以看到你的页面效果啦~&lt;/p&gt;
+&lt;p&gt;当然，这个时候博客还是在你的本地，如果想让其他人也访问到你的博客的话，就需要同步到gitcafe pages上，到output文件夹下面，执行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git add -A
+git commit -m &lt;span class="s1"&gt;&amp;#39;my first page&amp;#39;&lt;/span&gt;
+git push -u gitcafe gh-pages
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后访问&lt;code&gt;yourname.gitcafe.io&lt;/code&gt;即可成功访问第一篇文章啦~&lt;/p&gt;
+&lt;p&gt;但是你一定不满足那么多的操作步骤吧？下面编辑Makefile，定制我们的工作流程：&lt;/p&gt;
+&lt;p&gt;编辑Makefile，添加以下几行：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nf"&gt;gitcafe&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;publish&lt;/span&gt;
+    &lt;span class="nb"&gt;cd&lt;/span&gt; &lt;span class="k"&gt;$(&lt;/span&gt;OUTPUTDIR&lt;span class="k"&gt;)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; git add -A&lt;span class="p"&gt;;&lt;/span&gt; git commit -m &lt;span class="s1"&gt;&amp;#39;Generate Pelican site&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; git push -u gitcafe gh-pages
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;同时，修改&lt;code&gt;publishconf.py&lt;/code&gt;，将其中的&lt;code&gt;DELETE_OUTPUT_DIRECTORY&lt;/code&gt;设置为&lt;code&gt;False&lt;/code&gt;，否则每次&lt;code&gt;make publish&lt;/code&gt;的时候，都会把output目录删除掉，这对我使用自定义的make命令会造成困扰，不如自己管理&lt;code&gt;git&lt;/code&gt;仓库。&lt;/p&gt;
+&lt;p&gt;做完上述工作，以后就可以通过下面的命令一键同步啦：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;make gitcafe&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;4. 更改主题&lt;/h2&gt;
+&lt;p&gt;可以用一些其他人已经设计好的主题，如使用pelican-bootstrap3主题等；首先需要下载主题：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir themes
+&lt;span class="nb"&gt;cd &lt;/span&gt;thems
+git clone git://github.com/getpelican/pelican-themes.git ./
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在其中挑选一个主题，并且使用下面的命令安装：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;pelican-themes -i pelican-bootstrap3
+pelican-themes -l
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;第二条命令可以看到当前安装的主体列表，选择想要更改的主体，并且修改&lt;code&gt;pelicanconf.py&lt;/code&gt;，添加&lt;code&gt;THEME = 'pelican-bootstrap3'&lt;/code&gt;一行，然后重新&lt;code&gt;make html&lt;/code&gt;，试试效果吧~&lt;/p&gt;
+&lt;h2&gt;5. 添加插件&lt;/h2&gt;
+&lt;p&gt;首先还是先下载插件:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir plugins
+cd plugins
+git clone git://github.com/getpelican/pelican-plugins.git ./
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后在&lt;code&gt;pelicanconf.py&lt;/code&gt;中，以安装sitemap为例，修改下面的内容：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;PLUGIN_PATHS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;u&amp;#39;plugins&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;PlUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;sitemap&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;SITEMAP&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;format&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;xml&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;priorities&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;articles&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;indexes&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;pages&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mf"&gt;0.3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="s"&gt;&amp;#39;changefreqs&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:{&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;articles&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;monthly&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;indexes&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;daily&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+        &lt;span class="s"&gt;&amp;#39;pages&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;monthly&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;之后再执行&lt;code&gt;make html&lt;/code&gt;，通过&lt;a href="http://127.0.0.1:8000/sitemap.xml"&gt;http://127.0.0.1:8000/sitemap.xml&lt;/a&gt;即可看到效果啦~&lt;/p&gt;
+&lt;h2&gt;6. 申请购买域名&lt;/h2&gt;
+&lt;p&gt;到这里为止，博客的基本内容就完成的差不多了，但是个性化的域名还是比较重要的，到&lt;a href="https://www.godaddy.com"&gt;&lt;code&gt;Godaddy&lt;/code&gt;&lt;/a&gt;上面，注册并且申请一个域名，通过支付宝付款购买之后，就有自己的独立域名了，但是光有域名还不行，还要和空间绑定起来，这里其实就拿&lt;code&gt;gitcafe&lt;/code&gt;当做空间，做一个绑定；&lt;/p&gt;
+&lt;p&gt;首先，到&lt;a href="https://www.dnspod.cn"&gt;&lt;code&gt;DNSPOD&lt;/code&gt;&lt;/a&gt;上面，注册一个账号，然后添加域名解析服务，添加刚购买的域名，会将之前的信息导入，此时，会新增两条NS记录，到&lt;code&gt;Godaddy&lt;/code&gt;上的域名管理界面，在&lt;code&gt;DNS Manager-Settings&lt;/code&gt;中，将&lt;code&gt;Nameservers&lt;/code&gt;修改为&lt;code&gt;custom&lt;/code&gt;，并且添加在DNSPOD上产生的两条NS记录；之后，解析的工作就交给&lt;code&gt;DNSPOD&lt;/code&gt;了；添加一个A记录，指向地址为：&lt;code&gt;117.79.146.98&lt;/code&gt;，添加一个CNAME记录，主机记录为&lt;code&gt;www&lt;/code&gt;，记录值：&lt;code&gt;gitcafe.io&lt;/code&gt;；到这里就完成域名部分的工作了；&lt;/p&gt;
+&lt;p&gt;回到&lt;code&gt;gitcafe&lt;/code&gt;的项目管理目录，在&lt;code&gt;Pages 服务&lt;/code&gt;下面，添加购买的域名，访问你购买的域名，看看是不是有效果了~&lt;/p&gt;
+&lt;h2&gt;7. 一些好用的工具&lt;/h2&gt;
+&lt;p&gt;好用的markdown编辑器：MacDown，也就是我现在正在使用的编辑器，安装非常简单：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;brew cask install macdown
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;就完成啦，关键还是免费开源的，必须要赞一个~&lt;/p&gt;
+&lt;p&gt;国内可用的图床：&lt;code&gt;新浪微博&lt;/code&gt;&lt;/p&gt;
+&lt;h2&gt;8. 感谢&lt;/h2&gt;
+&lt;p&gt;第一次搭建博客，花了整整一天时间，期间借鉴了不少前辈的经验&lt;code&gt;lizherui,cold,poem_of_sunshine&lt;/code&gt;，非常感谢~&lt;/p&gt;</summary><category term="pelican"></category><category term="gitcafe"></category><category term="gitpages"></category></entry></feed>

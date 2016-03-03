@@ -12,7 +12,7 @@
 
 
 
-<link rel="canonical" href="www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html">
+<link rel="canonical" href="/sgeji-qun-liu-cheng-she-ji.html">
 
         <meta name="author" content="lyon" />
         <meta name="keywords" content="SGE,pipeline" />
@@ -21,7 +21,7 @@
         <meta property="og:site_name" content="Café de Lyon" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="SGE集群流程设计"/>
-        <meta property="og:url" content="www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html"/>
+        <meta property="og:url" content="/sgeji-qun-liu-cheng-she-ji.html"/>
         <meta property="og:description" content="由于华大基因等公司的大量使用，SGE计算集群在生物信息领域仍然有比较广泛的应用；生物大数据时代的到来，可靠、易维护的分析流程也日益重要。 本文阐述本人在一次16S/ITS流程设计与搭建时的心得，大体思路如下： 流程整体思路 其中： src中的程序，包含比较复杂的逻辑实现（包含基于string.Tempelate的R语言脚本模板）； script中脚本，规定程序的调用接口，默认值设置，帮助文档等内容； bin中的功能模块，规定了脚本的调用顺序，以及读取和写出功能的配置文件，一个功能中的脚本之间不应该同时存在两个资源需求较大的脚本，并且不应该存在功能逻辑上明显可以区分的脚本； Pipeline中是对功能模块的具体调用，以及针对不同集群系统的任务投递规则，功能模块之间串并行调用的选择，以及每个功能的资源分配等实现； 其他来源的程序（如qiime、RDPTools等），也必须通过script重新定义接口，以符合当前流程的需要，并且在script中调用。 R和Python的交叉开发 R语言中有大量可靠的统计分析函数，以及强大的科学作图功能，结合python更加强大的组织能力，两种语言（以及perl语言）结合开发是生物信息分析过程中较为常见的行为。 在python中使用r语言有rpy2等方式，但是这种方式并不是特别容易理解，利用python中的字符串模板，将R语言的实现逻辑和python的组织架构分离，并调用系统命令运行R语言，这样的好处是直接调用系统环境的R，方便更换R语言环境； 为了避免R中的 ..."/>
         <meta property="article:published_time" content="2015-09-18" />
             <meta property="article:section" content="pages" />
@@ -31,12 +31,14 @@
 
 
     <!-- Bootstrap -->
-        <link rel="stylesheet" href="www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
-    <link href="www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
 
-    <link href="www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
-    <link rel="stylesheet" href="www.lyon0804.com/theme/css/style.css" type="text/css"/>
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
 
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
 
 </head>
 <body>
@@ -50,26 +52,26 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="www.lyon0804.com/" class="navbar-brand">
-<img src="www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+            <a href="/" class="navbar-brand">
+<img src="/static/img/logo.png" width="30px"/> Café de Lyon            </a>
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                         <li >
-                            <a href="www.lyon0804.com/category/bioimformatics.html">Bioimformatics</a>
+                            <a href="/category/bioimformatics.html">Bioimformatics</a>
                         </li>
                         <li >
-                            <a href="www.lyon0804.com/category/learning.html">Learning</a>
+                            <a href="/category/learning.html">Learning</a>
                         </li>
                         <li class="active">
-                            <a href="www.lyon0804.com/category/pages.html">Pages</a>
+                            <a href="/category/pages.html">Pages</a>
                         </li>
                         <li >
-                            <a href="www.lyon0804.com/category/photo.html">Photo</a>
+                            <a href="/category/photo.html">Photo</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+              <li><a href="/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -85,7 +87,7 @@
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html"
+                    <a href="/sgeji-qun-liu-cheng-she-ji.html"
                        rel="bookmark"
                        title="Permalink to SGE集群流程设计">
                         SGE集群流程设计
@@ -104,9 +106,9 @@
 
 
 <span class="label label-default">Tags</span>
-	<a href="www.lyon0804.com/tag/sge.html">SGE</a>
+	<a href="/tag/sge.html">SGE</a>
         /
-	<a href="www.lyon0804.com/tag/pipeline.html">pipeline</a>
+	<a href="/tag/pipeline.html">pipeline</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
@@ -145,7 +147,7 @@
     <hr/>
     <section class="comments" id="comments">
         <h2>Comments</h2>
-<!--         <div class="ds-thread" data-thread-key="sgeji-qun-liu-cheng-she-ji" data-title="SGE集群流程设计" data-url="www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html"></div> -->
+<!--         <div class="ds-thread" data-thread-key="sgeji-qun-liu-cheng-she-ji" data-title="SGE集群流程设计" data-url="/sgeji-qun-liu-cheng-she-ji.html"></div> -->
 		<script type="text/javascript">
      		var duoshuoQuery = {short_name:"lyon0804"};
     		(function() {
@@ -172,7 +174,7 @@
                 jQuery(container).append(el);
             }
         </script>
-        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'sgeji-qun-liu-cheng-she-ji', 'SGE集群流程设计' , 'www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html');">
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'sgeji-qun-liu-cheng-she-ji', 'SGE集群流程设计' , '/sgeji-qun-liu-cheng-she-ji.html');">
         查看评论</a>
         <div id="comment-box" ></div>
         <hr/>
@@ -224,13 +226,13 @@
       </div>
    </div>
 </footer>
-<script src="www.lyon0804.com/theme/js/jquery.min.js"></script>
+<script src="/theme/js/jquery.min.js"></script>
 
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+<script src="/theme/js/bootstrap.min.js"></script>
 
 <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
-<script src="www.lyon0804.com/theme/js/respond.min.js"></script>
+<script src="/theme/js/respond.min.js"></script>
 
 
 </body>
