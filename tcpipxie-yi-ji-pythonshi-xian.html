@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>TCP/IP协议及Python实现 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="python,TCP/IP" />
+        <meta name="description" content="OSI参考模型与TCP/IP协议 OSI参考模型是由ISO提出的作为通信协议设计的模型。该模型将通信过程分成7个部分，又称OSI七层模型，通过这七层模型，将通信过程中的不同功能进行划分，每层仅需要对其上一层提供特定的接口，以及接收下一层提供的特定接口，从而对复杂的通信过程进行简化，只需要关注某一层的实现以及保持其接口统一即可。这七层模型为： 物理层 : 该层决定数字电路中的0、1对应的电压状态，并且规定连接器和网线的规格，在物理层面上确保连接的畅通有效； 数据链路层 : 该层确保不同设备之间的数据传送以及识别，将0、1的比特流转换为真实的数据，并保证设备之间通过物理地址(MAC地址)互相识别； 网络层 : 该层决定每个设备的在网络中的地址，以及路由的规则； 传输层 : 该层确保数据在两个设备之间可靠传输，检查是否有数据丢失以及是否到达正确的目标； 会话层 : 该层负责建立通信后的管理，何时建立通信，何时断开通信，每次连接保持多长时间等等； 表示层 : 该层负责将真实的信息内容，如文字、图像、声音、影片等，转换为网络传输中的标准格式，确保网络中每台设备可以正确解读这些信息； 应用层 : 该层包含各种网络应用协议，如电子邮件协议、文件传输协议、超文本传输协议等等； OSI参考模型仅仅是ISO为了不同设备之间建立相互通信的标准化建议，每一层模型都代表了通信过程中应该实现的功能 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="TCP/IP协议及Python实现"/>
+        <meta property="og:url" content="www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html"/>
+        <meta property="og:description" content="OSI参考模型与TCP/IP协议 OSI参考模型是由ISO提出的作为通信协议设计的模型。该模型将通信过程分成7个部分，又称OSI七层模型，通过这七层模型，将通信过程中的不同功能进行划分，每层仅需要对其上一层提供特定的接口，以及接收下一层提供的特定接口，从而对复杂的通信过程进行简化，只需要关注某一层的实现以及保持其接口统一即可。这七层模型为： 物理层 : 该层决定数字电路中的0、1对应的电压状态，并且规定连接器和网线的规格，在物理层面上确保连接的畅通有效； 数据链路层 : 该层确保不同设备之间的数据传送以及识别，将0、1的比特流转换为真实的数据，并保证设备之间通过物理地址(MAC地址)互相识别； 网络层 : 该层决定每个设备的在网络中的地址，以及路由的规则； 传输层 : 该层确保数据在两个设备之间可靠传输，检查是否有数据丢失以及是否到达正确的目标； 会话层 : 该层负责建立通信后的管理，何时建立通信，何时断开通信，每次连接保持多长时间等等； 表示层 : 该层负责将真实的信息内容，如文字、图像、声音、影片等，转换为网络传输中的标准格式，确保网络中每台设备可以正确解读这些信息； 应用层 : 该层包含各种网络应用协议，如电子邮件协议、文件传输协议、超文本传输协议等等； OSI参考模型仅仅是ISO为了不同设备之间建立相互通信的标准化建议，每一层模型都代表了通信过程中应该实现的功能 ..."/>
+        <meta property="article:published_time" content="2015-10-24" />
+            <meta property="article:section" content="Learning" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="TCP/IP" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="www.lyon0804.com/" class="navbar-brand">
+<img src="www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="www.lyon0804.com/category/bioimformatics.html">Bioimformatics</a>
+                        </li>
+                        <li class="active">
+                            <a href="www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html"
+                       rel="bookmark"
+                       title="Permalink to TCP/IP协议及Python实现">
+                        TCP/IP协议及Python实现
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-10-24T00:00:00+08:00"> Sat 24 October 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="www.lyon0804.com/tag/python.html">python</a>
+        /
+	<a href="www.lyon0804.com/tag/tcpip.html">TCP/IP</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>OSI参考模型与TCP/IP协议</h2>
+<p>OSI参考模型是由ISO提出的作为通信协议设计的模型。该模型将通信过程分成7个部分，又称OSI七层模型，通过这七层模型，将通信过程中的不同功能进行划分，每层仅需要对其上一层提供特定的接口，以及接收下一层提供的特定接口，从而对复杂的通信过程进行简化，只需要关注某一层的实现以及保持其接口统一即可。这七层模型为：</p>
+<ol>
+<li>物理层 : 该层决定数字电路中的0、1对应的电压状态，并且规定连接器和网线的规格，在物理层面上确保连接的畅通有效；</li>
+<li>数据链路层 : 该层确保不同设备之间的数据传送以及识别，将0、1的比特流转换为真实的数据，并保证设备之间通过物理地址(MAC地址)互相识别；</li>
+<li>网络层 : 该层决定每个设备的在网络中的地址，以及路由的规则；</li>
+<li>传输层 : 该层确保数据在两个设备之间可靠传输，检查是否有数据丢失以及是否到达正确的目标；</li>
+<li>会话层 : 该层负责建立通信后的管理，何时建立通信，何时断开通信，每次连接保持多长时间等等；</li>
+<li>表示层 : 该层负责将真实的信息内容，如文字、图像、声音、影片等，转换为网络传输中的标准格式，确保网络中每台设备可以正确解读这些信息；</li>
+<li>应用层 : 该层包含各种网络应用协议，如电子邮件协议、文件传输协议、超文本传输协议等等；</li>
+</ol>
+<p>OSI参考模型仅仅是ISO为了不同设备之间建立相互通信的标准化建议，每一层模型都代表了通信过程中应该实现的功能。OSI协议则是满足OSI七层模型的协议，由于各种原因，虽然ISO做了很多标准化工作，OSI协议并没有得到流行，而真正流行的协议则是TCP/IP协议。</p>
+<p>TCP/IP协议同样有一套参考模型，该模型和OSI参考模型不同，只有四层：</p>
+<ol>
+<li>链路层 : 负责各种数据传输的硬件，如网线、网卡、交换机、中继、路由器等等网络硬件设备，包含OSI参考模型中的1、2两层，TCP/IP模型并没有对这一层做出详细的描述；</li>
+<li>网络层 : 该层和OSI参考模型的网络层对应，包含网络地址协议: <code>IP</code>(Internet Protocol)协议，以及为了识别该地址的辅助协议，如:DNS、ARP、ICMP、DHCP等等；</li>
+<li>传输层 : 该层和OSI参考模型的传输层对应，建立两个设置之间的连接，包含可靠传输协议: <code>TCP</code>(Transmission Control Protocol)协议，以及不可靠数据报协议: <code>UDP</code>(User Datagram Protocol)协议。识别IP协议提供的地址以及上一层应用提供的端口号；</li>
+<li>应用层 : 该层包括OSI参考模型中的5、6、7层，包含具体的应用程序提供的协议，如: URL、HTTP、TLS/SSL、SSH、FTP、SMTP、POP、IMAP等等；</li>
+</ol>
+<p>TCP/IP协议在上述四层模型的基础上提出具体协议内容，并且随着UNIX系统的普及得到广泛流行，和OSI模型关注每一层实现的功能不同，TCP/IP模型更加关注的是功能的实现。</p>
+<p>在TCP/IP的制定过程中，就是先有了这一系列的协议，再通过RFC(Request For Comment)文档作为标准传播开来。在协议的制定过程中，往往先实现了某一功能，然后对其进行实验，所以有着<strong>开放性</strong>和<strong>实用性</strong>两大特点。</p>
+<h2>建立连接</h2>
+<p>使用TCP协议作为连接协议，在建立连接的过程中，既要对下层协议传递的IP地址进行设备识别，也要通过上层协议传递的端口号识别具体的应用程序，通过IP地址和端口号，才可以在两个应用程序建立连接。而结合这两个地址，需要使用<code>socket</code>(套接字)的接口，应用程序通过该接口，设置目标IP地址和端口号，TCP协议获取该套接字，并且实现相应的连接过程。</p>
+<p>在TCP连接的建立过程中，发起连接的设备成为客户端，响应连接的设备成为服务器。</p>
+<p>首先需要一台服务器，服务器的功能是监听本设备的某个端口，当有客户端请求访问该端口时，做出响应的回应。</p>
+<p>服务端程序：</p>
+<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*- #</span>
+
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">activeCount</span>
+
+
+<span class="k">def</span> <span class="nf">tcplink</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">add</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Accept a connection from </span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">add</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;Hello, there! you are from </span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">add</span><span class="p">)</span>
+        <span class="n">is_sweet</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span> <span class="ow">or</span> <span class="n">data</span> <span class="o">==</span> <span class="s">&#39;exit&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">is_sweet</span><span class="p">:</span>
+                    <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;Bye, sweet!&quot;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;funcking away!&quot;</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;fuck&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">is_sweet</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;funcking back!&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&quot;You say </span><span class="si">%s</span><span class="s">, yeah?&quot;</span> <span class="o">%</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;Connection from </span><span class="si">%s</span><span class="s">:</span><span class="si">%s</span><span class="s"> is closed&quot;</span> <span class="o">%</span> <span class="n">add</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">9000</span><span class="p">))</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">sock</span><span class="p">,</span> <span class="n">add</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">tcplink</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">sock</span><span class="p">,</span> <span class="n">add</span><span class="p">))</span>
+        <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">activeCount</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="k">break</span>
+</pre></div>
+
+
+<p>在上面的程序中，首先使用默认参数创建一个套接字，并使用该套接字监听本地设备的<code>9000</code>端口，客户端通过和该端口建立连接。</p>
+<p>客户端程序：</p>
+<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*- #</span>
+
+<span class="kn">import</span> <span class="nn">socket</span>
+
+
+<span class="k">def</span> <span class="nf">input</span><span class="p">(</span><span class="n">sock</span><span class="p">):</span>
+    <span class="n">accept</span> <span class="o">=</span> <span class="n">send</span><span class="p">(</span><span class="n">sock</span><span class="p">)</span>
+    <span class="n">accept</span><span class="o">.</span><span class="n">next</span><span class="p">()</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">()</span>
+        <span class="n">accept</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">msg</span> <span class="o">==</span> <span class="s">&#39;exit&#39;</span><span class="p">:</span>
+            <span class="k">break</span>
+
+
+<span class="k">def</span> <span class="nf">send</span><span class="p">(</span><span class="n">sock</span><span class="p">):</span>
+    <span class="k">while</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="k">yield</span><span class="p">)</span>
+        <span class="n">sock</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">print</span> <span class="n">sock</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+    <span class="n">s</span><span class="o">.</span><span class="n">connect</span><span class="p">((</span><span class="s">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">9000</span><span class="p">))</span>
+    <span class="k">print</span> <span class="n">s</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="nb">input</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</pre></div>
+
+
+<p>该客户端通过连接服务器，就可以和自己聊聊天(这么认真肯定不是自动回复)：</p>
+<p><img alt="演示" src="http://ww2.sinaimg.cn/large/95202659gw1exbke60f3aj218o11iqa3.jpg" /></p>
+<h2>实现细节</h2>
+<h3>1. 端口</h3>
+<p>上述例子中的<code>9000</code>就是一个端口，每一台设备都会有很多端口，有些端口具有特殊的用途，如<code>22</code>端口用于<code>ssh</code>登陆协议，<code>80</code>端口用于<code>http</code>协议等等，不能使用已经被占用的端口，小于1024的端口是Internet标准端口，不能被随意使用。</p>
+<p>IP地址和端口的元组可以确定应用程序在网络上的具体位置，<code>127.0.0.1</code>表示本地IP地址，而<code>0.0.0.0</code>则表示所有的IP地址。</p>
+<h3>2. 套接字</h3>
+<p>通过socket.socket()实例化一个套接字，默认使用<code>IPv4</code>协议，以及面向流的TCP协议，通过传入其他可用协议更改。</p>
+<p>在服务器程序上，套接字实例化后完成以下任务：</p>
+<ol>
+<li>使用<code>bind()</code>方法和本地(<code>127.0.0.1</code>)的<code>9000</code>绑定</li>
+<li>使用<code>listen()</code>方法监听该端口，并设置最大等待连接数为<code>5</code></li>
+<li>使用<code>accept()</code>方法接收来自客户端的连接请求，并获取相应的<code>socket</code>以及地址信息</li>
+<li>开启线程来获取客户端请求<code>recv()</code>方法(每次最多接收1024个字节)，以及作出相应的响应<code>send()</code>方法</li>
+<li>保持连接状态，直到客户端发送<code>exit</code>消息或者客户端关闭连接</li>
+</ol>
+<p>在客户端程序上，套接字实例化后的任务为：</p>
+<ol>
+<li>通过<code>connect()</code>方法连接服务器：<code>127.0.0.1:9000</code></li>
+<li>当控制台有输入内容且不是<code>exit</code>的时候，向服务器发送输入内容</li>
+<li>使用<code>recv()</code>方法，接收服务器返回的消息，每次最多接收1024字节</li>
+</ol>
+<p>有关socket的内容详见<a href="https://docs.python.org/2/library/socket.html?highlight=socket#module-socket">官方文档</a>。</p>
+<h3>3. TCP连接过程</h3>
+<p>TCP通过套接字进行连接，为了保证连接的可靠性，需要进行<strong>三次握手</strong>:</p>
+<ol>
+<li>客户端发送一个建立连接的请求<code>SYN</code>(Synchronize)数据包，并处于<code>SYN_SENT</code>状态；</li>
+<li>出于<code>LISTEN</code>状态的服务器端接受到<code>SYN</code>包，并且返回<code>ACK</code>(Acknowledge)确认应答以及<code>SYN</code>包请求建立连接，并出于<code>SYN_RECV</code>状态，等待客户端返回<code>ACK</code>；</li>
+<li>客户端收到服务器端返回的<code>ACK</code>以及<code>SYN</code>，收到<code>ACK</code>进入待命状态<code>ESTABLISHED</code>，对<code>SYN</code>返回<code>ACK</code>确认包；</li>
+<li>服务器端收到<code>ACK</code>并且进入待命状态<code>ESTABLISHED</code>，三次握手成功；</li>
+</ol>
+<p>这个过程非常有趣，博弈论里有一个著名的协同攻击难题，是格莱斯（J. Gray）于1978年提出的:</p>
+<blockquote>
+<p>有两个将军占据两个山头等候敌人，将军A得到情报敌人刚刚到达，立足未稳，如果两军一起进攻，就能获得胜利，而如果只有一方进攻的话，就会失败。于是将军A遇到一个难题：如何与将军B协同进攻？当时没有电报，只能派出通信兵。将军A派出通信兵告诉将军B：黎明一起进攻！但是情报员在中途可能会失踪或者被抓捕，将军A并不能确定将军B是否收到了消息。然而事实上情报员回来了，但是将军A又陷入了困境：他不知道将军B知不知道情报员已经回来了。于是将军A又派情报员去将军B那里，但是这次还是不能确定情报员一定能够达。</p>
+</blockquote>
+<p>格莱斯提出这个问题，并且被证明无论该情报员来回多少次都不能让将军一起进攻，原因是黎明前一起进攻这件事情无法形成公共知识。</p>
+<p>那么在TCP连接的的第三步，客户端其实也无法确保服务端可以收到来自客户端的<code>ACK</code>确认包，这个包可能会产生丢包，服务器就无法从<code>SYN_RECV</code>状态进入到<code>ESTABLISHED</code>状态，当服务器等待获取的时间大于<code>重发超时</code>时间时，会尝试重新发送<code>SYN</code>以及<code>ACK</code>包，当时间超过<code>SYN Timeout</code>时间后，本次连接失败。</p>
+<p>建立连接之后，为了保证数据可靠性，TCP协议还需要在传输的过程中进行一些工作来保证数据的可靠性：</p>
+<ol>
+<li>客户端给服务器端发送数据时，会添加一个首部字段，该字段包含发送数据的编号以及数据的长度信息；</li>
+<li>服务器端接收客户端发来的数据，检查首部字段是否已经被接收，以及数据长度是否一致，并且返回确认或者不确认的应答；</li>
+<li>客户端等待接收服务器端的应答，如果收到不确认的应答或者超过<code>重发超时</code>的时间(1s的整数倍)，则重新发送之前的数据；</li>
+</ol>
+<p>在数据传输以及确认应答的过程中，完成数据的传输，由于上述三个步骤的保证，在传输过程中，即使出现丢包(发送时丢包或者确认应答丢包)，都可以保证数据的准确性。</p>
+<p>同样的，在完成连接传输之后，切断连接也需要进行握手，客户端发送<code>FIN</code>的切断连接请求，而客户端则需要分别发送两个包：<code>ACK</code>和<code>FIN</code>(因为一旦切断确认就不能发送切断请求了，和连接时有所不同)，然后客户端再次发送<code>ACK</code>确认切断连接。</p>
+<p>也就是说，一次正常完整的TCP连接，除了发送的数据之外，需要额外的<strong>7</strong>个数据包才能完成。</p>
+<p>更多协议细节可以参考<em>《图解TCP/IP》</em>中的内容。</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="tcpipxie-yi-ji-pythonshi-xian" data-title="TCP/IP协议及Python实现" data-url="www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'tcpipxie-yi-ji-pythonshi-xian', 'TCP/IP协议及Python实现' , 'www.lyon0804.com/tcpipxie-yi-ji-pythonshi-xian.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2016 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

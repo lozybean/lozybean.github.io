@@ -1,0 +1,667 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>JavaScript基础梳理 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="www.lyon0804.com/javascriptji-chu-shu-li.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="javascript" />
+        <meta name="description" content="学习环境 浏览器: Safari(9.0.1); 使用Nginx配置最简单的web服务器; 使用vim编辑js文件,并通过html网页显示运行结果; function print(str){ document.write(&#39;&lt;p&gt;&#39; + str + &#39;&lt;/p&gt;&#39;) } 基本变量类型 通过typeof操作符可以查看变量的类型; JavaScript使用动态类型; 变量类型分基本类型和引用类型; 基本数据类型包括:Undefined、Null、Boolean、Number、String, 这五种基本数据类型是按值访问的, 并且不可以给这些类型添加属性; 复制基本数据类型时, 复制前后的两个变量保持独立; 引用数据类型即对象Object, 引用类型的值按照引用访问, 复制一个对象时, 仅仅是复制其引用地址, 复制前后的两个变量使用相同的内存, 其中一个对象属性的改变将影响另外一个对象; 通过isinstanceof操作符可以判断具体的对象类型; Undefined 该类型只有一个值: undefined; 已经声明但是未定义的变量; 检查一个变量类型是否为undefined ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="JavaScript基础梳理"/>
+        <meta property="og:url" content="www.lyon0804.com/javascriptji-chu-shu-li.html"/>
+        <meta property="og:description" content="学习环境 浏览器: Safari(9.0.1); 使用Nginx配置最简单的web服务器; 使用vim编辑js文件,并通过html网页显示运行结果; function print(str){ document.write(&#39;&lt;p&gt;&#39; + str + &#39;&lt;/p&gt;&#39;) } 基本变量类型 通过typeof操作符可以查看变量的类型; JavaScript使用动态类型; 变量类型分基本类型和引用类型; 基本数据类型包括:Undefined、Null、Boolean、Number、String, 这五种基本数据类型是按值访问的, 并且不可以给这些类型添加属性; 复制基本数据类型时, 复制前后的两个变量保持独立; 引用数据类型即对象Object, 引用类型的值按照引用访问, 复制一个对象时, 仅仅是复制其引用地址, 复制前后的两个变量使用相同的内存, 其中一个对象属性的改变将影响另外一个对象; 通过isinstanceof操作符可以判断具体的对象类型; Undefined 该类型只有一个值: undefined; 已经声明但是未定义的变量; 检查一个变量类型是否为undefined ..."/>
+        <meta property="article:published_time" content="2015-11-09" />
+            <meta property="article:section" content="Learning" />
+            <meta property="article:tag" content="javascript" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="www.lyon0804.com/" class="navbar-brand">
+<img src="www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="www.lyon0804.com/category/bioimformatics.html">Bioimformatics</a>
+                        </li>
+                        <li class="active">
+                            <a href="www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="www.lyon0804.com/javascriptji-chu-shu-li.html"
+                       rel="bookmark"
+                       title="Permalink to JavaScript基础梳理">
+                        JavaScript基础梳理
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-11-09T00:00:00+08:00"> Mon 09 November 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="www.lyon0804.com/tag/javascript.html">javascript</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>学习环境</h2>
+<ol>
+<li>浏览器: Safari(9.0.1);</li>
+<li>使用Nginx配置最简单的web服务器;</li>
+<li>使用vim编辑js文件,并通过html网页显示运行结果;</li>
+</ol>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">){</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="nx">str</span> <span class="o">+</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>基本变量类型</h2>
+<p>通过<code>typeof</code><strong>操作符</strong>可以查看变量的类型; JavaScript使用动态类型;</p>
+<p>变量类型分基本类型和引用类型;</p>
+<p>基本数据类型包括:<code>Undefined</code>、<code>Null</code>、<code>Boolean</code>、<code>Number</code>、<code>String</code>, 这五种基本数据类型是按值访问的, 并且不可以给这些类型添加属性; 复制基本数据类型时, 复制前后的两个变量保持独立;</p>
+<p>引用数据类型即对象<code>Object</code>, 引用类型的值按照引用访问, 复制一个对象时, 仅仅是复制其引用地址, 复制前后的两个变量使用相同的内存, 其中一个对象属性的改变将影响另外一个对象; 通过<code>isinstanceof</code>操作符可以判断具体的对象类型;</p>
+<h3>Undefined</h3>
+<p>该类型只有一个值: <code>undefined</code>; 已经声明但是未定义的变量; 检查一个变量类型是否为<code>undefined</code>可以判断该变量是否被声明或者已经定义;</p>
+<h3>Null</h3>
+<p>Null类型也只有一个值: <code>null</code>;表示空对象的指针,使用<code>typeof</code>检查<code>null</code>的类型时,会返回<code>object</code>;</p>
+<h3>Boolean</h3>
+<p>该类型有两个值:<code>true</code>和<code>false</code>;任何非空字符串、非零数字值、任何对象、n/a都会认为是<code>true</code>;空字符串、0和NaN、null、undefined将被认为是<code>false</code>;</p>
+<h3>Number</h3>
+<p>该类型包含十进制整数、八进制整数、十六进制整数、浮点数、NaN等;</p>
+<p>浮点数使用二进制浮点数(IEEE754),存在误差问题; 数值范围在<code>Number.MIN_VALUE</code>和<code>Number.MAX_VALUE</code>之间,超过下限的转换为<code>-Infinity</code>,超过上限的转换为<code>Infinity</code>;</p>
+<p>NaN表示一个非数值, 任何NaN参与的运算结果都为NaN, <code>0/0 == NaN</code>, 将一个变量转换为数值但是无法转换时, 将得到NaN: <code>Number('NO') == NaN</code>;</p>
+<p>使用<code>Number()</code>、<code>parseInt()</code>、<code>parseFloat()</code>这三个函数可以将非数值转换为数值;</p>
+<p>其中<code>Number()</code>转换规则为:</p>
+<ol>
+<li>如果是数值则直接返回;</li>
+<li>如果是Boolean类型, 则true返回1，false返回0;</li>
+<li>如果是null, 返回0;</li>
+<li>如果是undefined, 返回NaN;</li>
+<li>如果是字符串, 如果是空字符串, 返回0; 如果只包含数字, 返回该数字, 并忽略前面的0; 如果包含十六进制格式, 返回对应十进制值;其他字符串返回NaN;</li>
+<li>如果是对象, 则调用<code>valueOf()</code>方法, 再依照前面的规则转换;</li>
+</ol>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">){</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;p&gt;&#39;</span> <span class="o">+</span> <span class="nx">str</span> <span class="o">+</span> <span class="s1">&#39;&lt;/p&gt;&#39;</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">testNumber</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">Number</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">testNumber</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>             <span class="c1">//10</span>
+<span class="nx">testNumber</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>           <span class="c1">//0</span>
+<span class="nx">testNumber</span><span class="p">(</span><span class="kc">undefined</span><span class="p">);</span>      <span class="c1">//NaN</span>
+<span class="nx">testNumber</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span>             <span class="c1">//0</span>
+<span class="nx">testNumber</span><span class="p">(</span><span class="s2">&quot;01243.3aa&quot;</span><span class="p">);</span>    <span class="c1">//NaN</span>
+<span class="nx">testNumber</span><span class="p">(</span><span class="s2">&quot;01243.3&quot;</span><span class="p">);</span>      <span class="c1">//1243.3</span>
+<span class="nx">testNumber</span><span class="p">(</span><span class="s2">&quot;0x13a&quot;</span><span class="p">);</span>        <span class="c1">//314</span>
+</pre></div>
+
+
+<p>如果是处理整数或者浮点数, 应该使用更好的<code>parseInt()</code>和<code>parseFloat()</code>函数:</p>
+<ol>
+<li>parseInt()转换字符串时, 从字符串开头开始转换, 直到遇到非数字字符; parseFloat()类似;</li>
+<li>当parseFloat()返回的是整数时, 则返回一个整数;</li>
+<li>parseInt()可以指定第二个参数表示转换时的基数;</li>
+<li>对空字符串返回NaN;</li>
+</ol>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">testParseInt</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span><span class="nx">base</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">obj</span><span class="p">,</span><span class="nx">base</span><span class="p">);</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">testParseFloat</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">n</span> <span class="o">=</span> <span class="nb">parseFloat</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">testParseInt</span><span class="p">(</span><span class="kc">null</span><span class="p">);</span>             <span class="c1">//NaN</span>
+<span class="nx">testParseInt</span><span class="p">(</span><span class="kc">undefined</span><span class="p">);</span>        <span class="c1">//NaN</span>
+<span class="nx">testParseInt</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span>               <span class="c1">//NaN</span>
+<span class="nx">testParseInt</span><span class="p">(</span><span class="s2">&quot;0012&quot;</span><span class="p">);</span>           <span class="c1">//12</span>
+<span class="nx">testParseInt</span><span class="p">(</span><span class="s2">&quot;01243.3aa&quot;</span><span class="p">,</span><span class="mi">8</span><span class="p">);</span>    <span class="c1">//675</span>
+<span class="nx">testParseInt</span><span class="p">(</span><span class="s2">&quot;0x13a&quot;</span><span class="p">,</span><span class="mi">16</span><span class="p">);</span>       <span class="c1">//314</span>
+<span class="nx">testParseFloat</span><span class="p">(</span><span class="s2">&quot;0.2131&quot;</span><span class="p">);</span>       <span class="c1">//0.2131</span>
+<span class="nx">testParseFloat</span><span class="p">(</span><span class="s2">&quot;1231ab&quot;</span><span class="p">);</span>       <span class="c1">//1231</span>
+</pre></div>
+
+
+<h3>String</h3>
+<p>String类型表示由0个或者多个16位unicode字符组成的字符串; 可以由<code>" "</code>或者<code>' '</code>表示;</p>
+<p>字符串是不可变对象, 改变某个字符串必须先销毁再创建;</p>
+<p>字符串使用<code>+</code>拼接, 访问其<code>length</code>属性返回长度;</p>
+<p>通过任何类型(除了<code>null</code>和<code>undefined</code>)都有的<code>toString()</code>方法可以转换为字符串; 或者通过<code>String()</code>函数可以将一个变量转为字符串, 该方法会将<code>null</code>和<code>undefined</code>以字符串形式返回, 其他类型则调用<code>toString()</code>方法;</p>
+<h3>Object</h3>
+<p>对象是一组数据和功能的集合, 通过<code>new Object()</code>来创建一个对象; 使用<code>.</code>来访问对象的属性和方法, 或者使用<code>[ ]</code>下标来访问会引发编译错误的属性名称;</p>
+<p><code>Object</code>类型作为所有对象的基本基础, 所有的对象都拥有该对象的属性方法, 包括:</p>
+<ul>
+<li><code>constructor</code>: 该属性保存用于创建该对象的构造函数;</li>
+<li><code>hasOwnProperty(propertyName)</code>: 检查指定的属性是否在当前对象中存在, 参数以字符串形式传入;</li>
+<li><code>isPrototypeOf(object)</code>: 检查传入的对象是否是传入对象的原型;</li>
+<li><code>propertyIsEnumerable(propertyName)</code>: 检查该属性是否能够使用<code>for-in</code>语句枚举;</li>
+<li><code>toLocaleString()</code>: 返回对象的字符串表示, 与执行环境的地区对应;</li>
+<li><code>toString()</code>: 返回对象的字符串表示;</li>
+<li><code>valueOf()</code>: 返回对象的字符串、数值、布尔值表示, 通常和toString()的返回值相同;</li>
+</ul>
+<h2>操作符</h2>
+<ol>
+<li><code>++</code>、<code>--</code>等操作符和C语言相同;</li>
+<li><code>+</code>操作符会将变量转换(使用<code>Number()</code>转换)为数值, <code>-</code>操作符在将变量转换为数值的基础上取负数;</li>
+<li><code>~</code>按位非、<code>|</code>按位或、<code>&amp;</code>按位与、<code>^</code>按位异或、<code>&lt;&lt;</code>左移、<code>&gt;&gt;</code>右移、<code>&gt;&gt;&gt;</code>无符号右移等和C语法类似;</li>
+<li><code>!</code>逻辑非、<code>&amp;&amp;</code>逻辑与、<code>||</code>逻辑非等和习惯用法相同;</li>
+<li>加性操作符<code>+</code>: 如果有字符串则按照字符串连接, 否则先转换为数值再相加;</li>
+<li>加性操作符<code>-</code>: 先转换为数值在做减法, 如果是对象则调用<code>valueOf()</code>方法, 如果没有则调用<code>toString()</code>先转为字符串;</li>
+<li>乘性操作符: <code>*</code>、<code>/</code>、<code>%</code>都先将操作数转为数值再进行计算;</li>
+<li>比较操作符: <code>&gt;</code>、<code>&gt;=</code>、<code>&lt;</code>、<code>&lt;=</code>: 如果有字符串, 则执行字符串比较, 否则转为数值比较;</li>
+<li>相等操作符: <code>==</code>、<code>===</code>, 前者不判断类型是否相同, 后者将比较类型; <code>!=</code>表示不相等;</li>
+<li>三目操作符: <code>? :</code>, 赋值操作符等都和常规使用类似;</li>
+</ol>
+<p>数值计算时将使用以下规则:</p>
+<ol>
+<li>如果有NaN, 则结果为NaN;</li>
+<li>如果有Infinity, 则按照以下规则进行;</li>
+</ol>
+<div class="highlight"><pre><span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>                <span class="c1">//Infinity</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">*</span> <span class="mi">0</span><span class="p">);</span>                <span class="c1">//NaN</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>               <span class="c1">//-Infinity</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">*</span> <span class="mi">2</span><span class="p">);</span>                <span class="c1">//Infinity</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">*</span> <span class="kc">Infinity</span><span class="p">);</span>     <span class="c1">//Infinity</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">/</span> <span class="mi">0</span><span class="p">);</span>                <span class="c1">//Infinity</span>
+<span class="nx">print</span><span class="p">(</span><span class="o">-</span><span class="kc">Infinity</span> <span class="o">/</span> <span class="mi">0</span><span class="p">);</span>               <span class="c1">//-Infinity</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">/</span> <span class="kc">Infinity</span><span class="p">);</span>     <span class="c1">//NaN</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">+</span> <span class="kc">Infinity</span><span class="p">);</span>     <span class="c1">//Infinity</span>
+<span class="nx">print</span><span class="p">(</span><span class="kc">Infinity</span> <span class="o">+</span> <span class="o">-</span><span class="kc">Infinity</span><span class="p">);</span>        <span class="c1">//Nan</span>
+</pre></div>
+
+
+<h2>语句</h2>
+<p><code>if</code>、<code>for</code>、<code>while</code>、<code>do-while</code>等和一般规则相同;</p>
+<p><code>for-in</code>语句用来对可迭代对象进行枚举,相当于<code>foreach</code>等相关语句, 其语法为: <code>for ( var property in iterable )</code>;</p>
+<p><code>label</code>语句: 用于循环控制中<code>break</code>和<code>continue</code>跳转的位置, 和<code>Java</code>中的特性相同, 只能用于循环跳转, 是弱化的<code>TODO</code>;</p>
+<p><code>with</code>语句: 将某段代码的作用域置于一个特定对象中, 如:</p>
+<div class="highlight"><pre><span class="nx">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">()</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="s1">&#39;xiaoming&#39;</span><span class="p">;</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="mi">16</span><span class="p">;</span>
+<span class="kd">with</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">name</span><span class="p">);</span>        <span class="c1">// xiaoming</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">age</span><span class="p">);</span>     <span class="c1">// 16</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><code>switch</code>语句和C语言中类似, 每个statment后面需要有<code>break</code>退出, 否则将合并多个条件执行;</p>
+<h2>函数</h2>
+<p>使用<code>function</code>关键字声明函数;函数名不可以是<code>eval</code>和<code>arguments</code>;</p>
+<p>函数的参数通过<code>arguments</code>对象来传递, 同时也可以指定参数, 但是不能出现同名的命名参数;</p>
+<p>函数在传递参数时, 是按值传递的, 基本类型和引用类型的传递和对应的复制操作一样, 即基本数据类型传入独立的变量, 引用数据类型传入地址; 和Python中的表现基本相同;</p>
+<h2>作用域</h2>
+<p>JavaScript的作用域表现和Python类似, 将按照作用域链逐级搜索标识符;</p>
+<p>通过<code>with</code>语句可以为代码块添加作用域; 通过<code>try-catch</code>语句可以延长作用域到catch语句块;</p>
+<p>没有块级作用域, 即在<code>if</code>、<code>for</code>等语句中定义的变量将会添加到最近的环境中, 在一个函数中, 最接近的环境就是函数的局部环境, 在with语句中, 最接近的环境是函数环境, 在顶级作用域中, 最接近的环境是全局环境. 没有使用<code>var</code>申明的变量将进入全局环境. 如:</p>
+<div class="highlight"><pre><span class="k">if</span><span class="p">(</span><span class="kc">true</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>       <span class="c1">// 10</span>
+<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">10</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+
+<span class="p">}</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>       <span class="c1">// 10</span>
+<span class="kd">function</span> <span class="nx">foo</span><span class="p">(){</span>
+    <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">//print(f);  无法访问</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+<span class="kd">function</span> <span class="nx">foo</span><span class="p">(){</span>
+    <span class="kd">with</span><span class="p">(</span><span class="nx">obj</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">f</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">f</span><span class="p">);</span>  <span class="c1">// 10</span>
+<span class="p">}</span>
+<span class="nx">foo</span><span class="p">();</span>
+</pre></div>
+
+
+<h2>引用类型</h2>
+<h3>Object</h3>
+<p>大多数引用类型都是Object类型的实例, 通过两种方式可以创建一个Object对象:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{};</span>
+</pre></div>
+
+
+<p>同时也可以使用<code>.</code>或者<code>[ ]</code>来访问某个属性, 一般使用<code>.</code>访问属性, 当属性名称包含空格等可能引起编译错误的问题时, 使用<code>[ ]</code>下标访问该属性;</p>
+<h3>Array</h3>
+<p>JavaScript中使用Array类型来表示一个数组, 数组元素可以包含不同类型的值, 并且没有数组大小的限制, 数组大小会动态调整, 数组的表现和Perl中的数组类似, 但是提供更多的方法;</p>
+<p>通过两种方式可以创建一个数组:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+</pre></div>
+
+
+<p>访问未定义的元素将返回<code>undefined</code>, 对超过数组长度元素进行赋值将自动扩展数组长度;</p>
+<p>使用<code>Array.isArray()</code>方法可以检查一个值是不是数组, 并且不管该值在哪个全局环境下创建;</p>
+<p>数组的<code>toString()</code>方法和<code>toLocaleString()</code>方法会对每个元素调用相应的方法, 并且用<code>,</code>连接成字符串; 使用<code>join()</code>方法可以指定连接符;</p>
+<p>数组中的<code>pop()</code>、<code>push()</code>、<code>shift()</code>、<code>unshift()</code>四个方法和Perl语言中的表现一致, 但是从函数变为数组的方法, <code>push()</code>、<code>unshift()</code>允许一次传入多个值;</p>
+<p>数组中的<code>sort()</code>方法默认使用字符串排序, 通过传入比较函数改变排序规则;</p>
+<p>支持切片<code>slice()</code>以及<code>splice()</code>方法;</p>
+<p><code>splice()</code>方法可以接收2个或者以上参数, 其中第一个参数表示起始位置, 第二个参数表示要删除的项数, 第三个参数开始表示插入的元素;</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;red&#39;</span><span class="p">,</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span><span class="s1">&#39;green&#39;</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">48</span><span class="p">,</span><span class="kc">true</span><span class="p">];</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>  <span class="c1">// red,blue,green,13,48,true</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>  <span class="c1">// red</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>  <span class="c1">// 6</span>
+<span class="k">if</span><span class="p">(</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">isArray</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span> <span class="p">){</span>
+    <span class="nx">print</span><span class="p">(</span><span class="s1">&#39;array is Array&#39;</span><span class="p">);</span>  <span class="c1">// array is Array</span>
+<span class="p">}</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">&quot;##&quot;</span><span class="p">));</span>  <span class="c1">// red##blue##green##13##48##true</span>
+<span class="nx">array</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">&#39;tail&#39;</span><span class="p">);</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>    <span class="c1">// red,blue,green,13,48,true,tail</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">pop</span><span class="p">());</span>  <span class="c1">// tail</span>
+<span class="nx">array</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">);</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>  <span class="c1">// head,red,blue,green,13,48,true</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">shift</span><span class="p">());</span>  <span class="c1">// head</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">sort</span><span class="p">());</span>  <span class="c1">// 13,48,blue,green,red,true</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">reverse</span><span class="p">());</span> <span class="c1">// true,red,green,blue,48,13</span>
+<span class="kd">function</span> <span class="nx">cmp</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">){</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">a</span> <span class="o">&lt;</span> <span class="nx">b</span><span class="p">){</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">a</span> <span class="o">&gt;</span> <span class="nx">b</span><span class="p">){</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="p">}</span><span class="k">else</span><span class="p">{</span>
+        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="nx">cmp</span><span class="p">));</span>  <span class="c1">// true,blue,green,red,13,48</span>
+<span class="nx">array</span> <span class="o">=</span> <span class="nx">array</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="s1">&#39;value&#39;</span><span class="p">,[</span><span class="s1">&#39;a1&#39;</span><span class="p">,</span><span class="s1">&#39;a2&#39;</span><span class="p">],</span><span class="s1">&#39;value2&#39;</span><span class="p">);</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">);</span>  <span class="c1">// true,blue,green,red,13,48,value,a1,a2,value2</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">5</span><span class="p">));</span> <span class="c1">// 48,value,a1,a2,value2</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">// blue,green</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="s1">&#39;false&#39;</span><span class="p">))</span> <span class="c1">// true</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">)</span> <span class="c1">// false,blue,green,red,13,48,value,a1,a2,value2</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">array</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;blue&#39;</span><span class="p">))</span>  <span class="c1">// 1</span>
+</pre></div>
+
+
+<p>数组支持以下迭代方法, 其中给定的函数需要接收三个参数: 数组项的值、该项在数组中的位置、数组本身;</p>
+<ul>
+<li><code>every()</code>: 对数组的每一项运行给定函数, 当所有项都返回true时, 返回true;</li>
+<li><code>some()</code>: 对数组的每一项运行给定函数, 当其中有一个返回true时, 即返回true;</li>
+<li><code>filter()</code>: 对数组的每一项运行给定函数, 并返回能够返回true的项组成的数组;</li>
+<li><code>forEach()</code>: 对数组的每一项运行给定函数, 不返回内容;</li>
+<li><code>map()</code>: 对数组的每一项运行给定函数, 并返回函数返回结果组成的数组;</li>
+</ul>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">test_iter</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
+    <span class="k">return</span><span class="p">(</span> <span class="nx">item</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">];</span>
+<span class="nx">print</span><span class="p">(</span> <span class="nx">array</span><span class="p">.</span><span class="nx">every</span><span class="p">(</span><span class="nx">test_iter</span><span class="p">)</span> <span class="p">)</span>  <span class="c1">// false</span>
+<span class="nx">print</span><span class="p">(</span> <span class="nx">array</span><span class="p">.</span><span class="nx">some</span><span class="p">(</span><span class="nx">test_iter</span><span class="p">)</span> <span class="p">)</span>  <span class="c1">// true</span>
+<span class="nx">print</span><span class="p">(</span> <span class="nx">array</span><span class="p">.</span><span class="nx">filter</span><span class="p">(</span><span class="nx">test_iter</span><span class="p">)</span> <span class="p">)</span>  <span class="c1">// 5,3,4,6,3,4,5</span>
+<span class="nx">array</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span><span class="nx">index</span><span class="p">,</span><span class="nx">array</span><span class="p">){</span>
+    <span class="nx">print</span><span class="p">(</span> <span class="nx">index</span> <span class="o">+</span> <span class="s1">&#39;,&#39;</span> <span class="o">+</span> <span class="nx">item</span> <span class="p">)</span>   <span class="c1">//</span>
+<span class="p">});</span>
+<span class="nx">print</span><span class="p">(</span> <span class="nx">array</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">item</span><span class="p">,</span><span class="nx">index</span><span class="p">,</span><span class="nx">array</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">item</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
+<span class="p">})</span> <span class="p">);</span>   <span class="c1">// 2,10,6,8,12,4,2,6,8,10</span>
+</pre></div>
+
+
+<p>以及<code>reduce()</code>方法和一个从右侧开始的版本<code>reduceRight()</code>, 该方法传入的函数需要指定4个参数: 前一项, 当前项, 索引值, 数组本身, 该方法对数组做一个归并操作, 返回值将赋值给当前变量, 然后在下一个循环中作为前一项参与运算:</p>
+<div class="highlight"><pre><span class="nx">print</span><span class="p">(</span> <span class="nx">array</span><span class="p">.</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">prev</span><span class="p">,</span><span class="nx">cur</span><span class="p">,</span><span class="nx">index</span><span class="p">,</span><span class="nx">array</span><span class="p">){</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">prev</span><span class="p">);</span> <span class="c1">// 查看内部运算细节</span>
+    <span class="k">return</span> <span class="nx">prev</span> <span class="o">+</span> <span class="nx">cur</span><span class="p">;</span>  <span class="c1">// 34</span>
+<span class="p">})</span> <span class="p">);</span>
+</pre></div>
+
+
+<p>相比python的<code>map()</code>和<code>reduce()</code>, JavaScript中的这两个方法暴露更加丰富的细节, 也更加容易理解;</p>
+<h3>Date</h3>
+<p>Date类型主要用于时间和日期的处理, 和其他语言不同的是, 不同的浏览器对日期的处理会很不一样, 但是基本方式大同小异;</p>
+<p>Date类可以通过两种方式实例化:</p>
+<ul>
+<li>通过传入Unix时间戳(从1970前开始的毫秒数)来实例化;</li>
+<li>Date.parse()方法可以从一个特定格式字符串来解析出时间戳;</li>
+<li>Date.UTC()通过依次传入:年份、基于0的月份、基于1的天数、小时数、分钟、秒、毫秒等值来获取时间戳, 注意该时间是GMT时间, 前两个参数为必须;</li>
+<li>Date.now()获取调用该方法时的时间戳;</li>
+<li>通过依次传入和UTC()方法的参数, 可以直接通过Date()实例化, 此时, 使用的时间是当地时间;</li>
+</ul>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="s1">&#39;Nov 9 2015&#39;</span><span class="p">));</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">);</span>  <span class="c1">// Mon Nov 09 2015 00:00:00 GMT+0800 (CST)</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">());</span> <span class="c1">// 2015年11月9日 GMT+8 00:00:00</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">valueOf</span><span class="p">());</span> <span class="c1">// 1446998400000</span>
+<span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">UTC</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">));</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">);</span> <span class="c1">// Mon Nov 09 2015 08:00:00 GMT+0800 (CST)</span>
+<span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">())</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">);</span> <span class="c1">// Thu Nov 12 2015 22:39:07 GMT+0800 (CST)</span>
+<span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="mi">2015</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">9</span><span class="p">);</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">);</span> <span class="c1">// Mon Nov 09 2015 00:00:00 GMT+0800 (CST)</span>
+</pre></div>
+
+
+<p>Date()对象的两种字符串方法: <code>toString()</code>, <code>toLocaleString()</code>在不同浏览器中返回的格式并不相同, 默认使用的<code>toString()</code>方法返回GMT格式, <code>toLocaleString()</code>则会显示浏览器设置的地区相适应的格式, <code>valueOf()</code>方法返回时间戳, 该值可以用来比较两个时间的大小;</p>
+<p>日期类型有许多格式化方法以及获取时间组件的方法, 以下举一些例子:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(</span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">());</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">toDateString</span><span class="p">());</span> <span class="c1">// Thu Nov 12 2015</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">toTimeString</span><span class="p">());</span> <span class="c1">// 22:52:04 GMT+0800 (CST)</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getFullYear</span><span class="p">());</span> <span class="c1">// 2015</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getMonth</span><span class="p">());</span> <span class="c1">// 10</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getDay</span><span class="p">());</span> <span class="c1">// 4</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getHours</span><span class="p">());</span> <span class="c1">// 22</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">date</span><span class="p">.</span><span class="nx">getMinutes</span><span class="p">());</span> <span class="c1">// 52</span>
+<span class="c1">// More</span>
+</pre></div>
+
+
+<h3>RegExp</h3>
+<p>JavaScript中的正则和Perl非常相似, 可以使用和Perl一样的格式生成正则表达式, 也可以用RegExp()来生成, 但是既然支持Perl里生动的写法, 甚至沿用Perl里的若干魔术变量, 对比Perl只是缺少一些较少使用的功能, 感觉非常强大！</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">string</span> <span class="o">=</span> <span class="s1">&#39;Thu 2015-11-13 00:18:14&#39;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">reg</span> <span class="o">=</span> <span class="sr">/thu+\s+\b(\d{4})-(\d{1,2})-(\d{1,2})\b/i</span><span class="p">;</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">reg</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">));</span>  <span class="c1">// Thu 2015-11-13,2015,11,13</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">reg</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">string</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>  <span class="c1">// 2015</span>
+<span class="nx">print</span><span class="p">(</span><span class="nb">RegExp</span><span class="p">.</span><span class="nx">$1</span><span class="p">);</span>  <span class="c1">// 2015</span>
+<span class="k">if</span><span class="p">(</span><span class="nx">reg</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">string</span><span class="p">)){</span>
+    <span class="nx">print</span><span class="p">(</span><span class="s2">&quot;this string is matched!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>用Perl的方式写正则就是舒服啊~</p>
+<h3>Function</h3>
+<p>函数也是一种对象, 所以除了使用<code>function</code>关键字后面跟上函数名称来定义函数之外, 也可以使用<code>var foo = function(){}</code>的方式, 或者使用<code>new Function()</code>的方式, 其中最后一个参数为代码块; 不推荐使用第三种方式, 其他两种方式示例为:</p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">sum</span><span class="p">(</span><span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">num1</span> <span class="o">+</span> <span class="nx">num2</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">sum</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">num1</span><span class="p">,</span> <span class="nx">num2</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">num1</span> <span class="o">+</span> <span class="nx">num2</span><span class="p">;</span>
+<span class="p">};</span>
+</pre></div>
+
+
+<p>由于和其他动态语言一样, 函数名只是一个函数对象的指针, 所以并没有重载的概念, 同名函数将直接覆盖已有函数, 也和其他动态语言一样使用松耦合的方式传递参数和返回值; 解释器会先进行函数的申明, 但是具体的表达式则在执行时才会最终确定; 函数同样可以作为一个参数传入到其他函数中, 这些都和其他的动态语言表现一致;</p>
+<p>JavaScript中的函数比较特殊的对象:</p>
+<ul>
+<li><code>argument</code>: 该对象保存函数的所有参数, 具有<code>callee</code>方法, 用来调用拥有该对象的函数本身;</li>
+<li><code>this</code>: 该对象保存调用该函数的对象, 如果没有指定, 则使用全局对象(网页全局域中为<code>window</code>);</li>
+<li><code>caller</code>: 该对象保存调用当前函数的函数的引用, 如果在全局域中, 则为<code>null</code>;</li>
+</ul>
+<div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="o">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">};</span>
+<span class="kd">function</span> <span class="nx">sayColor</span><span class="p">(){</span>
+    <span class="nx">print</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">sayColor</span><span class="p">();</span>  <span class="c1">// red</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">sayColor</span> <span class="o">=</span> <span class="nx">sayColor</span><span class="p">;</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">sayColor</span><span class="p">();</span>  <span class="c1">// blue</span>
+
+<span class="kd">function</span> <span class="nx">outer</span><span class="p">(){</span>
+    <span class="nx">inner</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">function</span> <span class="nx">inner</span><span class="p">(){</span>
+    <span class="nx">print</span><span class="p">(</span><span class="nx">inner</span><span class="p">.</span><span class="nx">caller</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nx">outer</span><span class="p">()</span>
+</pre></div>
+
+
+<p>注意, <code>inner.caller</code>代表一个函数对象, 如果调用该函数会产生死循环;</p>
+<p>函数的其他属性和方法:</p>
+<ul>
+<li><code>length</code>属性: 表示函数希望接收的<strong>命名参数</strong>的个数;</li>
+<li><code>protetype</code>属性: 表示保存该函数的原型;</li>
+<li><code>apply()</code>方法: 用来调用该函数, 需要传入两个参数: 运行函数的作用域、函数参数数组;</li>
+<li><code>call()</code>方法: 用来调用该函数, 需要一个以上参数: 运行函数的作用域、一系列直接传入函数的参数;</li>
+</ul>
+<p>使用<code>apply()</code>和<code>call()</code>可以灵活调整函数的作用域:</p>
+<div class="highlight"><pre><span class="nb">window</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="s1">&#39;red&#39;</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;color&#39;</span><span class="o">:</span> <span class="s1">&#39;blue&#39;</span><span class="p">};</span>
+<span class="kd">function</span> <span class="nx">sayColor</span><span class="p">(){</span>
+    <span class="nx">print</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">color</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">sayColor</span><span class="p">.</span><span class="nx">apply</span><span class="p">(</span><span class="k">this</span><span class="p">,[]);</span>
+<span class="nx">sayColor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nb">window</span><span class="p">);</span>
+<span class="nx">sayColor</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">obj</span><span class="p">);</span>
+</pre></div>
+
+
+<h3>Number</h3>
+<p>和Java中一样, 除了基本类型之外, 还提供了包装类型, 由于使用了堆内存存储, 相比基本类型效率较低, 相比基本类型提供更长的生命周期;</p>
+<p>区分转型函数<code>Number()</code>以及创建引用类型<code>new Number()</code>; 不是必要情况下, 不应该使用<code>new Number()</code>的方式;</p>
+<p>Number类型主要提供以下属性和方法:</p>
+<ul>
+<li><code>toFixed()</code>方法, 接受一个参数用于控制显示的小数位数, 将使用四舍五入的方式取近似值;</li>
+<li><code>toExponential()</code>方法, 接受一个参数用于显示科学计数法显示时的小数位数;</li>
+<li><code>toPrecision()</code>方法, 接受一个参数表示有效数字, 根据有效数字位数选择显示方式;</li>
+</ul>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mf">99.333333</span><span class="p">;</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">num</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>  <span class="c1">// 99.33</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">num</span><span class="p">.</span><span class="nx">toExponential</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>  <span class="c1">// 9.93e+1</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">num</span><span class="p">.</span><span class="nx">toPrecision</span><span class="p">(</span><span class="mi">2</span><span class="p">));</span>  <span class="c1">// 99</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">num</span><span class="p">.</span><span class="nx">toPrecision</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>  <span class="c1">// 1e+2</span>
+</pre></div>
+
+
+<h3>String</h3>
+<p>String包装类型的基本属性和方法有:</p>
+<ul>
+<li><code>charAt()</code>、<code>charCodeAt()</code>、<code>[ ]</code>通过这三种方式可以访问字符串的某个字符; 其中第一个和第三个方法直接返回指定位置的字符, 第二个方法返回字符的编码;</li>
+<li><code>concat()</code>: 接受多个参数, 将参数拼接到字符串后面, 大多数情况下使用<code>+</code>操作符更加方便;</li>
+<li><code>slice()</code>、<code>substr()</code>、<code>substring()</code>通过这三个方法创建子字符串, <code>slice()</code>切片方法和Python中表现相同; <code>substr()</code>接受一个参数时, 表示从该位置开始到字符串末尾的子字符串, 可选第二个参数表示子字符串的长度; <code>substring()</code>方法和<code>slice()</code>方法区别在于会将负数转为<code>0</code>, 并自动使用两个参数中的较小值作为开始;</li>
+<li><code>indexOf()</code>、<code>lastIndexOf()</code>方法用于查找子字符串在字符串中的位置; 可以接受第二个参数表示开始搜索的位置;</li>
+<li><code>trim()</code>: 删除字符串头尾的空白;</li>
+<li><code>toLowerCase()</code>、<code>toUpperCase()</code>等大小写转换方法;</li>
+<li><code>match()</code>、<code>search()</code>、<code>replace()</code>、<code>split()</code>等字符串常用方法使用时, 都支持正则表达式;</li>
+<li><code>localeComopare()</code>: 字符串比较方法, 即Perl中的<code>cmp</code>;</li>
+<li><code>fromCharCode()</code>: 传入一系列编码, 返回组成的字符串;</li>
+</ul>
+<p>下面是一些示例:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">str</span> <span class="o">=</span> <span class="s1">&#39;hello world, it is 2015-11-18 20:29:04 +0800&#39;</span><span class="p">;</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>  <span class="c1">// e</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">charCodeAt</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span>  <span class="c1">// 101</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>  <span class="c1">// e</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="s1">&#39;!&#39;</span><span class="p">));</span>  <span class="c1">// hello world, it is 2015-11-18 20:29:04 +0800!</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">// el</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">// ello world, it is 2015-11-18 20:29:04 +0</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">// ell</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">// 800</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">//</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">// el</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">substring</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">3</span><span class="p">));</span>  <span class="c1">// h</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">);</span>  <span class="c1">// hello world, it is 2015-11-18 20:29:04 +0800</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">));</span>  <span class="c1">// 13</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">lastIndexOf</span><span class="p">(</span><span class="s1">&#39;i&#39;</span><span class="p">));</span>  <span class="c1">// 16</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">trim</span><span class="p">());</span>  <span class="c1">// hello world, it is 2015-11-18 20:29:04 +0800</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">());</span>  <span class="c1">// hello world, it is 2015-11-18 20:29:04 +0800</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">toUpperCase</span><span class="p">());</span>  <span class="c1">// HELLO WORLD, IT IS 2015-11-18 20:29:04 +0800</span>
+
+<span class="kd">var</span> <span class="nx">pattern</span> <span class="o">=</span> <span class="sr">/it is (\d{4}-\d{1,2}-\d{1,2})/</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">matches</span> <span class="o">=</span> <span class="nx">str</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">pattern</span><span class="p">);</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>  <span class="c1">//  it is 2015-11-18</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">matches</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>  <span class="c1">//  2015-11-18</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">matches</span><span class="p">.</span><span class="nx">index</span><span class="p">);</span>  <span class="c1">// 13</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">search</span><span class="p">(</span><span class="nx">pattern</span><span class="p">));</span>  <span class="c1">// 13</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="nx">pattern</span><span class="p">,</span> <span class="s2">&quot;$1&quot;</span><span class="p">));</span>  <span class="c1">// hello world, 2015-11-18 20:29:04 +0800</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">str</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="sr">/\s+/</span><span class="p">));</span>  <span class="c1">// hello,world,,it,is,2015-11-18,20:29:04,+0800</span>
+<span class="kd">function</span> <span class="nx">htmlEscape</span><span class="p">(</span><span class="nx">text</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nx">text</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/[&lt;&gt;&quot;&amp;]/g</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">match</span><span class="p">,</span> <span class="nx">pos</span><span class="p">,</span> <span class="nx">originalText</span><span class="p">){</span>
+        <span class="k">switch</span> <span class="p">(</span><span class="nx">match</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="s1">&#39;&lt;&#39;</span><span class="o">:</span>
+                <span class="k">return</span> <span class="s2">&quot;&amp;lt;&quot;</span><span class="p">;</span>
+            <span class="k">case</span> <span class="s1">&#39;&gt;&#39;</span><span class="o">:</span>
+                <span class="k">return</span> <span class="s2">&quot;&amp;gt;&quot;</span><span class="p">;</span>
+            <span class="k">case</span> <span class="s1">&#39;&amp;&#39;</span><span class="o">:</span>
+                <span class="k">return</span> <span class="s2">&quot;&amp;amp;&quot;</span><span class="p">;</span>
+            <span class="k">case</span> <span class="s1">&#39;&quot;&#39;</span><span class="o">:</span>
+                <span class="k">return</span> <span class="s2">&quot;&amp;quot;&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">});</span>
+<span class="p">}</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">htmlEscape</span><span class="p">(</span><span class="s1">&#39;&lt;p class=&quot;paragraph&quot;&gt; Hello world! &lt;/p&gt;&#39;</span><span class="p">))</span>  <span class="c1">// &lt;p class=&quot;paragraph&quot;&gt; Hello world! &lt;/p&gt;</span>
+</pre></div>
+
+
+<p>最后使用之前定义的<code>print</code>函数会再次将内容做转换;</p>
+<h3>Global</h3>
+<p>不属于任何其他对象的属性和方法都是全局对象的属性和方法, 许多不需要其他对象便可以使用的函数都是全局对象的方法, 在全局作用域中定义的函数和变量也是全局对象的方法和属性; 在浏览器中, 一般将全局对象作为<code>window</code>对象的一部分加以实现, 即全局对象的属性和方法都是<code>window</code>对象的属性和方法</p>
+<p>全局变量主要有以下常用属性和方法:</p>
+<ul>
+<li><code>encodeURL()</code>、<code>encodeURLComponent()</code>方法用于URL的编码;</li>
+<li><code>eval()</code>方法用于执行某段字符串表示的代码, 慎用该方法, 避免<strong>代码注入攻击</strong>;</li>
+</ul>
+<h3>Math</h3>
+<p>Math对象提供一些简单的数学功能, 包括一些常用的常量以及常用计算方法, 如Math.E、Math.PI、min()、ceil()、floor()、round()、random()、sin()、sqrt()等等;</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="javascriptji-chu-shu-li" data-title="JavaScript基础梳理" data-url="www.lyon0804.com/javascriptji-chu-shu-li.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'javascriptji-chu-shu-li', 'JavaScript基础梳理' , 'www.lyon0804.com/javascriptji-chu-shu-li.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2016 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

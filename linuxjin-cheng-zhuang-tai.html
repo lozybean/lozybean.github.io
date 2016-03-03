@@ -1,0 +1,282 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>Linux进程状态 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="www.lyon0804.com/linuxjin-cheng-zhuang-tai.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="linux" />
+        <meta name="description" content="查看当前运行进程 有许多方式可以查看当前linux系统中的运行进程, 常用的有top, htop 以及 ps 三个命令; 其中htop比top工具具备更好的显示方式: 其中上方的CPU和内存信息可以帮助更好地监控整个机器的运行状态, 还提供了一些常用操作的快捷键, 如F5树形结构展示进程树等等; htop命令的缺点是显示的内容是在一个独立页面中的, 无法通过linux管道做更多的操作, 而且如果进程数量太多的话, 进程的查看就不是那么直观; 使用ps命令可以得到标准输出的格式, ps命令提供了一系列参数以调整输出内容, 具体参数可以通过man ps了解; 为了便于观察, 我经常使用的命令参数为: ps px, 此时会显示5列信息, 依次为: PID: 进程号; TTY: 登陆者编号, 其中tty表示本地登陆者, pts表示远程登陆者; STAT: 进程状态; TIME: 进程运行时间; COMMAND: 树形结构展示的进程对应命令 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Linux进程状态"/>
+        <meta property="og:url" content="www.lyon0804.com/linuxjin-cheng-zhuang-tai.html"/>
+        <meta property="og:description" content="查看当前运行进程 有许多方式可以查看当前linux系统中的运行进程, 常用的有top, htop 以及 ps 三个命令; 其中htop比top工具具备更好的显示方式: 其中上方的CPU和内存信息可以帮助更好地监控整个机器的运行状态, 还提供了一些常用操作的快捷键, 如F5树形结构展示进程树等等; htop命令的缺点是显示的内容是在一个独立页面中的, 无法通过linux管道做更多的操作, 而且如果进程数量太多的话, 进程的查看就不是那么直观; 使用ps命令可以得到标准输出的格式, ps命令提供了一系列参数以调整输出内容, 具体参数可以通过man ps了解; 为了便于观察, 我经常使用的命令参数为: ps px, 此时会显示5列信息, 依次为: PID: 进程号; TTY: 登陆者编号, 其中tty表示本地登陆者, pts表示远程登陆者; STAT: 进程状态; TIME: 进程运行时间; COMMAND: 树形结构展示的进程对应命令 ..."/>
+        <meta property="article:published_time" content="2016-03-03" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="linux" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="www.lyon0804.com/" class="navbar-brand">
+<img src="www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="www.lyon0804.com/category/bioimformatics.html">Bioimformatics</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="www.lyon0804.com/linuxjin-cheng-zhuang-tai.html"
+                       rel="bookmark"
+                       title="Permalink to Linux进程状态">
+                        Linux进程状态
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-03-03T00:00:00+08:00"> Thu 03 March 2016</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="www.lyon0804.com/tag/linux.html">linux</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>查看当前运行进程</h2>
+<p>有许多方式可以查看当前linux系统中的运行进程, 常用的有<code>top</code>, <code>htop</code> 以及 <code>ps</code> 三个命令;</p>
+<p>其中<code>htop</code>比<code>top</code>工具具备更好的显示方式:</p>
+<p><img alt="htop示例" src="http://ww4.sinaimg.cn/large/95202659gw1f1jo6zewr9j21z0168nbf.jpg" /></p>
+<p>其中上方的CPU和内存信息可以帮助更好地监控整个机器的运行状态, 还提供了一些常用操作的快捷键, 如<code>F5</code>树形结构展示进程树等等;</p>
+<p><code>htop</code>命令的缺点是显示的内容是在一个独立页面中的, 无法通过linux管道做更多的操作, 而且如果进程数量太多的话, 进程的查看就不是那么直观;</p>
+<p>使用<code>ps</code>命令可以得到标准输出的格式, <code>ps</code>命令提供了一系列参数以调整输出内容, 具体参数可以通过<code>man ps</code>了解;</p>
+<p>为了便于观察, 我经常使用的命令参数为: <code>ps px</code>, 此时会显示5列信息, 依次为:</p>
+<ul>
+<li><strong>PID</strong>: 进程号;</li>
+<li><strong>TTY</strong>: 登陆者编号, 其中tty表示本地登陆者, pts表示远程登陆者;</li>
+<li><strong>STAT</strong>: 进程状态;</li>
+<li><strong>TIME</strong>: 进程运行时间;</li>
+<li><strong>COMMAND</strong>: 树形结构展示的进程对应命令;</li>
+</ul>
+<p>除了<strong>STAT</strong>用不知名字符表示之外(下面讲), 其他列的内容都非常容易理解;</p>
+<h2>进程状态</h2>
+<p>linux下的常见状态有: </p>
+<ul>
+<li><strong>R</strong>: 正在运行状态或者在排队中的可运行状态, 如果用ps命令的话一般很难捕获到该状态;</li>
+<li><strong>S</strong>: 睡眠状态, 并且可以被中断;</li>
+<li><strong>D</strong>: 睡眠状态, 并且不能被中断, 该状态通常是由于IO堵塞造成;</li>
+<li><strong>T</strong>: 停止状态, 该状态下, 进程被暂停挂起;</li>
+<li><strong>Z</strong>: 僵尸状态, 该状态的进程已经结束, 但是由于父进程没有回收, 所以显示状态;</li>
+</ul>
+<p>除了这些主要状态之外, 通常会发现后面还有一个标识状态, 如某个进程状态为<strong>Ss</strong>, 主要常见下列标识:</p>
+<ul>
+<li><strong>&lt;</strong>: 高优先级;</li>
+<li><strong>N</strong>: 低优先级;</li>
+<li><strong>L</strong>: 页面锁定在内存;</li>
+<li><strong>s</strong>: 信息头;</li>
+<li><strong>l</strong>: 多线程状态;</li>
+<li><strong>+</strong>: 前台运行组;</li>
+</ul>
+<p>在实际应用中, <strong>S</strong>等状态<em>良民</em>一般不会给我们造成困扰, 主要需要了解如何处理一些棘手的状态;</p>
+<p>理解上述状态便于后续对这些状态进程的处理(挂起、恢复、杀死);</p>
+<h2>操作进程</h2>
+<p>进程操作可以通过<code>kill</code>命令进行, <code>kill</code>命令可以对进程发出很多的信号, 具体的信号可以参考<em>/usr/include/asm/signal.h</em>头文件(不同系统会有所区别), 最重用的信号有:</p>
+<ul>
+<li><strong>SIGSTOP</strong>: 挂起进程, 进程进入<strong>T</strong>状态;</li>
+<li><strong>SIGCONT</strong>: 继续进程, 使得<strong>T</strong>状态的进程重新运行;</li>
+<li><strong>SIGKILL</strong>: 杀死进程;</li>
+</ul>
+<p>使用<code>kill -sig [pid]</code>的方式调用, 如需要杀死一个进程号为<em>5477</em>的进程, 则可以使用: <code>kill -SIGKILL 5499</code>来杀死这个进程;</p>
+<p>对于一般的任务, 不需要发送信号就可以杀掉进程, 但是如果是想杀死上述所说的<strong>T</strong>状态进程等, 则必须加上<strong>SIGKILL</strong>信号; 但是对于<strong>D</strong>状态进程, 则不推荐强行杀死, 而是等IO重新正常建立之后再杀死, 如检查网络使其正常连接等等;</p>
+<p>当进程数量非常多的时候如一个父进程fork出几十个子进程, 如何批量杀死进程呢?</p>
+<p>一种方式是用之前提到的管道, 然后通过<code>grep</code>或者各种命令来筛出感兴趣的pid号, 然后使用<code>kill</code>命令集体杀死, 如: </p>
+<div class="highlight"><pre>ps fx <span class="p">|</span> grep python <span class="p">|</span> awk <span class="s1">&#39;{print $1}&#39;</span> <span class="p">|</span> <span class="k">while</span> <span class="nb">read </span>pid<span class="p">;</span> <span class="k">do</span> <span class="nb">kill</span> <span class="nv">$pid</span><span class="p">;</span> <span class="k">done</span>
+</pre></div>
+
+
+<p>等等;</p>
+<p>另外一种方式是递归杀死一颗进程树, 这样可以节省很多工作:</p>
+<div class="highlight"><pre><span class="c">#!/bin/env bash</span>
+<span class="k">function</span> killtree<span class="o">()</span> <span class="o">{</span>
+    <span class="nb">local </span><span class="nv">_pid</span><span class="o">=</span><span class="nv">$1</span>
+    <span class="nb">local </span><span class="nv">_sig</span><span class="o">=</span><span class="si">${</span><span class="nv">2</span><span class="k">:-</span><span class="nv">TERM</span><span class="si">}</span>
+    <span class="nb">kill</span> -stop <span class="si">${</span><span class="nv">_pid</span><span class="si">}</span>
+    <span class="k">for</span> _child in <span class="k">$(</span>ps -o pid --no-headers --ppid <span class="si">${</span><span class="nv">_pid</span><span class="si">}</span><span class="k">)</span>
+    <span class="k">do</span>
+       killtree <span class="si">${</span><span class="nv">_child</span><span class="si">}</span> <span class="si">${</span><span class="nv">_sig</span><span class="si">}</span>
+    <span class="k">done</span>
+    <span class="nb">kill</span> -<span class="si">${</span><span class="nv">_sig</span><span class="si">}</span> <span class="si">${</span><span class="nv">_pid</span><span class="si">}</span>
+<span class="o">}</span>
+
+<span class="k">if</span> <span class="o">[</span> <span class="si">${#}</span> -eq <span class="m">0</span> -o <span class="si">${#}</span> -gt <span class="m">2</span> <span class="o">]</span>
+<span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;Usage: </span><span class="k">$(</span>basename <span class="si">${</span><span class="nv">0</span><span class="si">}</span><span class="k">)</span><span class="s2"> &lt;pid&gt; [signal]&quot;</span>
+    <span class="nb">exit </span>1
+<span class="k">fi</span>
+
+killtree <span class="si">${</span><span class="p">@</span><span class="si">}</span>
+</pre></div>
+
+
+<p><em>以上程序参考网络, 具体哪里忘记了, 如果有侵犯到相关权益, 请告知</em></p>
+<p>将上面的程序命名为<em>killtree</em>, 并赋予<strong>x</strong>权限, 把该文件放到某个<code>PATH</code>路径下以便系统识别, 如: <code>~/bin</code>等, 之后就可以使用<code>killtree</code>命令杀死一个进程树了;</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="linuxjin-cheng-zhuang-tai" data-title="Linux进程状态" data-url="www.lyon0804.com/linuxjin-cheng-zhuang-tai.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'linuxjin-cheng-zhuang-tai', 'Linux进程状态' , 'www.lyon0804.com/linuxjin-cheng-zhuang-tai.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2016 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

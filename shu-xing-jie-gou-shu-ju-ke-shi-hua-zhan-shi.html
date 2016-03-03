@@ -1,0 +1,451 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>树形结构数据可视化展示 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="Python,ete3,newick" />
+        <meta name="description" content="树形数据结构 树状结构是一种经典的数据类型, 一个树形结构的一层可以用一个父节点以及若干子节点表示, 而若干层这种结构则组成一颗树; 如一个完全二叉树的例子: 节点是树的基本组成, 节点除了层次特征之外, 还可以具有枝长等节点本身的值, 定义一个节点, 如: class Node(object): def __init__(self, name, branch=None): self.name = name self.up = None self.children = [] self.__branch = branch @property def branch(self): return self.__branch @branch.setter def branch(self, value): try: self.__branch = float(value) except ValueError ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="树形结构数据可视化展示"/>
+        <meta property="og:url" content="www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html"/>
+        <meta property="og:description" content="树形数据结构 树状结构是一种经典的数据类型, 一个树形结构的一层可以用一个父节点以及若干子节点表示, 而若干层这种结构则组成一颗树; 如一个完全二叉树的例子: 节点是树的基本组成, 节点除了层次特征之外, 还可以具有枝长等节点本身的值, 定义一个节点, 如: class Node(object): def __init__(self, name, branch=None): self.name = name self.up = None self.children = [] self.__branch = branch @property def branch(self): return self.__branch @branch.setter def branch(self, value): try: self.__branch = float(value) except ValueError ..."/>
+        <meta property="article:published_time" content="2016-01-12" />
+            <meta property="article:section" content="bioimformatics" />
+            <meta property="article:tag" content="Python" />
+            <meta property="article:tag" content="ete3" />
+            <meta property="article:tag" content="newick" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="www.lyon0804.com/" class="navbar-brand">
+<img src="www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="www.lyon0804.com/category/bioimformatics.html">Bioimformatics</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html"
+                       rel="bookmark"
+                       title="Permalink to 树形结构数据可视化展示">
+                        树形结构数据可视化展示
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-01-12T00:00:00+08:00"> Tue 12 January 2016</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="www.lyon0804.com/tag/python.html">Python</a>
+        /
+	<a href="www.lyon0804.com/tag/ete3.html">ete3</a>
+        /
+	<a href="www.lyon0804.com/tag/newick.html">newick</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>树形数据结构</h2>
+<p>树状结构是一种经典的数据类型, 一个树形结构的一层可以用一个父节点以及若干子节点表示, 而若干层这种结构则组成一颗树;</p>
+<p>如一个完全二叉树的例子:
+<img alt="完全二叉树" src="https://upload.wikimedia.org/wikipedia/commons/5/57/Binary-tree-structure.png" /></p>
+<p>节点是树的基本组成, 节点除了层次特征之外, 还可以具有枝长等节点本身的值, 定义一个节点, 如:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">up</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">children</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__branch</span> <span class="o">=</span> <span class="n">branch</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">branch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__branch</span>
+
+    <span class="nd">@branch.setter</span>
+    <span class="k">def</span> <span class="nf">branch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__branch</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+</pre></div>
+
+
+<p>上述节点具有一个父节点: <code>up</code>, 以及一个子节点列表: <code>children</code>, 并且还有自身属性: <code>branch</code>等, 描述了一个节点基本的元素;</p>
+<p>为了操作节点数据, 需要添加一些常用的方法, 如增删改查等, 如:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">add_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a new child to this node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">child</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">if</span> <span class="n">branch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">branch</span> <span class="o">=</span> <span class="n">branch</span>
+        <span class="k">if</span> <span class="n">child</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="n">child</span><span class="o">.</span><span class="n">up</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">return</span> <span class="n">child</span>
+
+    <span class="k">def</span> <span class="nf">remove_child</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes a child from this node (parent and child</span>
+<span class="sd">        nodes still exit but are no longer connected).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TreeError</span><span class="p">(</span><span class="s">&quot;child not found&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">child</span><span class="o">.</span><span class="n">up</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">return</span> <span class="n">child</span>
+
+    <span class="k">def</span> <span class="nf">add_sister</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sister</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a sister to this node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TreeError</span><span class="p">(</span><span class="s">&quot;A parent node is required to add a sister&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">add_child</span><span class="p">(</span><span class="n">child</span><span class="o">=</span><span class="n">sister</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">branch</span><span class="o">=</span><span class="n">branch</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_sisters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an indepent list of sister nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">include</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">children</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">ch</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">children</span> <span class="k">if</span> <span class="n">ch</span> <span class="o">!=</span> <span class="bp">self</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+</pre></div>
+
+
+<p>上述方法实现两个最基本操作: 添加节点, 删除节点, 获取节点等;</p>
+<p>树结构具有三种遍历方式: 先序遍历, 中序遍历, 后序遍历; 具体可以参考<a href="https://zh.wikipedia.org/wiki/树的遍历">维基百科</a>;</p>
+<p>在Python中可以有如下实现:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
+<span class="k">class</span> <span class="nc">TreeError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A problem occurred during a TreeNode operation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">repr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">is_leaf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return True if current node is a leaf.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">_iter_descendants_postorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_leaf_fn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">to_visit</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">is_leaf_fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">_leaf</span> <span class="o">=</span> <span class="n">is_leaf_fn</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_leaf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">is_leaf</span>
+
+        <span class="k">while</span> <span class="n">to_visit</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">to_visit</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">node</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+                <span class="c"># PREORDER ACTIONS</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">_leaf</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                    <span class="c"># ADD CHILDREN</span>
+                    <span class="n">to_visit</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span> <span class="o">+</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="n">node</span><span class="p">]]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">node</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c"># POSTORDER ACTIONS</span>
+                <span class="k">yield</span> <span class="n">node</span>
+
+    <span class="k">def</span> <span class="nf">_iter_descendants_levelorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_leaf_fn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterate over all desdecendant nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to_visit</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="bp">self</span><span class="p">])</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">to_visit</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="n">to_visit</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="k">yield</span> <span class="n">node</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_leaf_fn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_leaf_fn</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                <span class="n">to_visit</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_iter_descendants_preorder</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_leaf_fn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Iterator over all descendant nodes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to_visit</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">while</span> <span class="n">node</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">node</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_leaf_fn</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">is_leaf_fn</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                <span class="n">to_visit</span><span class="o">.</span><span class="n">extendleft</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">children</span><span class="p">))</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="n">to_visit</span><span class="o">.</span><span class="n">popleft</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+                <span class="n">node</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">traverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">strategy</span><span class="o">=</span><span class="s">&quot;levelorder&quot;</span><span class="p">,</span> <span class="n">is_leaf_fn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an iterator to traverse the tree structure under this</span>
+<span class="sd">        node.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s">&quot;preorder&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_descendants_preorder</span><span class="p">(</span><span class="n">is_leaf_fn</span><span class="o">=</span><span class="n">is_leaf_fn</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s">&quot;levelorder&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_descendants_levelorder</span><span class="p">(</span><span class="n">is_leaf_fn</span><span class="o">=</span><span class="n">is_leaf_fn</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">strategy</span> <span class="o">==</span> <span class="s">&quot;postorder&quot;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iter_descendants_postorder</span><span class="p">(</span><span class="n">is_leaf_fn</span><span class="o">=</span><span class="n">is_leaf_fn</span><span class="p">)</span>
+</pre></div>
+
+
+<p>上述方法描述了一个对树形结构的三种遍历方式, 在树形结构的遍历, 查找, 删除等等操作基础上, 可以实现更加复杂的树形结构操作;</p>
+<h2>newick格式</h2>
+<p><a href="http://evolution.genetics.washington.edu/phylip/newicktree.html">newick</a>则是为了计算机友好的树形结构展示, 在1857年由英国数学家<a href="http://www-history.mcs.st-andrews.ac.uk/history/Biographies/Cayley.html">Arthur Cayley</a>提出;</p>
+<p>这种结构使用一个括号来表示一个节点:</p>
+<p>如:</p>
+<div class="highlight"><pre>()demo1
+</pre></div>
+
+
+<p>表示一个名称为demo1的节点, 前面的括号表示具有若干子节点, 如:</p>
+<div class="highlight"><pre>(child1, child2)demo1
+</pre></div>
+
+
+<p>表示demo1节点以及他的两个子节点, 子节点之间使用逗号<code>,</code>分隔, 节点除了名字之外, 也可以拥有枝长的属性, 使用冒号可以给节点赋予该属性, 如:</p>
+<div class="highlight"><pre>(child1: 5, child2: 2)demo1: 6
+</pre></div>
+
+
+<p>多个上述节点可以组成树, 树必须由单个根节点出发, 并向下延伸, 在末尾添加分号<code>;</code>表示树, 如:</p>
+<div class="highlight"><pre><span class="o">((</span><span class="nt">child1</span><span class="o">:</span> <span class="nt">5</span><span class="o">,</span> <span class="nt">child2</span><span class="o">:</span> <span class="nt">2</span><span class="o">)</span><span class="nt">demo1</span><span class="o">:</span> <span class="nt">6</span><span class="o">,</span> <span class="o">(</span><span class="nt">child3</span><span class="o">:</span> <span class="nt">3</span><span class="o">,</span> <span class="nt">child4</span><span class="o">:</span> <span class="nt">3</span><span class="o">,</span> <span class="nt">child5</span><span class="o">:</span> <span class="nt">2</span><span class="o">)</span><span class="nt">demo2</span><span class="o">:</span> <span class="nt">1</span><span class="o">);</span>
+</pre></div>
+
+
+<p>上述描述了一颗匿名树, 树的根节点名称被隐藏, 并直接在节点后面加上分号表示结尾;</p>
+<p>以上就是newick格式的结构, 其表示非常简单明了, 并且易于被计算机所接受, 如在前面的节点结构上, 只需加入简单的方法, 即可完成newick格式的输出:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Tree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">root</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__root_node</span> <span class="o">=</span> <span class="n">TreeNode</span><span class="p">(</span><span class="s">&#39;root&#39;</span><span class="p">,</span> <span class="n">level</span><span class="o">=</span><span class="s">&#39;root&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__root_node</span> <span class="o">=</span> <span class="n">root</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__root_node</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="n">TreeNode</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="s">&#39;root&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">root</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">root</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;;&#39;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">root</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__root_node</span>
+
+<span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="s">&#39;(&#39;</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">))</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="s">&#39;)</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+
+
+<p>上述过程描述了一个节点的递归生成newick格式过程, 以及树形结构的newick格式即根节点之后添加一个分号;</p>
+<h2>利用ete3做树形结构可视化</h2>
+<p>newick格式是计算机友好的格式, 但是却不利于我们人类观察树形结构的特点, 将newick格式进行可视化操作, 绘制出漂亮的图表显得尤为重要;</p>
+<p><a href="http://etetoolkit.org">ETE</a>工具旨在解决newick格式的可视化展示问题, 该工具提供了很多可视化特性, 除了基本的树结构, 枝长, 节点大小等之外, ETE包支持在节点上添加各种Face, 更好描述一个节点的特性, 如:</p>
+<ul>
+<li><code>TextFace</code>: 文字描述, 可以在节点的枝上各个位置添加介绍性文字或者数据;</li>
+<li><code>CirCleFace</code>: 圆形图标, 可以在节点的某些位置添加圆形图标, 并利用半径, 面积等图形特性描述一个节点的数据特征;</li>
+<li><code>PieCharFace</code>: 饼图, 可以在节点某些位置添加饼图, 配合相应的说明, 描述一个节点的数据组成特征;</li>
+<li><code>ImgFace</code>: 图形, 可以在节点的某些位置添加图形, 使用直观的图形来描述一个节点的性状特征;</li>
+<li><code>TreeFace</code>: 子树, 在叶节点上添加绘制子树, 某些情况下可以更清晰描述一个树的层次结构;</li>
+</ul>
+<p>等等;</p>
+<p>在<a href="http://etetoolkit.org/docs/latest/">官方文档</a>中对其说明有详细描述;</p>
+<p>以及<a href="http://etetoolkit.org/gallery/">官方示例</a>中也展示了一些可以做出的结果示例;</p>
+<p>在<a href="https://github.com/lozybean/newick_plot">这个项目</a>里面, 示范了从创建newick到可视化展示的全部过程, 详细代码在里面可以找到;</p>
+<p>示例结果如:</p>
+<p><img alt="示例结果1" src="http://ww3.sinaimg.cn/large/95202659gw1ezws3gpwxgj21ig0oxtfk.jpg" /></p>
+<p><img alt="示例结果2" src="http://ww1.sinaimg.cn/large/95202659gw1ezws3hfl7bj21kd1av46o.jpg" /></p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi" data-title="树形结构数据可视化展示" data-url="www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi', '树形结构数据可视化展示' , 'www.lyon0804.com/shu-xing-jie-gou-shu-ju-ke-shi-hua-zhan-shi.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2016 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
