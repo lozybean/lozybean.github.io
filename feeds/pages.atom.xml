@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="www.lyon0804.com/" rel="alternate"></link><link href="www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>www.lyon0804.com/</id><updated>2016-03-03T00:00:00+08:00</updated><entry><title>Linux进程状态</title><link href="www.lyon0804.com/linuxjin-cheng-zhuang-tai.html" rel="alternate"></link><updated>2016-03-03T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2016-03-03:www.lyon0804.com/linuxjin-cheng-zhuang-tai.html</id><summary type="html">&lt;h2&gt;查看当前运行进程&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-03-03T00:00:00+08:00</updated><entry><title>Linux进程状态</title><link href="http://www.lyon0804.com/linuxjin-cheng-zhuang-tai.html" rel="alternate"></link><updated>2016-03-03T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-03-03:linuxjin-cheng-zhuang-tai.html</id><summary type="html">&lt;h2&gt;查看当前运行进程&lt;/h2&gt;
 &lt;p&gt;有许多方式可以查看当前linux系统中的运行进程, 常用的有&lt;code&gt;top&lt;/code&gt;, &lt;code&gt;htop&lt;/code&gt; 以及 &lt;code&gt;ps&lt;/code&gt; 三个命令;&lt;/p&gt;
 &lt;p&gt;其中&lt;code&gt;htop&lt;/code&gt;比&lt;code&gt;top&lt;/code&gt;工具具备更好的显示方式:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="htop示例" src="http://ww4.sinaimg.cn/large/95202659gw1f1jo6zewr9j21z0168nbf.jpg" /&gt;&lt;/p&gt;
@@ -75,7 +75,7 @@ killtree &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="p"&gt;@&lt;/span&
 
 
 &lt;p&gt;&lt;em&gt;以上程序参考网络, 具体哪里忘记了, 如果有侵犯到相关权益, 请告知&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;将上面的程序命名为&lt;em&gt;killtree&lt;/em&gt;, 并赋予&lt;strong&gt;x&lt;/strong&gt;权限, 把该文件放到某个&lt;code&gt;PATH&lt;/code&gt;路径下以便系统识别, 如: &lt;code&gt;~/bin&lt;/code&gt;等, 之后就可以使用&lt;code&gt;killtree&lt;/code&gt;命令杀死一个进程树了;&lt;/p&gt;</summary><category term="linux"></category></entry><entry><title>我的vim配置</title><link href="www.lyon0804.com/wo-de-vimpei-zhi.html" rel="alternate"></link><updated>2015-10-14T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-10-14:www.lyon0804.com/wo-de-vimpei-zhi.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;将上面的程序命名为&lt;em&gt;killtree&lt;/em&gt;, 并赋予&lt;strong&gt;x&lt;/strong&gt;权限, 把该文件放到某个&lt;code&gt;PATH&lt;/code&gt;路径下以便系统识别, 如: &lt;code&gt;~/bin&lt;/code&gt;等, 之后就可以使用&lt;code&gt;killtree&lt;/code&gt;命令杀死一个进程树了;&lt;/p&gt;</summary><category term="linux"></category></entry><entry><title>我的vim配置</title><link href="http://www.lyon0804.com/wo-de-vimpei-zhi.html" rel="alternate"></link><updated>2015-10-14T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2015-10-14:wo-de-vimpei-zhi.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;『工欲善其事，必先利其器。』&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;自己家的配置才是最好的配置&lt;/h2&gt;
@@ -229,7 +229,7 @@ map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;leader&lt;span class="p"&gt;&amp;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;设置完上面的配置后，基本的补全功能就实现了，效率着实可以提升不少。更多功能参考：&lt;strong&gt;UltiSnips&lt;/strong&gt;。&lt;/p&gt;</summary><category term="python"></category><category term="vim"></category></entry><entry><title>SGE集群流程设计</title><link href="www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html" rel="alternate"></link><updated>2015-09-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-18:www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;设置完上面的配置后，基本的补全功能就实现了，效率着实可以提升不少。更多功能参考：&lt;strong&gt;UltiSnips&lt;/strong&gt;。&lt;/p&gt;</summary><category term="python"></category><category term="vim"></category></entry><entry><title>SGE集群流程设计</title><link href="http://www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html" rel="alternate"></link><updated>2015-09-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2015-09-18:sgeji-qun-liu-cheng-she-ji.html</id><summary type="html">&lt;blockquote&gt;
 &lt;p&gt;由于华大基因等公司的大量使用，SGE计算集群在生物信息领域仍然有比较广泛的应用；生物大数据时代的到来，可靠、易维护的分析流程也日益重要。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;本文阐述本人在一次16S/ITS流程设计与搭建时的心得，大体思路如下：&lt;/p&gt;
@@ -257,7 +257,7 @@ map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;leader&lt;span class="p"&gt;&amp;
 &lt;li&gt;完成未有需要开发的程序开发，程序中尽量实现最小功能实现，避免并行处理，通过任务分配完成并行，最大限度地使用计算资源；完成单一程序的测试等；&lt;/li&gt;
 &lt;li&gt;功能模块测试，资源消耗的统计；&lt;/li&gt;
 &lt;li&gt;制定功能模块的调用规则，分配资源，对不产生依赖的功能之间并行投递任务，产生依赖的功能串行投递任务；&lt;/li&gt;
-&lt;/ol&gt;</summary><category term="SGE"></category><category term="pipeline"></category></entry><entry><title>在pelican中使用多说</title><link href="www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html" rel="alternate"></link><updated>2015-09-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-18:www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html</id><summary type="html">&lt;p&gt;本文记录在pelican中实现评论系统的过程&lt;/p&gt;
+&lt;/ol&gt;</summary><category term="SGE"></category><category term="pipeline"></category></entry><entry><title>在pelican中使用多说</title><link href="http://www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html" rel="alternate"></link><updated>2015-09-18T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2015-09-18:zai-pelicanzhong-shi-yong-duo-shuo.html</id><summary type="html">&lt;p&gt;本文记录在pelican中实现评论系统的过程&lt;/p&gt;
 &lt;p&gt;&lt;a href="https://disqus.com"&gt;&lt;code&gt;disqus&lt;/code&gt;&lt;/a&gt;是pelican默认支持的评论系统，然而由于墙内的原因，访问总是会有些问题（最近ss也不行了），国内的&lt;a href="http://duoshuo.com"&gt;&lt;code&gt;多说&lt;/code&gt;&lt;/a&gt;也是不错的选择，为了使用&lt;code&gt;多说&lt;/code&gt;，首先需要在多说上创建一个账号，填写使用的站点等信息之后，多说将会自动提示复制以下js代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;&amp;lt;!-- 多说评论框 start --&amp;gt;&lt;/span&gt;
     &lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;class=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;ds-thread&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-thread-key=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;请将此处替换成文章在你的站点中的ID&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-title=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;请替换成文章的标题&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;data-url=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;请替换成文章的网址&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
@@ -406,7 +406,7 @@ map &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;leader&lt;span class="p"&gt;&amp;
 
     &lt;span class="nt"&gt;&amp;lt;/section&amp;gt;&lt;/span&gt;
 {% endif %}
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="comment"></category><category term="pelican"></category><category term="duoshuo"></category></entry><entry><title>Hello World!</title><link href="www.lyon0804.com/hello-world.html" rel="alternate"></link><updated>2015-09-11T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:,2015-09-11:www.lyon0804.com/hello-world.html</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hello world!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="comment"></category><category term="pelican"></category><category term="duoshuo"></category></entry><entry><title>Hello World!</title><link href="http://www.lyon0804.com/hello-world.html" rel="alternate"></link><updated>2015-09-11T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2015-09-11:hello-world.html</id><summary type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;hello world!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
