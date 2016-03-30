@@ -114,7 +114,7 @@
 &lt;li&gt;多进程爬虫涉及到并行模型的设计, 由于爬取量非常大, 除了避免进程资源的重复申请, 应该设计在某个时间节点对爬取结果进行一次同步输出; &lt;/li&gt;
 &lt;li&gt;由于网络爬虫的问题特性, IO速度往往是影响爬虫效率最重要的因素, &lt;strong&gt;异步&lt;/strong&gt;结构显得非常重要;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Python有非常多的异步并行设计方案, 这里介绍&lt;code&gt;multiprocessing.Pool&lt;/code&gt;进程池的异步并行结构: &lt;code&gt;Pool.map_async&lt;/code&gt;和&lt;code&gt;Pool.map_apply&lt;/code&gt;; &lt;/p&gt;
+&lt;p&gt;Python有非常多的异步并行设计方案, 这里介绍&lt;code&gt;multiprocessing.Pool&lt;/code&gt;进程池的异步并行结构: &lt;code&gt;Pool.map_async&lt;/code&gt;和&lt;code&gt;Pool.apply_async&lt;/code&gt;; &lt;/p&gt;
 &lt;p&gt;在并行结构同步时, 每个进程返回的内容必须具有连续内存结构, 否则可能导致&lt;code&gt;MaybeEncodingError&lt;/code&gt;异常, 当需要同步一些容器结构(如:字典)时, 则需要使用json格式进行中转, 所以需要对之前的函数进行简单的修改:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
 
@@ -169,7 +169,7 @@
 
 &lt;p&gt;在以上实现中, rs_list中的rs号被推进固定大小的进程池中, 并执行爬取, 当爬取的结果达到一定的条件时, 执行同步输出, 此时&lt;code&gt;result.get()&lt;/code&gt;会形成阻塞, 达到同步的目的; 该条件不应该小于进程池的大小, 否则会由于阻塞而不能达到预定的并行量, 同时也不应该设置太大, 避免出现异常而没有对结果及时输出;&lt;/p&gt;
 &lt;h2&gt;设置断点&lt;/h2&gt;
-&lt;p&gt;由于爬取内容很多, 耗时较长, 在实际爬取过程中, 并不能一次性成功爬取完毕, 很难避免中途需要中断暂停等, 设置断点记录爬取状态显得尤为重要; 而实现这一功能却非常简单: 将每一个已经爬取到的rs号记录下来即可, 而当获取欲求的rs号时, 直接排除已经爬取或的rs号;&lt;/p&gt;
+&lt;p&gt;由于爬取内容很多, 耗时较长, 在实际爬取过程中, 并不能一次性成功爬取完毕, 很难避免中途需要中断暂停等, 设置断点记录爬取状态显得尤为重要; 而实现这一功能却非常简单: 将每一个已经爬取到的rs号记录下来即可, 而当获取欲求的rs号时, 直接排除已经爬取过的rs号;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;read_already&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
         &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;fp&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
