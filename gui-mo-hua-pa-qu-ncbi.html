@@ -209,7 +209,7 @@
         <span class="k">if</span> <span class="n">try_count</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">None</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
             <span class="k">break</span>
         <span class="k">except</span> <span class="p">(</span><span class="n">URLError</span><span class="p">,</span>
@@ -430,7 +430,7 @@
         <span class="k">if</span> <span class="n">try_count</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">None</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">request</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">req</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
                 <span class="n">data</span> <span class="o">=</span> <span class="n">fp</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
                 <span class="k">return</span> <span class="n">data</span>
         <span class="k">except</span> <span class="p">(</span><span class="n">URLError</span><span class="p">,</span>
