@@ -1,5 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-03-03T00:00:00+08:00</updated><entry><title>Linux进程状态</title><link href="http://www.lyon0804.com/linuxjin-cheng-zhuang-tai.html" rel="alternate"></link><updated>2016-03-03T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-03-03:linuxjin-cheng-zhuang-tai.html</id><summary type="html">&lt;h2&gt;查看当前运行进程&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-05-19T00:00:00+08:00</updated><entry><title>Linux文件下载方式汇总</title><link href="http://www.lyon0804.com/linuxwen-jian-xia-zai-fang-shi-hui-zong.html" rel="alternate"></link><updated>2016-05-19T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-05-19:linuxwen-jian-xia-zai-fang-shi-hui-zong.html</id><summary type="html">&lt;h2&gt;wget: 直观轻便地下载工具&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;wget&lt;/code&gt;是最简单的下载工具, 但是功能却很强大。&lt;/p&gt;
+&lt;p&gt;优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持http/https/ftp&lt;/li&gt;
+&lt;li&gt;支持用户名密码验证&lt;/li&gt;
+&lt;li&gt;支持递归下载完整目录: -r&lt;/li&gt;
+&lt;li&gt;支持断点续传: -c&lt;/li&gt;
+&lt;li&gt;支持使用代理服务器下载&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不支持sftp&lt;/li&gt;
+&lt;li&gt;不支持多线程下载, 下载速度较慢&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;更多的功能可以man查看.&lt;/p&gt;
+&lt;p&gt;wget虽然简单易用, 但是一般而言只适用于小文件的快速下载, 过大的文件应该尝试其他的方式.&lt;/p&gt;
+&lt;h2&gt;Axel: 轻量多线程下载工具&lt;/h2&gt;
+&lt;p&gt;wget的其中一个缺点是不支持多线程下载, axel工具相对wget弥补了多线程下载的功能缺陷(但是其他方面的特性比wget要少很多):&lt;/p&gt;
+&lt;p&gt;优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持http/https/ftp&lt;/li&gt;
+&lt;li&gt;支持多线程下载&lt;/li&gt;
+&lt;li&gt;支持断点续传&lt;/li&gt;
+&lt;li&gt;支持代理服务器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不支持sftp&lt;/li&gt;
+&lt;li&gt;不支持遍历目录, 必须指定确定URL&lt;/li&gt;
+&lt;li&gt;不支持用户名密码验证&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;axel使多线程下载加速成为可能, 但是必须建立在服务器支持的前提之下, 如果服务器不支持多线程下载, 则不论设置多少线程, 最终都只能使用单线程下载, 完全起不到加速的效果.&lt;/p&gt;
+&lt;h2&gt;lftp: 扩展sftp站点工具&lt;/h2&gt;
+&lt;p&gt;前两种方式都不支持sftp下载, 需要下载sftp站点上的内容, 有以下三种备选方案:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当文件较小, 且环境允许的情况下, 使用FileZilla等可视化工具下载, 往往能够得到最好的体验&lt;/li&gt;
+&lt;li&gt;当环境不允许时(没有GUI), 可以使用sftp命令登陆到目标站点, 然后通过交互式命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在文件较大, 需要长时间下载时, 以上两种都不是特别好的方式;&lt;/p&gt;
+&lt;p&gt;lftp工具是一个支持文件协议更加丰富的下载工具, 使用lftp可以比较轻松地下载sftp站点的内容:&lt;/p&gt;
+&lt;p&gt;优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持ftp/ftps/http/https/hftp/sftp等&lt;/li&gt;
+&lt;li&gt;支持多线程下载&lt;/li&gt;
+&lt;li&gt;支持断点续传&lt;/li&gt;
+&lt;li&gt;支持同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;是单独的shell, 自动化操作不方便&lt;/li&gt;
+&lt;li&gt;多线程下载命令pget不支持通配符&lt;/li&gt;
+&lt;li&gt;速度偏慢&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;lftp并不是一个简单的下载工具, 可以看做一个登录器, 使用lftp命令会开启一个单独的交互窗口, 然后通过在窗口中输入交互式命令来进行文件的上传/下载.&lt;/p&gt;
+&lt;p&gt;可以通过简单的脚本来实现lftp的自动化交互:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;lftp -u &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;USER&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;,&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PASS&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; sftp://&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOST&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt; EOF&lt;/span&gt;
+&lt;span class="s"&gt;cd /remote/path&lt;/span&gt;
+&lt;span class="s"&gt;lcd /local/path&lt;/span&gt;
+&lt;span class="s"&gt;mget -c *&lt;/span&gt;
+&lt;span class="s"&gt;pget -n 10 somefile.gz&lt;/span&gt;
+&lt;span class="s"&gt;bye&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;done&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上例中, mget命令支持通配符, 但是不支持多线程, pget支持多线程, 但是不支持通配符. 和Axel一样, 多线程下载需要得到服务器支持.&lt;/p&gt;
+&lt;h2&gt;rsync: 更好的同步方案&lt;/h2&gt;
+&lt;p&gt;如果服务器支持rsync服务的话, 应该优先考虑使用rsync.&lt;/p&gt;
+&lt;p&gt;rsync是独立的文件传输协议, 使用该协议同步的文件会保持和服务器上文件相同的时间戳, 是真正意义上的同步, 支持该协议的服务器在使用该服务传输文件时往往具有质变的下载速度。&lt;/p&gt;
+&lt;h2&gt;ASCP: NCBI御用下载工具&lt;/h2&gt;
+&lt;p&gt;ascp是NCBI提供的文件下载工具, 建立在ssh和ftp的基础上, 使用前先下载安装Aspera, 并找到安装后的sshkey文件, 下面提供一个我实际使用的示例脚本, 专门用来下载NCBI的ftp站点内容, 并保持一致的目录结构:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+usage&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Usage: &lt;/span&gt;&lt;span class="nv"&gt;$0&lt;/span&gt;&lt;span class="s2"&gt; NCBI_FTP_FILEPATH&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;for example: &lt;/span&gt;&lt;span class="nv"&gt;$0&lt;/span&gt;&lt;span class="s2"&gt; /sra/sdk/2.3.2/sratoolkit.2.3.2-centos_linux64.tar.gz&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;exit &lt;/span&gt;1
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$# &lt;/span&gt;-eq &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; usage
+
+&lt;span class="nv"&gt;ascp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/home/galaxy/.aspera/connect/bin/ascp
+&lt;span class="nv"&gt;ssh_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/home/galaxy/.aspera/connect/etc/asperaweb_id_dsa.openssh
+&lt;span class="nv"&gt;remote_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+&lt;span class="nv"&gt;local_dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PWD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="k"&gt;$(&lt;/span&gt;dirname &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+mkdir -p &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;local_dir&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ascp&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -k &lt;span class="m"&gt;1&lt;/span&gt; -T -l10M -i &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ssh_key&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; anonftp@ftp.ncbi.nlm.nih.gov:&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;remote_path&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;local_dir&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="linux"></category><category term="download"></category></entry><entry><title>Linux进程状态</title><link href="http://www.lyon0804.com/linuxjin-cheng-zhuang-tai.html" rel="alternate"></link><updated>2016-03-03T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-03-03:linuxjin-cheng-zhuang-tai.html</id><summary type="html">&lt;h2&gt;查看当前运行进程&lt;/h2&gt;
 &lt;p&gt;有许多方式可以查看当前linux系统中的运行进程, 常用的有&lt;code&gt;top&lt;/code&gt;, &lt;code&gt;htop&lt;/code&gt; 以及 &lt;code&gt;ps&lt;/code&gt; 三个命令;&lt;/p&gt;
 &lt;p&gt;其中&lt;code&gt;htop&lt;/code&gt;比&lt;code&gt;top&lt;/code&gt;工具具备更好的显示方式:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="htop示例" src="http://ww4.sinaimg.cn/large/95202659gw1f1jo6zewr9j21z0168nbf.jpg" /&gt;&lt;/p&gt;

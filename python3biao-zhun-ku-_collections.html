@@ -1,0 +1,324 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>Python3标准库_collections - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/python3biao-zhun-ku-_collections.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="python,collections" />
+        <meta name="description" content="命名元组namedtuple 命名元组顾名思义就是有名称的元组, 其本质是一个继承自tuple的对象, 使用namedtuple函数可以快速创建该对象的子类, 并具有一些常用的方法, 设置verbose=True可以看到子类的细节; from collections import namedtuple Point = namedtuple(&#39;Point&#39;, [&#39;x&#39;, &#39;y&#39;], verbose=True) 命名元组继承了元组非常重要的特性: 不可改变; 和元组一样具有某些场景下作为不可改变的对象使用, 如由于hashable特性作为字典的键使用; 由于命名元组的对象特性, 所以访问命名元组中的元素, 除了和元组一样使用下标访问之外, 还可以通过属性名称来访问, 但是却不能和字典一样使用名称下标访问, 这对命名元组的名称提出了一个基本要求: 命名元组的名称必须是合法变量名; 命名元组除了不可更改之外, 其内置的一些方法使其在处理一些数据(尤其是json)时相比一般的对象更加方便, 相比字典又具有安全和hashable的优势; 命名元组的不可更改并不是绝对的, 通过_replace方法可以真实修改其中的属性(并不会新建对象); namedtuple常见的使用方式: from collections import namedtuple ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Python3标准库_collections"/>
+        <meta property="og:url" content="http://www.lyon0804.com/python3biao-zhun-ku-_collections.html"/>
+        <meta property="og:description" content="命名元组namedtuple 命名元组顾名思义就是有名称的元组, 其本质是一个继承自tuple的对象, 使用namedtuple函数可以快速创建该对象的子类, 并具有一些常用的方法, 设置verbose=True可以看到子类的细节; from collections import namedtuple Point = namedtuple(&#39;Point&#39;, [&#39;x&#39;, &#39;y&#39;], verbose=True) 命名元组继承了元组非常重要的特性: 不可改变; 和元组一样具有某些场景下作为不可改变的对象使用, 如由于hashable特性作为字典的键使用; 由于命名元组的对象特性, 所以访问命名元组中的元素, 除了和元组一样使用下标访问之外, 还可以通过属性名称来访问, 但是却不能和字典一样使用名称下标访问, 这对命名元组的名称提出了一个基本要求: 命名元组的名称必须是合法变量名; 命名元组除了不可更改之外, 其内置的一些方法使其在处理一些数据(尤其是json)时相比一般的对象更加方便, 相比字典又具有安全和hashable的优势; 命名元组的不可更改并不是绝对的, 通过_replace方法可以真实修改其中的属性(并不会新建对象); namedtuple常见的使用方式: from collections import namedtuple ..."/>
+        <meta property="article:published_time" content="2016-04-04" />
+            <meta property="article:section" content="learning" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="collections" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioimformatics.html">Bioimformatics</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/python3biao-zhun-ku-_collections.html"
+                       rel="bookmark"
+                       title="Permalink to Python3标准库_collections">
+                        Python3标准库_collections
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-04-04T00:00:00+08:00"> Mon 04 April 2016</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/python.html">python</a>
+        /
+	<a href="http://www.lyon0804.com/tag/collections.html">collections</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>命名元组namedtuple</h2>
+<p>命名元组顾名思义就是有名称的元组, 其本质是一个继承自tuple的对象, 使用<code>namedtuple</code>函数可以快速创建该对象的子类, 并具有一些常用的方法, 设置<code>verbose=True</code>可以看到子类的细节;</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Point</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;Point&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">],</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
+<p>命名元组继承了元组非常重要的特性: 不可改变; 和元组一样具有某些场景下作为不可改变的对象使用, 如由于<strong>hashable</strong>特性作为字典的键使用;</p>
+<p>由于命名元组的对象特性, 所以访问命名元组中的元素, 除了和元组一样使用下标访问之外, 还可以通过属性名称来访问, 但是却不能和字典一样使用名称下标访问, 这对命名元组的名称提出了一个基本要求: 命名元组的名称必须是合法变量名;</p>
+<p>命名元组除了不可更改之外, 其内置的一些方法使其在处理一些数据(尤其是json)时相比一般的对象更加方便, 相比字典又具有安全和hashable的优势;</p>
+<p>命名元组的不可更改并不是绝对的, 通过<code>_replace</code>方法可以真实修改其中的属性(并不会新建对象);</p>
+<p>namedtuple常见的使用方式:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="n">Point</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;Point&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;x&#39;</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">])</span>
+
+<span class="c"># 使用参数创建</span>
+<span class="n">point1</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">point2</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c"># 通过列表创建</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">point3</span> <span class="o">=</span> <span class="n">Point</span><span class="o">.</span><span class="n">_make</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+
+<span class="c"># 通过字典创建</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">&#39;y&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="n">point4</span> <span class="o">=</span> <span class="n">Point</span><span class="p">(</span><span class="o">**</span><span class="n">d</span><span class="p">)</span>
+
+<span class="c"># 转换为字典(返回OrderedDict对象)</span>
+<span class="n">point1</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+
+<span class="c"># 修改其中的元素值, 此时对象id并没有发生改变</span>
+<span class="n">point1</span><span class="o">.</span><span class="n">_replace</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">33</span><span class="p">)</span>
+</pre></div>
+
+
+<h2>带默认值的字典defaultdict</h2>
+<p>常规字典对象并不能对未初始化的键进行更改, 于是在很多场合就需要事先做一次初始化或者检查键是否存在:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defualtdict</span>
+
+<span class="c"># 常规方法, 设置初始值</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
+    <span class="n">d</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c"># 常规方法, 检查键</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c"># 使用defaultdict</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">key_list</span><span class="p">:</span>
+    <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>    
+</pre></div>
+
+
+<p>defaultdict更加简洁, 并且高效; </p>
+<p>该函数接收一个<code>callable</code>对象, 并在发现键值找不到时, 使用该<code>callable</code>对象去处理<code>__missing__</code>方法, 从而到达给字典设置默认值的效果;</p>
+<p>常见的用法有:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="n">d1</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">d1</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="n">d2</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+<span class="n">d2</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">d3</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">set</span><span class="p">)</span>
+<span class="n">d3</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">d4</span> <span class="o">=</span> <span class="n">defualtdict</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s">&#39;&lt;missing&gt;&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">d4</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<p>直接操作一个多层字典往往会引起<code>KeyError</code>异常, 通过一个递归函数创建的<code>defaultdict</code>可以实现多层字典:</p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="k">def</span> <span class="nf">deep_dict</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">defaultdict</span><span class="p">(</span><span class="n">deep_dict</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">deep_dict</span><span class="p">()</span>
+    <span class="n">d</span><span class="p">[</span><span class="s">&#39;A&#39;</span><span class="p">][</span><span class="s">&#39;B&#39;</span><span class="p">][</span><span class="s">&#39;C&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;D&#39;</span>
+</pre></div>
+
+
+<p>有时候并不需要在创建时就设置默认值, 或者得到是从json等结构中获取到字典, 需要在访问的时候设置默认值, 此时可以使用dict的<code>get()</code>方法设置默认值, 如:</p>
+<div class="highlight"><pre><span class="k">for</span> <span class="n">json_list</span> <span class="ow">in</span> <span class="n">json_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;list&#39;</span><span class="p">,</span> <span class="p">{}):</span>
+    <span class="k">for</span> <span class="n">json_item</span> <span class="ow">in</span> <span class="n">json_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;item&#39;</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">json_item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;key&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+</pre></div>
+
+
+<h2>顺序字典OrderedDict</h2>
+<p>默认的字典类型是无序存储的, 如果想要按照一定的顺序存储数组, 就需要用到OrderedDict, 但是需要注意的是, 由于顺序的加入, OrderedDict消耗的内存可能是普通字典的好几倍, 在较大数据量时应该避免使用; </p>
+<div class="highlight"><pre><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">OrderedDict</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="n">OrderedDict</span><span class="p">()</span>
+<span class="n">d</span><span class="p">[</span><span class="s">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">d</span><span class="p">[</span><span class="s">&#39;b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+</pre></div>
+
+
+<p>注意: 只有在实例化之后, 按顺序添加的键值对才保持顺序, 在初始化时传入的字典仍然是不保持顺序的。</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="python3biao-zhun-ku-_collections" data-title="Python3标准库_collections" data-url="http://www.lyon0804.com/python3biao-zhun-ku-_collections.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'python3biao-zhun-ku-_collections', 'Python3标准库_collections' , 'http://www.lyon0804.com/python3biao-zhun-ku-_collections.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2016 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

@@ -1,5 +1,207 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-03-20T00:00:00+08:00</updated><entry><title>规模化爬取NCBI</title><link href="http://www.lyon0804.com/gui-mo-hua-pa-qu-ncbi.html" rel="alternate"></link><updated>2016-03-20T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-03-20:gui-mo-hua-pa-qu-ncbi.html</id><summary type="html">&lt;p&gt;在生物信息领域, &lt;a href="http://www.ncbi.nlm.nih.gov"&gt;NCBI(&lt;em&gt;National Center for Biotechnology Information, 美国国家生物信息中心&lt;/em&gt;)&lt;/a&gt;绝对是必不可少的网站, 该网站提供了很多文章的原始测序数据(SRA)、基因组数据(genome)、核酸库(NT)、蛋白库(NR)、基因信息(gene)、文章数据(PubMed/PMC)、物种分类数据(Taxnomy)、变异数据(SNP)、临床数据(Clinvar)等等大量的数据信息来源, 以及提供blast在线比对服务;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-05-19T00:00:00+08:00</updated><entry><title>Linux文件下载方式汇总</title><link href="http://www.lyon0804.com/linuxwen-jian-xia-zai-fang-shi-hui-zong.html" rel="alternate"></link><updated>2016-05-19T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-05-19:linuxwen-jian-xia-zai-fang-shi-hui-zong.html</id><summary type="html">&lt;h2&gt;wget: 直观轻便地下载工具&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;wget&lt;/code&gt;是最简单的下载工具, 但是功能却很强大。&lt;/p&gt;
+&lt;p&gt;优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持http/https/ftp&lt;/li&gt;
+&lt;li&gt;支持用户名密码验证&lt;/li&gt;
+&lt;li&gt;支持递归下载完整目录: -r&lt;/li&gt;
+&lt;li&gt;支持断点续传: -c&lt;/li&gt;
+&lt;li&gt;支持使用代理服务器下载&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不支持sftp&lt;/li&gt;
+&lt;li&gt;不支持多线程下载, 下载速度较慢&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;更多的功能可以man查看.&lt;/p&gt;
+&lt;p&gt;wget虽然简单易用, 但是一般而言只适用于小文件的快速下载, 过大的文件应该尝试其他的方式.&lt;/p&gt;
+&lt;h2&gt;Axel: 轻量多线程下载工具&lt;/h2&gt;
+&lt;p&gt;wget的其中一个缺点是不支持多线程下载, axel工具相对wget弥补了多线程下载的功能缺陷(但是其他方面的特性比wget要少很多):&lt;/p&gt;
+&lt;p&gt;优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持http/https/ftp&lt;/li&gt;
+&lt;li&gt;支持多线程下载&lt;/li&gt;
+&lt;li&gt;支持断点续传&lt;/li&gt;
+&lt;li&gt;支持代理服务器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不支持sftp&lt;/li&gt;
+&lt;li&gt;不支持遍历目录, 必须指定确定URL&lt;/li&gt;
+&lt;li&gt;不支持用户名密码验证&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;axel使多线程下载加速成为可能, 但是必须建立在服务器支持的前提之下, 如果服务器不支持多线程下载, 则不论设置多少线程, 最终都只能使用单线程下载, 完全起不到加速的效果.&lt;/p&gt;
+&lt;h2&gt;lftp: 扩展sftp站点工具&lt;/h2&gt;
+&lt;p&gt;前两种方式都不支持sftp下载, 需要下载sftp站点上的内容, 有以下三种备选方案:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当文件较小, 且环境允许的情况下, 使用FileZilla等可视化工具下载, 往往能够得到最好的体验&lt;/li&gt;
+&lt;li&gt;当环境不允许时(没有GUI), 可以使用sftp命令登陆到目标站点, 然后通过交互式命令&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在文件较大, 需要长时间下载时, 以上两种都不是特别好的方式;&lt;/p&gt;
+&lt;p&gt;lftp工具是一个支持文件协议更加丰富的下载工具, 使用lftp可以比较轻松地下载sftp站点的内容:&lt;/p&gt;
+&lt;p&gt;优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持ftp/ftps/http/https/hftp/sftp等&lt;/li&gt;
+&lt;li&gt;支持多线程下载&lt;/li&gt;
+&lt;li&gt;支持断点续传&lt;/li&gt;
+&lt;li&gt;支持同步&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;缺点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;是单独的shell, 自动化操作不方便&lt;/li&gt;
+&lt;li&gt;多线程下载命令pget不支持通配符&lt;/li&gt;
+&lt;li&gt;速度偏慢&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;lftp并不是一个简单的下载工具, 可以看做一个登录器, 使用lftp命令会开启一个单独的交互窗口, 然后通过在窗口中输入交互式命令来进行文件的上传/下载.&lt;/p&gt;
+&lt;p&gt;可以通过简单的脚本来实现lftp的自动化交互:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;lftp -u &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;USER&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;,&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PASS&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; sftp://&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;HOST&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="s"&gt;&amp;lt;&amp;lt; EOF&lt;/span&gt;
+&lt;span class="s"&gt;cd /remote/path&lt;/span&gt;
+&lt;span class="s"&gt;lcd /local/path&lt;/span&gt;
+&lt;span class="s"&gt;mget -c *&lt;/span&gt;
+&lt;span class="s"&gt;pget -n 10 somefile.gz&lt;/span&gt;
+&lt;span class="s"&gt;bye&lt;/span&gt;
+&lt;span class="s"&gt;EOF&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;done&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上例中, mget命令支持通配符, 但是不支持多线程, pget支持多线程, 但是不支持通配符. 和Axel一样, 多线程下载需要得到服务器支持.&lt;/p&gt;
+&lt;h2&gt;rsync: 更好的同步方案&lt;/h2&gt;
+&lt;p&gt;如果服务器支持rsync服务的话, 应该优先考虑使用rsync.&lt;/p&gt;
+&lt;p&gt;rsync是独立的文件传输协议, 使用该协议同步的文件会保持和服务器上文件相同的时间戳, 是真正意义上的同步, 支持该协议的服务器在使用该服务传输文件时往往具有质变的下载速度。&lt;/p&gt;
+&lt;h2&gt;ASCP: NCBI御用下载工具&lt;/h2&gt;
+&lt;p&gt;ascp是NCBI提供的文件下载工具, 建立在ssh和ftp的基础上, 使用前先下载安装Aspera, 并找到安装后的sshkey文件, 下面提供一个我实际使用的示例脚本, 专门用来下载NCBI的ftp站点内容, 并保持一致的目录结构:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#!/bin/bash&lt;/span&gt;
+usage&lt;span class="o"&gt;(){&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Usage: &lt;/span&gt;&lt;span class="nv"&gt;$0&lt;/span&gt;&lt;span class="s2"&gt; NCBI_FTP_FILEPATH&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;for example: &lt;/span&gt;&lt;span class="nv"&gt;$0&lt;/span&gt;&lt;span class="s2"&gt; /sra/sdk/2.3.2/sratoolkit.2.3.2-centos_linux64.tar.gz&amp;quot;&lt;/span&gt;
+    &lt;span class="nb"&gt;exit &lt;/span&gt;1
+&lt;span class="o"&gt;}&lt;/span&gt;
+
+&lt;span class="o"&gt;[[&lt;/span&gt; &lt;span class="nv"&gt;$# &lt;/span&gt;-eq &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="o"&gt;]]&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; usage
+
+&lt;span class="nv"&gt;ascp&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/home/galaxy/.aspera/connect/bin/ascp
+&lt;span class="nv"&gt;ssh_key&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;/home/galaxy/.aspera/connect/etc/asperaweb_id_dsa.openssh
+&lt;span class="nv"&gt;remote_path&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nv"&gt;$1&lt;/span&gt;
+&lt;span class="nv"&gt;local_dir&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;PWD&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;/&lt;span class="k"&gt;$(&lt;/span&gt;dirname &lt;span class="nv"&gt;$1&lt;/span&gt;&lt;span class="k"&gt;)&lt;/span&gt;
+mkdir -p &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;local_dir&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+
+&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ascp&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; -k &lt;span class="m"&gt;1&lt;/span&gt; -T -l10M -i &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;ssh_key&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; anonftp@ftp.ncbi.nlm.nih.gov:&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;remote_path&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;local_dir&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="linux"></category><category term="download"></category></entry><entry><title>Python3标准库_collections</title><link href="http://www.lyon0804.com/python3biao-zhun-ku-_collections.html" rel="alternate"></link><updated>2016-04-04T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-04-04:python3biao-zhun-ku-_collections.html</id><summary type="html">&lt;h2&gt;命名元组namedtuple&lt;/h2&gt;
+&lt;p&gt;命名元组顾名思义就是有名称的元组, 其本质是一个继承自tuple的对象, 使用&lt;code&gt;namedtuple&lt;/code&gt;函数可以快速创建该对象的子类, 并具有一些常用的方法, 设置&lt;code&gt;verbose=True&lt;/code&gt;可以看到子类的细节;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;namedtuple&lt;/span&gt;
+
+&lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;namedtuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Point&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;y&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;verbose&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;命名元组继承了元组非常重要的特性: 不可改变; 和元组一样具有某些场景下作为不可改变的对象使用, 如由于&lt;strong&gt;hashable&lt;/strong&gt;特性作为字典的键使用;&lt;/p&gt;
+&lt;p&gt;由于命名元组的对象特性, 所以访问命名元组中的元素, 除了和元组一样使用下标访问之外, 还可以通过属性名称来访问, 但是却不能和字典一样使用名称下标访问, 这对命名元组的名称提出了一个基本要求: 命名元组的名称必须是合法变量名;&lt;/p&gt;
+&lt;p&gt;命名元组除了不可更改之外, 其内置的一些方法使其在处理一些数据(尤其是json)时相比一般的对象更加方便, 相比字典又具有安全和hashable的优势;&lt;/p&gt;
+&lt;p&gt;命名元组的不可更改并不是绝对的, 通过&lt;code&gt;_replace&lt;/code&gt;方法可以真实修改其中的属性(并不会新建对象);&lt;/p&gt;
+&lt;p&gt;namedtuple常见的使用方式:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;namedtuple&lt;/span&gt;
+
+&lt;span class="n"&gt;Point&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;namedtuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Point&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;y&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+
+&lt;span class="c"&gt;# 使用参数创建&lt;/span&gt;
+&lt;span class="n"&gt;point1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;point2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# 通过列表创建&lt;/span&gt;
+&lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;span class="n"&gt;point3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_make&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# 通过字典创建&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;x&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;y&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="n"&gt;point4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Point&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c"&gt;# 转换为字典(返回OrderedDict对象)&lt;/span&gt;
+&lt;span class="n"&gt;point1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_asdict&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+
+&lt;span class="c"&gt;# 修改其中的元素值, 此时对象id并没有发生改变&lt;/span&gt;
+&lt;span class="n"&gt;point1&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;带默认值的字典defaultdict&lt;/h2&gt;
+&lt;p&gt;常规字典对象并不能对未初始化的键进行更改, 于是在很多场合就需要事先做一次初始化或者检查键是否存在:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;defualtdict&lt;/span&gt;
+
+&lt;span class="c"&gt;# 常规方法, 设置初始值&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;key_list&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setdefault&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;key_list&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+&lt;span class="c"&gt;# 常规方法, 检查键&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{}&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;key_list&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;KeyError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+
+&lt;span class="c"&gt;# 使用defaultdict&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;key&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;key_list&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;key&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;    
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;defaultdict更加简洁, 并且高效; &lt;/p&gt;
+&lt;p&gt;该函数接收一个&lt;code&gt;callable&lt;/code&gt;对象, 并在发现键值找不到时, 使用该&lt;code&gt;callable&lt;/code&gt;对象去处理&lt;code&gt;__missing__&lt;/code&gt;方法, 从而到达给字典设置默认值的效果;&lt;/p&gt;
+&lt;p&gt;常见的用法有:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;
+
+&lt;span class="n"&gt;d1&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;d1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+
+&lt;span class="n"&gt;d2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;d2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;d3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;d3&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;d4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;defualtdict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;lt;missing&amp;gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;d4&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;直接操作一个多层字典往往会引起&lt;code&gt;KeyError&lt;/code&gt;异常, 通过一个递归函数创建的&lt;code&gt;defaultdict&lt;/code&gt;可以实现多层字典:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;deep_dict&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;defaultdict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;deep_dict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;__main__&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;deep_dict&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;A&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;B&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;C&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;D&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;有时候并不需要在创建时就设置默认值, 或者得到是从json等结构中获取到字典, 需要在访问的时候设置默认值, 此时可以使用dict的&lt;code&gt;get()&lt;/code&gt;方法设置默认值, 如:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;json_list&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;json_dict&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;list&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;{}):&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;json_item&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;json_list&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;item&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[]):&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;json_item&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;key&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;顺序字典OrderedDict&lt;/h2&gt;
+&lt;p&gt;默认的字典类型是无序存储的, 如果想要按照一定的顺序存储数组, 就需要用到OrderedDict, 但是需要注意的是, 由于顺序的加入, OrderedDict消耗的内存可能是普通字典的好几倍, 在较大数据量时应该避免使用; &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;collections&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;OrderedDict&lt;/span&gt;
+
+&lt;span class="n"&gt;d&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;OrderedDict&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;a&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;d&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;b&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意: 只有在实例化之后, 按顺序添加的键值对才保持顺序, 在初始化时传入的字典仍然是不保持顺序的。&lt;/p&gt;</summary><category term="python"></category><category term="collections"></category></entry><entry><title>规模化爬取NCBI</title><link href="http://www.lyon0804.com/gui-mo-hua-pa-qu-ncbi.html" rel="alternate"></link><updated>2016-03-20T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-03-20:gui-mo-hua-pa-qu-ncbi.html</id><summary type="html">&lt;p&gt;在生物信息领域, &lt;a href="http://www.ncbi.nlm.nih.gov"&gt;NCBI(&lt;em&gt;National Center for Biotechnology Information, 美国国家生物信息中心&lt;/em&gt;)&lt;/a&gt;绝对是必不可少的网站, 该网站提供了很多文章的原始测序数据(SRA)、基因组数据(genome)、核酸库(NT)、蛋白库(NR)、基因信息(gene)、文章数据(PubMed/PMC)、物种分类数据(Taxnomy)、变异数据(SNP)、临床数据(Clinvar)等等大量的数据信息来源, 以及提供blast在线比对服务;&lt;/p&gt;
 &lt;p&gt;大多数NCBI的数据库都可以在其&lt;a href="ftp.ncbi.nlm.nih.gov"&gt;FTP站点&lt;/a&gt;上找到, 但是仍然有一些数据没有被固化成文件, 为了要使用这些数据, 避免每次都手动去网站上查询, 就必须动用一些网络爬虫的手段;&lt;/p&gt;
 &lt;h2&gt;目标&lt;/h2&gt;
 &lt;ol&gt;
