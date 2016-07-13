@@ -5,37 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/</loc>
-<lastmod>2016-07-13T08:25:54-00:00</lastmod>
+<lastmod>2016-07-13T08:27:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/archives.html</loc>
-<lastmod>2016-07-13T08:25:54-00:00</lastmod>
+<lastmod>2016-07-13T08:27:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/tags.html</loc>
-<lastmod>2016-07-13T08:25:54-00:00</lastmod>
+<lastmod>2016-07-13T08:27:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/categories.html</loc>
-<lastmod>2016-07-13T08:25:54-00:00</lastmod>
+<lastmod>2016-07-13T08:27:57-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/pages/shi-yong-wkhtmltopdf.html</loc>
+<loc>http://www.lyon0804.com/shi-yong-wkhtmltopdf.html</loc>
 <lastmod>2016-07-06T00:00:00+08:00</lastmod>
 <changefreq>monthly</changefreq>
-<priority>0.3</priority>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -257,7 +257,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/category/pages.html</loc>
-<lastmod>2016-05-19T00:00:00+08:06</lastmod>
+<lastmod>2016-07-06T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -298,8 +298,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/tag/newick.html</loc>
-<lastmod>2016-01-12T00:00:00+08:06</lastmod>
+<loc>http://www.lyon0804.com/tag/vim.html</loc>
+<lastmod>2015-10-14T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -417,8 +417,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/tag/vim.html</loc>
-<lastmod>2015-10-14T00:00:00+08:06</lastmod>
+<loc>http://www.lyon0804.com/tag/report.html</loc>
+<lastmod>2016-07-06T00:00:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.lyon0804.com/tag/newick.html</loc>
+<lastmod>2016-01-12T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -466,6 +473,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.lyon0804.com/tag/htmltopdf.html</loc>
+<lastmod>2016-07-06T00:00:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.lyon0804.com/tag/bian-ma.html</loc>
 <lastmod>2015-10-24T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
@@ -474,7 +488,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/author/lyon.html</loc>
-<lastmod>2016-05-30T00:00:00+08:06</lastmod>
+<lastmod>2016-07-06T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

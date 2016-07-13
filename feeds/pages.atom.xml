@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-05-19T00:00:00+08:00</updated><entry><title>Linux文件下载方式汇总</title><link href="http://www.lyon0804.com/linuxwen-jian-xia-zai-fang-shi-hui-zong.html" rel="alternate"></link><updated>2016-05-19T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-05-19:linuxwen-jian-xia-zai-fang-shi-hui-zong.html</id><summary type="html">&lt;h2&gt;wget: 直观轻便地下载工具&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-07-06T00:00:00+08:00</updated><entry><title>使用wkhtmltopdf</title><link href="http://www.lyon0804.com/shi-yong-wkhtmltopdf.html" rel="alternate"></link><updated>2016-07-06T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-07-06:shi-yong-wkhtmltopdf.html</id><summary type="html">&lt;h2&gt;将HTML转为PDF&lt;/h2&gt;
+&lt;p&gt;PDF格式的文档相比HTML而言, 具有不需要浏览器(更加不需要考虑浏览器兼容性等), 随处可阅的优点, 在发送报告的时候常常会使用PDF格式的文档, 但是PDF文档的生成却没有HTML那么自由灵活, 所以将已有的HTML转为PDF格式是一个重要的步骤;
+&lt;a href="http://wkhtmltopdf.org/"&gt;wkhtmltopdf&lt;/a&gt;是一个比较好用的转换工具, 该工具基于QT的webkit实现&lt;/p&gt;
+&lt;h2&gt;添加页眉页脚&lt;/h2&gt;
+&lt;p&gt;该工具支持在左中右三个位置添加页眉页脚, 并且加入一些可选变量, 如页码, 日期/时间等等;&lt;/p&gt;
+&lt;p&gt;示例:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wkhtmltopdf --footer-right &lt;span class="s1"&gt;&amp;#39;[page]/[sitepages]&amp;#39;&lt;/span&gt; 
+--header-center &lt;span class="s1"&gt;&amp;#39;xxxxx&amp;#39;&lt;/span&gt; --header-font-size &lt;span class="m"&gt;8&lt;/span&gt; 
+--header-right &lt;span class="s1"&gt;&amp;#39;SampleID:xxx&amp;#39;&lt;/span&gt;  in.html out.pdf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;更加详细的用法参见&lt;a href="http://wkhtmltopdf.org/usage/wkhtmltopdf.txt"&gt;wkhtmltopdf使用帮助&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;换页符&lt;/h2&gt;
+&lt;p&gt;在HTML转到PDF格式的过程中, 如果需要在特定的位置换页, 则需要借助CSS样式:&lt;code&gt;page-break-before:always&lt;/code&gt;;
+通过在HTML的需要换页的位置添加如下空节点即可实现换页:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;div&lt;/span&gt; &lt;span class="na"&gt;style=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;page-break-before:always&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;跨页表格&lt;/h2&gt;
+&lt;p&gt;当出现跨页表格时, 表头会在新的一页再次展现, 但是如果不加处理很容易出现问题, 如某一行因为行末空白超出一页, 新页表头和行内容重叠等等;
+为了解决该问题, 同样需要借助CSS样式中的&lt;code&gt;page-break-inside&lt;/code&gt;属性, 该属性会控制元素是否能够跨页显示, 用于表格则可以避免大多数表格转换时的问题;
+以下是使用示例:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;tr&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;page-break-inside&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="k"&gt;avoid&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;   
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上述例子将阻止所有的行跨页, 如果只需指定特定行只需修改CSS选择器即可;&lt;/p&gt;</summary><category term="htmltopdf"></category><category term="report"></category></entry><entry><title>Linux文件下载方式汇总</title><link href="http://www.lyon0804.com/linuxwen-jian-xia-zai-fang-shi-hui-zong.html" rel="alternate"></link><updated>2016-05-19T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-05-19:linuxwen-jian-xia-zai-fang-shi-hui-zong.html</id><summary type="html">&lt;h2&gt;wget: 直观轻便地下载工具&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;wget&lt;/code&gt;是最简单的下载工具, 但是功能却很强大。&lt;/p&gt;
 &lt;p&gt;优点:&lt;/p&gt;
 &lt;ul&gt;
