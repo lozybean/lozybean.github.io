@@ -213,8 +213,8 @@
 &lt;h2&gt;维护者&lt;/h2&gt;
 &lt;p&gt;该页面由&lt;a href="atks@umich.edu"&gt;Adrian&lt;/a&gt;维护.&lt;/p&gt;
 &lt;h2&gt;申明&lt;/h2&gt;
-&lt;p&gt;本文原文地址: http://genome.sph.umich.edu/wiki/Variant_Normalization&lt;/p&gt;
-&lt;p&gt;本文由本文翻译并发布, 如果侵犯原文权利请告知.&lt;/p&gt;
+&lt;p&gt;原文地址: http://genome.sph.umich.edu/wiki/Variant_Normalization&lt;/p&gt;
+&lt;p&gt;本文由本人(Lyon0804)翻译并发布, 如果侵犯原文权利请告知.&lt;/p&gt;
 &lt;p&gt;转载请注明本文地址: http://www.lyon0804.com/fan-yi-variant-normalization.html&lt;/p&gt;</summary><category term="bioinformatics"></category><category term="variant"></category><category term="normalization"></category><category term="vcf"></category></entry><entry><title>第一个生物信息app</title><link href="http://www.lyon0804.com/di-yi-ge-sheng-wu-xin-xi-app.html" rel="alternate"></link><updated>2016-05-30T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-05-30:di-yi-ge-sheng-wu-xin-xi-app.html</id><summary type="html">&lt;h2&gt;引子&lt;/h2&gt;
 &lt;p&gt;本文将介绍一个桌面应用的创建全过程, 展示生物信息除了拒人于千里之外命令行界面之外, 对无IT经验的用户更加友好的展示方式;&lt;/p&gt;
 &lt;p&gt;设计环境以及技术:&lt;/p&gt;
