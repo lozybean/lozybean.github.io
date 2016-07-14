@@ -215,7 +215,7 @@
 &lt;h2&gt;申明&lt;/h2&gt;
 &lt;p&gt;本文原文地址: http://genome.sph.umich.edu/wiki/Variant_Normalization&lt;/p&gt;
 &lt;p&gt;本文由本文翻译并发布, 如果侵犯原文权利请告知.&lt;/p&gt;
-&lt;p&gt;转载请注明本文地址: &lt;/p&gt;</summary><category term="bioinformatics"></category><category term="variant"></category><category term="normalization"></category><category term="vcf"></category></entry><entry><title>使用wkhtmltopdf</title><link href="http://www.lyon0804.com/shi-yong-wkhtmltopdf.html" rel="alternate"></link><updated>2016-07-06T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-07-06:shi-yong-wkhtmltopdf.html</id><summary type="html">&lt;h2&gt;将HTML转为PDF&lt;/h2&gt;
+&lt;p&gt;转载请注明本文地址: http://www.lyon0804.com/fan-yi-variant-normalization.html&lt;/p&gt;</summary><category term="bioinformatics"></category><category term="variant"></category><category term="normalization"></category><category term="vcf"></category></entry><entry><title>使用wkhtmltopdf</title><link href="http://www.lyon0804.com/shi-yong-wkhtmltopdf.html" rel="alternate"></link><updated>2016-07-06T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-07-06:shi-yong-wkhtmltopdf.html</id><summary type="html">&lt;h2&gt;将HTML转为PDF&lt;/h2&gt;
 &lt;p&gt;PDF格式的文档相比HTML而言, 具有不需要浏览器(更加不需要考虑浏览器兼容性等), 随处可阅的优点, 在发送报告的时候常常会使用PDF格式的文档, 但是PDF文档的生成却没有HTML那么自由灵活, 所以将已有的HTML转为PDF格式是一个重要的步骤;
 &lt;a href="http://wkhtmltopdf.org/"&gt;wkhtmltopdf&lt;/a&gt;是一个比较好用的转换工具, 该工具基于QT的webkit实现&lt;/p&gt;
 &lt;h2&gt;添加页眉页脚&lt;/h2&gt;
