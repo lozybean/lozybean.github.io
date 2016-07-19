@@ -173,6 +173,9 @@
 <h3>记录的标准化</h3>
 <p>在CLNHGVS中, 很多的表示都并非标准化的表示, 为了方便注释, 应该在切分之后进行标准化操作(左对齐, 简约化);</p>
 <p>标准化操作可以参考<a href="http://www.lyon0804.com/fan-yi-variant-normalization.html">之前的文章</a>;</p>
+<h2>使用MongoDB进行注释</h2>
+<p>当完成clinvar的标准化之后, 就可以简单地对变异进行搜索, 由于同一个位点的表示总是有一个唯一的标准化的表示, 通过<code>CHROM</code>、<code>POS</code>、<code>REF</code>、<code>ALT</code>这四个键完成数据库查询, 通过建立以上四个键的组合索引, 可以较快地在MongoDB中进行查询操作;</p>
+<p>借助PyVCF的VCFReader和VCFWriter, 对VCF文件进行注释并且输出注释后的VCF文件;</p>
 <h2>实现</h2>
 <p>具体实现脚本可以参考本人的这篇<a href="https://gist.github.com/lozybean/9bb99e48d9d155510383ac9533741113">gist</a>;</p>
 <p>其中参考基因组的读取借助了<code>samtools faidx</code>命令, 这需要安装samtools并且对参考基因组fasta建立索引.</p>

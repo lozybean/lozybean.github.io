@@ -57,6 +57,9 @@
 &lt;h3&gt;记录的标准化&lt;/h3&gt;
 &lt;p&gt;在CLNHGVS中, 很多的表示都并非标准化的表示, 为了方便注释, 应该在切分之后进行标准化操作(左对齐, 简约化);&lt;/p&gt;
 &lt;p&gt;标准化操作可以参考&lt;a href="http://www.lyon0804.com/fan-yi-variant-normalization.html"&gt;之前的文章&lt;/a&gt;;&lt;/p&gt;
+&lt;h2&gt;使用MongoDB进行注释&lt;/h2&gt;
+&lt;p&gt;当完成clinvar的标准化之后, 就可以简单地对变异进行搜索, 由于同一个位点的表示总是有一个唯一的标准化的表示, 通过&lt;code&gt;CHROM&lt;/code&gt;、&lt;code&gt;POS&lt;/code&gt;、&lt;code&gt;REF&lt;/code&gt;、&lt;code&gt;ALT&lt;/code&gt;这四个键完成数据库查询, 通过建立以上四个键的组合索引, 可以较快地在MongoDB中进行查询操作;&lt;/p&gt;
+&lt;p&gt;借助PyVCF的VCFReader和VCFWriter, 对VCF文件进行注释并且输出注释后的VCF文件;&lt;/p&gt;
 &lt;h2&gt;实现&lt;/h2&gt;
 &lt;p&gt;具体实现脚本可以参考本人的这篇&lt;a href="https://gist.github.com/lozybean/9bb99e48d9d155510383ac9533741113"&gt;gist&lt;/a&gt;;&lt;/p&gt;
 &lt;p&gt;其中参考基因组的读取借助了&lt;code&gt;samtools faidx&lt;/code&gt;命令, 这需要安装samtools并且对参考基因组fasta建立索引.&lt;/p&gt;</summary><category term="bioinformatics"></category><category term="clinvar"></category><category term="ANNOVAR"></category></entry><entry><title>[翻译]Variant Normalization</title><link href="http://www.lyon0804.com/fan-yi-variant-normalization.html" rel="alternate"></link><updated>2016-07-13T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-07-13:fan-yi-variant-normalization.html</id><summary type="html">&lt;p&gt;原文链接: http://genome.sph.umich.edu/wiki/Variant_Normalization&lt;/p&gt;
