@@ -5,30 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/</loc>
-<lastmod>2016-07-19T22:27:35-00:00</lastmod>
+<lastmod>2016-09-21T17:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/archives.html</loc>
-<lastmod>2016-07-19T22:27:35-00:00</lastmod>
+<lastmod>2016-09-21T17:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/tags.html</loc>
-<lastmod>2016-07-19T22:27:35-00:00</lastmod>
+<lastmod>2016-09-21T17:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/categories.html</loc>
-<lastmod>2016-07-19T22:27:35-00:00</lastmod>
+<lastmod>2016-09-21T17:35:34-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.lyon0804.com/ji-yu-mongodbhe-flaskde-bian-yi-xin-xi-shu-ju-ku.html</loc>
+<lastmod>2016-09-21T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -257,7 +264,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/category/bioinformatics.html</loc>
-<lastmod>2016-07-15T00:00:00+08:06</lastmod>
+<lastmod>2016-09-21T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -298,6 +305,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.lyon0804.com/tag/variant-database.html</loc>
+<lastmod>2016-09-21T00:00:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.lyon0804.com/tag/photo.html</loc>
 <lastmod>2015-09-12T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
@@ -319,8 +333,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/tag/pyqt.html</loc>
-<lastmod>2016-05-30T00:00:00+08:06</lastmod>
+<loc>http://www.lyon0804.com/tag/urllib.html</loc>
+<lastmod>2015-10-31T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -375,15 +389,22 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/tag/annovar.html</loc>
-<lastmod>2016-07-15T00:00:00+08:06</lastmod>
+<loc>http://www.lyon0804.com/tag/pep8.html</loc>
+<lastmod>2015-09-27T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/tag/urllib.html</loc>
-<lastmod>2015-10-31T00:00:00+08:06</lastmod>
+<loc>http://www.lyon0804.com/tag/flask.html</loc>
+<lastmod>2016-09-21T00:00:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.lyon0804.com/tag/pyqt.html</loc>
+<lastmod>2016-05-30T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -418,7 +439,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/tag/mongodb.html</loc>
-<lastmod>2016-05-30T00:00:00+08:06</lastmod>
+<lastmod>2016-09-21T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -453,7 +474,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/tag/bioinformatics.html</loc>
-<lastmod>2016-07-15T00:00:00+08:06</lastmod>
+<lastmod>2016-09-21T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -508,8 +529,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/tag/pep8.html</loc>
-<lastmod>2015-09-27T00:00:00+08:06</lastmod>
+<loc>http://www.lyon0804.com/tag/annovar.html</loc>
+<lastmod>2016-07-15T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -537,7 +558,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/author/lyon.html</loc>
-<lastmod>2016-07-15T00:00:00+08:06</lastmod>
+<lastmod>2016-09-21T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
