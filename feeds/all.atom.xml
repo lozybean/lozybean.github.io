@@ -8,9 +8,9 @@
 &lt;li&gt;将dbSNP的rs号从一个版本转换到另外一个版本;&lt;/li&gt;
 &lt;li&gt;将基因组位置和dbSNP的rs号同时在不同的版本之间转换;&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;可能会看到一些Merlin/PLINK的数据格式.&lt;/p&gt;
+&lt;p&gt;我们将会看到一些诸如Merlin/PLINK格式的数据.&lt;/p&gt;
 &lt;p&gt;我们将解释上述三种应用的工作流程. 在文章的剩余部分, 将给出从低版本到高版本转换的例子, 这也是普遍的实践.&lt;/p&gt;
-&lt;p&gt;使用不同的工具可以使liftOver变得简单. 比如UCSC的liftOver工具就可以用来在不同的基因组版本之间转换&lt;a href="http://genome.ucsc.edu/FAQ/FAQformat.html#format1"&gt;BED格式&lt;/a&gt;的文件. 使员工我们自己的脚本, 我们还可以转换rs号和Merlin/PLINK的文件.&lt;/p&gt;
+&lt;p&gt;使用不同的工具可以使liftOver变得简单. 比如UCSC的liftOver工具就可以用来在不同的基因组版本之间转换&lt;a href="http://genome.ucsc.edu/FAQ/FAQformat.html#format1"&gt;BED格式&lt;/a&gt;的文件. 使用我们自己的脚本, 我们还可以转换rs号和Merlin/PLINK的文件.&lt;/p&gt;
 &lt;h2&gt;转换基因组位置&lt;/h2&gt;
 &lt;p&gt;基因组位置使用&lt;a href="http://genome.ucsc.edu/FAQ/FAQformat.html#format1"&gt;BED格式&lt;/a&gt;有最好的表示方式. UCSC提供工具, 用来转换从一个基因组版本到另外一个版本的BED文件.&lt;/p&gt;
 &lt;h3&gt;二进制liftOver工具&lt;/h3&gt;
