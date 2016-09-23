@@ -1,5 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-09-21T00:00:00+08:00</updated><entry><title>基于MongoDB和Flask的变异信息数据库</title><link href="http://www.lyon0804.com/ji-yu-mongodbhe-flaskde-bian-yi-xin-xi-shu-ju-ku.html" rel="alternate"></link><updated>2016-09-21T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-09-21:ji-yu-mongodbhe-flaskde-bian-yi-xin-xi-shu-ju-ku.html</id><summary type="html">&lt;h2&gt;临床变异数据库&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-09-21T00:00:00+08:00</updated><entry><title>[翻译]LiftOver</title><link href="http://www.lyon0804.com/fan-yi-liftover.html" rel="alternate"></link><updated>2016-09-21T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-09-21:fan-yi-liftover.html</id><summary type="html">&lt;p&gt;原文链接: http://genome.sph.umich.edu/wiki/LiftOver&lt;/p&gt;
+&lt;h2&gt;介绍&lt;/h2&gt;
+&lt;p&gt;LiftOver是实现统一遗传学分析的参考基因组版本的重要一步. LiftOver可能应用于三种情况:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将基因组位置从一个基因组版本转换到另外一个版本;
+    最常见的一个情景是, 我们有NCBI build 36版本的基因组位置(UCSC hg18), 然后想要把这些位置转变到NCBI build 37版本(UCSC hg19).&lt;/li&gt;
+&lt;li&gt;将dbSNP的rs号从一个版本转换到另外一个版本;&lt;/li&gt;
+&lt;li&gt;将基因组位置和dbSNP的rs号同时在不同的版本之间转换;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可能会看到一些Merlin/PLINK的数据格式.&lt;/p&gt;
+&lt;p&gt;我们将解释上述三种应用的工作流程. 在文章的剩余部分, 将给出从低版本到高版本转换的例子, 这也是普遍的实践.&lt;/p&gt;
+&lt;p&gt;使用不同的工具可以使liftOver变得简单. 比如UCSC的liftOver工具就可以用来在不同的基因组版本之间转换&lt;a href="http://genome.ucsc.edu/FAQ/FAQformat.html#format1"&gt;BED格式&lt;/a&gt;的文件. 使员工我们自己的脚本, 我们还可以转换rs号和Merlin/PLINK的文件.&lt;/p&gt;
+&lt;h2&gt;转换基因组位置&lt;/h2&gt;
+&lt;p&gt;基因组位置使用&lt;a href="http://genome.ucsc.edu/FAQ/FAQformat.html#format1"&gt;BED格式&lt;/a&gt;有最好的表示方式. UCSC提供工具, 用来转换从一个基因组版本到另外一个版本的BED文件.&lt;/p&gt;
+&lt;h3&gt;二进制liftOver工具&lt;/h3&gt;
+&lt;p&gt;我们需要UCSC的&lt;a href="http://hgdownload.cse.ucsc.edu/admin/exe/linux.x86_64/liftOver"&gt;二进制liftOver&lt;/a&gt;工具, 以及&lt;a href="http://hgdownload.cse.ucsc.edu/goldenPath/hg18/liftOver/hg18ToHg19.over.chain.gz"&gt;hg18到hg19的chain file&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;提供BED格式的文件(如: input.bed)&lt;/p&gt;
+&lt;p&gt;注意: 在染色体名字前加上'chr'&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;chr1    743267  743268  rs3115860
+chr1    766408  766409  rs12124819
+chr1    773885  773886  rs17160939
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;运行liftOver:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;liftOver input.bed hg18ToHg19.over.chain.gz output.bed unlifted.bed
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;unlifted.bed文件将会包含所有不能被转换的基因组位置. 原因有很多种. 失败的原因将在后文说明.&lt;/p&gt;
+&lt;h3&gt;网络接口&lt;/h3&gt;
+&lt;p&gt;另外一种选择是, 可以使用下面的网络接口来转换BED文件: &lt;a href="http://genome.ucsc.edu/cgi-bin/hgLiftOver"&gt;连接&lt;/a&gt;. 网络接口会告诉你为什么一些基因组位置, 点击"Explain failure messages"可以查看.&lt;/p&gt;
+&lt;h2&gt;转换dbSNP rs号&lt;/h2&gt;
+&lt;p&gt;rs号是由dbSNP给出. UCSC从每个dbSNP版本制作了自己的拷贝. 注意两个中心发布的相同版本的dbSNP并不相同. 但我们将rs号从低版本转换到高版本时, 实际上有两种方式.&lt;/p&gt;
+&lt;h3&gt;使用RsMergeArch和SNPHistory&lt;/h3&gt;
+&lt;p&gt;有必要快速归纳一下dbSNP的rs号是如何合并/重新激活的(re-activate):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当同一个的SNP找到了对应不同的rs号, 则较高的rs号将被合并到较低的rs号, 合并过程会在&lt;em&gt;RsMergeArch.bcp.gz&lt;/em&gt;文件中记录.&lt;/li&gt;
+&lt;li&gt;当rs号必定是可伸缩(retracted)时, rs号将在&lt;em&gt;SNPHistory.bcp.gz&lt;/em&gt;文件中记录.&lt;/li&gt;
+&lt;li&gt;可伸缩的SNP会以添加备注的方式, 在&lt;em&gt;SNPHistory.bcp.gz&lt;/em&gt;文件中重新激活(&lt;a href="http://www.ncbi.nlm.nih.gov/books/NBK44496"&gt;re-activated&lt;/a&gt;)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;记住以上几点后, 我们就可以合并两个表格以获得高版本rs号和新版本rs号之间的关系. 我们开发了一个脚本(供内部使用), 叫&lt;a href="http://genome.sph.umich.edu/wiki/LiftRsNumber.py"&gt;liftRsNumber.py&lt;/a&gt;, 用来在不同的版本之间转换rs号. 该脚本需要&lt;em&gt;RsMergeArch.bcp.gz&lt;/em&gt;和&lt;em&gt;SNPHistory.bcp.gz&lt;/em&gt;, 这些文件可以在下文的资源列表中找到.&lt;/p&gt;
+&lt;p&gt;输入示例:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;3000
+3001
+3002
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;命令:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;python liftRsNumber.py input.rs &amp;gt; output.rs
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;输出示例:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;unchanged   3000
+lifted  2032
+unchanged   3002
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;Merlin/PLINK 格式转换&lt;/h2&gt;
+&lt;p&gt;在Merlin/PLINK .map文件中, 每一行包含了基因组位置和dbSNP的rs号. 我们在这里的目标是使用两者的信息来尽可能多地转换位置. 有三种liftOver的方法, 我们推荐前两种. 第一种方法是常见并且使用最多的情况的, 并且在我们的观察中, 这种方法可以转换最多的基因组位置, 然而, 他并不能反映不同dbSNP版本之间的rs号改变. 第二种方法更加强健, 这种方法转换的每个rs号都有有效的基因组位置, 这是由于它将使用dbSNP数据转换旧版本rs号作为第一步. 第三种方法不够简单明确, 我们只会简要提及.&lt;/p&gt;
+&lt;h3&gt;转换Merlin格式&lt;/h3&gt;
+&lt;p&gt;PLINK格式和&lt;a href="http://www.sph.umich.edu/csg/abecasis/Merlin/tour/input_files.html"&gt;Merlin格式&lt;/a&gt;基本是相同的. 区别在于Merlin的.map文件有四列. 我们将展示如何转换PLINK格式的过程, 然后你可以使用以下命令:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;awk &amp;#39;{print $1,$2,&amp;quot;\t&amp;quot;,$3;}&amp;#39; PLINK.map &amp;gt;Merlin.map
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;来获得Merlin的.map文件.&lt;/p&gt;
+&lt;h3&gt;转换PLINK格式&lt;/h3&gt;
+&lt;p&gt;&lt;a href="http://pngu.mgh.harvard.edu/~purcell/plink/data.shtml"&gt;PLINK&lt;/a&gt;格式通常指&lt;em&gt;.ped&lt;/em&gt;和&lt;em&gt;.map&lt;/em&gt;文件.&lt;/p&gt;
+&lt;h4&gt;方法1&lt;/h4&gt;
+&lt;p&gt;我们主要使用UCSC的LiftOver二进制工具来帮助转换. 我们有一个脚本&lt;a href="http://genome.sph.umich.edu/wiki/LiftMap.py"&gt;liftMap.py&lt;/a&gt;, 但是还是建议一步一步地理解这个工作:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将.map文件转换为.bed文件;
+   重新排列.map文件的列顺序, 即可得到标准的BED格式文件.&lt;/li&gt;
+&lt;li&gt;LiftOver .bed 文件;
+   使用上文提到的方法将.bed文件从一个版本转换到另外一个版本.&lt;/li&gt;
+&lt;li&gt;将.bed文件转换回.map文件;
+   重新排列.bed文件的列来获得新版本的.map文件.&lt;/li&gt;
+&lt;li&gt;修改.ped文件
+   .ped文件是一个有很多列的文件. 按照约定, 前六列分别为: &lt;em&gt;family_id&lt;/em&gt;, &lt;em&gt;person_id&lt;/em&gt;, &lt;em&gt;father_id&lt;/em&gt;, &lt;em&gt;mother_id&lt;/em&gt;, &lt;em&gt;sex&lt;/em&gt; 以及 &lt;em&gt;phenotype&lt;/em&gt;. 在第七列有两位字母/数字来表示唯一的基因型. 在第二步, 由于一些基因组位置不能被转换到新的版本, 我们需要将.ped文件中的相关列丢弃来保持一致性. 可以使用&lt;code&gt;PLINK --exclude&lt;/code&gt;参数获得这些snps, 参考&lt;a href="http://pngu.mgh.harvard.edu/~purcell/plink/dataman.shtml#exclude"&gt;去除SNPs子集&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;(可选项)改变.map文件中的rs号
+   和人类参考基因组版本类似, dbSNP同样会有不同的版本. 你需要根据需求从旧版本rs号转换到新版本. 这些步骤见上文描述.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;方法2&lt;/h4&gt;
+&lt;p&gt;该方法是使用&lt;a href="http://genome.sph.umich.edu/wiki/LiftRsNumber.py"&gt;liftRsNumber.py&lt;/a&gt;来将旧版本的rs好转换为新版本, 使用数据文件&lt;em&gt;b132_SNPChrPosOnRef_37_1.bcp.gz&lt;/em&gt;(一个包含dbSNP和相应NCBI build 37版本基因组位置信息的数据文件), 然后相应地调整.map和.ped文件.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;提取并且转换rs号;
+   使用&lt;a href="http://genome.sph.umich.edu/wiki/LiftRsNumber.py"&gt;liftRsNumber.py&lt;/a&gt;将map文件中的rs号从旧版本转换到新版本.&lt;/li&gt;
+&lt;li&gt;使用rs号查找SNP位置;
+   dbSNP提供&lt;a href="http://qbrc.swmed.edu/zhanxw/software/liftOver/b132_SNPChrPosOnRef_37_1.bcp.gz"&gt;b132_SNPChrPosOnRef_37_1.bcp.gz&lt;/a&gt;包含rs号, 染色体以及染色体位置信息. 和在第一步获得的新的rs号一起使用这个文件. 事实上, 一些rs号在build 132版本中并不存在, 或者并不合适(如: 这些点并不位于人类参考基因组上, 或者它们被比对到多个位置, 这些情况在染色体一列使用"AltOnly", "Multi", "NotOn", "PAR", "Un"这些值来标注), 我们可以在liftover的步骤丢弃这些点. 我们在这一步骤之后获得新版本的rs号和对应的染色体位置.&lt;/li&gt;
+&lt;li&gt;转换.map文件和.ped文件;
+   为了转换.map文件, 我们可以逐行扫描文件的内容, 然后跳过没有转换的rs号. 相对应的, 有必要丢弃.ped文件中没有转换的SNP基因型.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4&gt;方法3&lt;/h4&gt;
+&lt;p&gt;&lt;del&gt;该方法中dbSNP提供的文件已经被移除, 不再适用.&lt;/del&gt;&lt;/p&gt;
+&lt;h2&gt;转换失败的各种原因&lt;/h2&gt;
+&lt;h3&gt;基因组位置不能被转换&lt;/h3&gt;
+&lt;p&gt;当一个SNP只在旧版本的基因组的contig上存在时, liftOver不能给出新的基因组版本对应位置.&lt;/p&gt;
+&lt;p&gt;你可以尝试在UCSC的liftOver在线工具上转换下面的SNP(BED格式):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;20  56737667    56737668    rs1073519
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;错误信息将会是: "Sequence intersects no chains".&lt;/p&gt;
+&lt;h3&gt;在非参考基因组位置上的高版本的SNP&lt;/h3&gt;
+&lt;p&gt;一些SNP不在NCBI build 37版本常染色体或者性染色体上. dbSNP没有包括这些点. 你不能使用dbSNP的数据库来根据rs号找到对应的染色体位置.&lt;/p&gt;
+&lt;p&gt;以rs1006094为例: 在NCBI dbSNP网页, 这个SNP被报道为"Mapped unambiguously on non-reference assembly only", 因此转换这个SNP可能并没有太大的意义.&lt;/p&gt;
+&lt;h3&gt;rs号该新版本的dbSNP中改变了&lt;/h3&gt;
+&lt;p&gt;新版本dbSNP有可能没有一些rs号. 当dbSNP发布一个新版本时, 高版本的rs号可能归并到低版本rs号, 因为这些SNP实际上是相同的. 这个归并操作可能会比较复杂. 简短的介绍可以参考上文中&lt;em&gt;使用RsMergeArch和SNPHistory&lt;/em&gt;一节. 细节信息可以参考:&lt;/p&gt;
+&lt;p&gt;&lt;del&gt;Finding Specific Data in dbSNP's FTP Files (该页面已经被移除)&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.ncbi.nlm.nih.gov/books/NBK44468/#Build.can_two_id_numbers_correspond_to_t"&gt;Merging RefSNP Numbers and RefSNP Clusters&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;举个例子:&lt;/p&gt;
+&lt;p&gt;rs3001 被归并到 rs2032.&lt;/p&gt;
+&lt;h3&gt;不同的dbSNP版本&lt;/h3&gt;
+&lt;p&gt;NCBI发布dbSNP132(VCF格式), UCSC也发布了他们的dbSNP132版本(txt格式). 这两个数据库文件不只是格式上不同, 内容上也有差异.&lt;/p&gt;
+&lt;p&gt;关于NCBI发布的版本, 将不会包括:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;被列为微卫星或者named variations的SNPs&lt;/li&gt;
+&lt;li&gt;多等位基因并且邻近碱基对未知的SNPs&lt;/li&gt;
+&lt;li&gt;没有比对到GRCh37参考基因组版本的SNPs&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关于UCSC发布的版本, 参考&lt;a href="http://genomewiki.ucsc.edu/index.php/DbSNP_Track_Notes"&gt;UCSC dbSNP track note&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;拿rs1054140作为例子:&lt;/p&gt;
+&lt;p&gt;NCBI dbSNP网站上给出一个位置: &lt;a href="http://www.ncbi.nlm.nih.gov/projects/SNP/snp_ref.cgi?rs=1054140"&gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;NCBI dbSNP的VCF文件上没有记录&lt;/p&gt;
+&lt;p&gt;UCSC基因组浏览器网站上给出了两个位置: &lt;a href="http://genome.ucsc.edu/cgi-bin/hgTracks?clade=mammal&amp;amp;org=Human&amp;amp;db=hg19&amp;amp;position=rs1054140&amp;amp;hgt.suggest=&amp;amp;hgt.suggestTrack=knownGene&amp;amp;pix=800&amp;amp;Submit=submit&amp;amp;hgsid=205770459&amp;amp;hgt.newJQuery=1"&gt;参考链接&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;UCSC dbSNP文件给出两个位置:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;721 chr10   17842693    17842694    rs1054140   0   +   T   T   A/T genomic single  by-cluster,by-submitter ...
+723 chr10   18089681    18089682    rs1054140   0   +   T   T   A/T genomic single  by-cluster,by-submitter ...
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;资源&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://genome.sph.umich.edu/wiki/LiftRsNumber.py"&gt;liftRsNumber.py&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://genome.sph.umich.edu/wiki/LiftMap.py"&gt;liftMap.py&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt; NCBI provisional map file and info 该文件已经被移除&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;NCBI RgMergeArch &lt;a href="ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606/database/organism_data/RsMergeArch.bcp.gz"&gt;文件&lt;/a&gt;以及&lt;a href="http://www.ncbi.nlm.nih.gov/SNP/snp_db_table_description.cgi?t=RsMergeArch"&gt;概述&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;NCBI SNPHistory &lt;a href="ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606/database/organism_data/SNPHistory.bcp.gz"&gt;文件&lt;/a&gt;以及&lt;a href="http://www.ncbi.nlm.nih.gov/SNP/snp_db_table_description.cgi?t=SNPHistory"&gt;概述&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;NCBI SNPChrPosOnRef build 132 &lt;a href="http://qbrc.swmed.edu/zhanxw/software/liftOver/b132_SNPChrPosOnRef_37_1.bcp.gz"&gt;文件&lt;/a&gt;以及&lt;a href="http://www.ncbi.nlm.nih.gov/SNP/snp_db_table_description.cgi?t=SNPChrPosOnRef"&gt;概述&lt;/a&gt;. 若该链接失效, 考虑使用升级的文件(&lt;a href="ftp://ftp.ncbi.nih.gov/snp/organisms/human_9606/database/organism_data/b144_SNPChrPosOnRef_107.bcp.gz"&gt;参考链接&lt;/a&gt;)
+  // 译者注: 最后的链接中, dbSNP版本已经更新, 链接不再完整有效, 请到对应目录下查找相应文件; 另: 截止翻译时, NCBI默认使用GRCh38版本参考基因组, 下载时需要注意.&lt;/li&gt;
+&lt;li&gt;UCSC和NCBI发布的dbSNP有哪些差别 &lt;a href="http://genomewiki.ucsc.edu/index.php/DbSNP_Track_Notes"&gt;UCSC dbSNP track note&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;dbSNP比对过程&lt;a href="http://www.ncbi.nlm.nih.gov/books/NBK44455"&gt;参考链接&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;NCBI dbSNP 132版本 过时的版本&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;&lt;del&gt;UCSC dbSNP 132版本 过时的版本&lt;/del&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;维护者&lt;/h2&gt;
+&lt;p&gt;该页面由&lt;a href="zhanxw@umich.edu"&gt;Xiaowei Zhan&lt;/a&gt;维护.&lt;/p&gt;
+&lt;h2&gt;译者注1&lt;/h2&gt;
+&lt;p&gt;该wiki发布于2015年7月15号, 里面部分数据库的版本相对过时, 实际操作中请配合目前版本需求;&lt;/p&gt;
+&lt;h2&gt;译者注2 VCF格式转换&lt;/h2&gt;
+&lt;p&gt;使用gatk提供的picard可以进行VCF格式的版本转换, 需要准备的文件有:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;下载相应地转换文件, 可以从&lt;a href="https://github.com/broadgsa/gatk/tree/master/chainFiles"&gt;gatk的github&lt;/a&gt;上下载得到;&lt;/li&gt;
+&lt;li&gt;目标基因组版本的基因组序列;&lt;/li&gt;
+&lt;li&gt;待转换的VCF文件;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;使用以下命令在不同版本之间转换VCF格式(以GRCh37的cosmic数据库转换到hg19为例):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;java -jar picard.jar LiftoverVcf I=GRCH37_cosmic.vcf O=hg19_cosmic.vcf C=b37tohg19.chain R=ucsc.hg19.fasta REJECT=reject.vcf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;转换结果将输出到&lt;code&gt;hg19_cosmic.vcf&lt;/code&gt;, 转换失败的结果将输出到&lt;code&gt;reject.vcf&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;申明&lt;/h2&gt;
+&lt;p&gt;原文地址: http://genome.sph.umich.edu/wiki/LiftOver&lt;/p&gt;
+&lt;p&gt;本文由本人(Lyon0804)翻译并发布, 如果侵犯原文权利请告知.&lt;/p&gt;
+&lt;p&gt;转载请注明本文地址: http://www.lyon0804.com/fan-yi-LiftOver.html&lt;/p&gt;</summary><category term="bioinformatics"></category><category term="LiftOver"></category></entry><entry><title>基于MongoDB和Flask的变异信息数据库</title><link href="http://www.lyon0804.com/ji-yu-mongodbhe-flaskde-bian-yi-xin-xi-shu-ju-ku.html" rel="alternate"></link><updated>2016-09-21T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-09-21:ji-yu-mongodbhe-flaskde-bian-yi-xin-xi-shu-ju-ku.html</id><summary type="html">&lt;h2&gt;临床变异数据库&lt;/h2&gt;
 &lt;p&gt;当积累的一定的样本量之后, 就应该积累自己的数据库, 建立变异数据库的意义在于:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;样品管理;&lt;/li&gt;
