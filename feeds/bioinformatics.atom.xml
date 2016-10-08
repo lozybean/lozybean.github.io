@@ -302,9 +302,7 @@
 &lt;li&gt;方法(类主体): &lt;strong&gt;init&lt;/strong&gt;, bar&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;当这个类被定义时, 其内部依次进行下面几步工作:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;分离类主体:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;1.分离类主体:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;body&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
 &lt;span class="s"&gt;def __init__(self, name):&lt;/span&gt;
 &lt;span class="s"&gt;    self.name = name&lt;/span&gt;
@@ -315,9 +313,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
-&lt;li&gt;创建类字典, 默认只是创建一个一般的字典, 作为类在主体声明时的本地命名空间;&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;2.创建类字典, 默认只是创建一个一般的字典, 作为类在主体声明时的本地命名空间;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;clsdict&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__prepare__&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Spam&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;))&lt;/span&gt;
 
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;clsdict&lt;/span&gt;
@@ -325,9 +321,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
-&lt;li&gt;运行类主体, 并返回更新后的字典:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;3.运行类主体, 并返回更新后的字典:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;exec&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;body&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;globals&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;clsdict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
@@ -338,9 +332,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
-&lt;li&gt;使用类名、父类名、类字典三个部分构造类:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;4.使用类名、父类名、类字典三个部分构造类:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Spam&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;Spam&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Base&lt;/span&gt;&lt;span class="p"&gt;,),&lt;/span&gt; &lt;span class="n"&gt;clsdict&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;Spam&lt;/span&gt;
@@ -447,9 +439,9 @@
 
 
 &lt;p&gt;但是其实存在很多问题:&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;不支持键值参数&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt;&amp;gt;&amp;gt; s = Stock(&amp;#39;ACME&amp;#39;, price=123.45, shares=50)
 Traceback (most recent call last):
   File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt;
@@ -457,9 +449,9 @@ TypeError: __init__() got an unexpected keyword argument &amp;#39;shares&amp;#39
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;缺失运行时签名:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;inspect&lt;/span&gt;
 &lt;span class="o"&gt;&amp;gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;inspect&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;signature&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Stock&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;Signature&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
@@ -1333,17 +1325,17 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
 &lt;p&gt;而这些工作都没有做任何的'hack', 所有的一切都在python3的设计之中, 使用python3可以更加优雅地实现很多事情.&lt;/p&gt;
 &lt;h3&gt;这只是开始&lt;/h3&gt;
 &lt;p&gt;python3还有很多好用的特性:&lt;/p&gt;
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;函数注释:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;add&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;非本地变量:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;outer&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
     &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
     &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;inner&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
@@ -1353,25 +1345,25 @@ Line #      Hits         Time  Per Hit   % Time  Line Contents
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;上下文管理器:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="o"&gt;...&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;Frame-hacks&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
 &lt;span class="n"&gt;f&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;_getfrmae&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;ol&gt;
+&lt;ul&gt;
 &lt;li&gt;代码修改器:&lt;/li&gt;
-&lt;/ol&gt;
+&lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;ast&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
