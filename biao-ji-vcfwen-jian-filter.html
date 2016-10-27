@@ -23,7 +23,7 @@
         <meta property="og:title" content="标记VCF文件FILTER"/>
         <meta property="og:url" content="http://www.lyon0804.com/biao-ji-vcfwen-jian-filter.html"/>
         <meta property="og:description" content="前文 本文将会涉及到的内容有: 使用gatk对VCF文件进行FILTER标记; 使用PyVCF处理VCF文件的基本操作; 使用eval执行表达式参数; 根据filterName自动识别record类型, 决定是否标记FILTER 如何安全地使用eval; 使用gatk标记VCF FILTER以及存在的问题 使用gatk工具集中的VariantFiltration, 可以利用表达式参数来进行FILTER的标记, 如: java -jar gatk.jar -T VariantFiltration \ -R genome.fasta -V calling.vcf -o maked.vcf \ -filter &#34;QD&lt;2.0||FS&gt;60.0||SOR&gt;4.0||MQ&lt;40.0||MQRankSum&lt;-12.5||ReadPosRankSum&lt;-8.0&#34; \ -filterName &#34;SNP_filter ..."/>
-        <meta property="article:published_time" content="2016-09-21" />
+        <meta property="article:published_time" content="2016-10-27" />
             <meta property="article:section" content="bioinformatics" />
             <meta property="article:tag" content="bioinformatics" />
             <meta property="article:tag" content="vcf" />
@@ -103,7 +103,7 @@
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2016-09-21T00:00:00+08:00"> Wed 21 September 2016</time>
+        <i class="fa fa-calendar"></i><time datetime="2016-10-27T00:00:00+08:00"> Thu 27 October 2016</time>
     </span>
 
 

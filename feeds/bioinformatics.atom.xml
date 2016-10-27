@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/bioinformatics.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-09-21T00:00:00+08:00</updated><entry><title>标记VCF文件FILTER</title><link href="http://www.lyon0804.com/biao-ji-vcfwen-jian-filter.html" rel="alternate"></link><updated>2016-09-21T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-09-21:biao-ji-vcfwen-jian-filter.html</id><summary type="html">&lt;h2&gt;前文&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/bioinformatics.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2016-10-27T00:00:00+08:00</updated><entry><title>标记VCF文件FILTER</title><link href="http://www.lyon0804.com/biao-ji-vcfwen-jian-filter.html" rel="alternate"></link><updated>2016-10-27T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-10-27:biao-ji-vcfwen-jian-filter.html</id><summary type="html">&lt;h2&gt;前文&lt;/h2&gt;
 &lt;p&gt;本文将会涉及到的内容有:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;使用gatk对VCF文件进行FILTER标记;&lt;/li&gt;
