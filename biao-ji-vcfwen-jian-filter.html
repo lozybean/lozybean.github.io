@@ -272,6 +272,17 @@
             <span class="p">})</span>
         <span class="n">vcf_writer</span> <span class="o">=</span> <span class="n">VCFWriter</span><span class="p">(</span><span class="n">fp_out</span><span class="p">,</span> <span class="n">vcf_reader</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">vcf_reader</span><span class="p">:</span>
+            <span class="n">default_values</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;QUAL&#39;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">QUAL</span><span class="p">,</span>
+                <span class="s">&#39;DP&#39;</span><span class="p">:</span> <span class="n">inf</span><span class="p">,</span>
+                <span class="s">&#39;MQ&#39;</span><span class="p">:</span> <span class="n">inf</span><span class="p">,</span>
+                <span class="s">&#39;QD&#39;</span><span class="p">:</span> <span class="n">inf</span><span class="p">,</span>
+                <span class="s">&#39;FS&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">inf</span><span class="p">,</span>
+                <span class="s">&#39;SOR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="n">inf</span><span class="p">,</span>
+                <span class="s">&#39;MQRankSum&#39;</span><span class="p">:</span> <span class="n">inf</span><span class="p">,</span>
+                <span class="s">&#39;ReadPosRankSum&#39;</span><span class="p">:</span> <span class="n">inf</span><span class="p">,</span>
+                <span class="s">&#39;InbreedingCoeff&#39;</span><span class="p">:</span> <span class="n">inf</span><span class="p">,</span>
+            <span class="p">}</span>
             <span class="k">if</span> <span class="n">record</span><span class="o">.</span><span class="n">FILTER</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
                 <span class="n">record</span><span class="o">.</span><span class="n">FILTER</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">filters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
