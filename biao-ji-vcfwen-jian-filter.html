@@ -301,41 +301,46 @@
 <h3>*安全地使用eval</h3>
 <p>如果需要对外暴露函数的话, eval是不够安全的, 所以非常有必要对传入的expression进行安全检查.</p>
 <p>这里会使用到内置函数<code>compile</code>, 并且设置为ast.PyCF_ONLY_AST模式, 然后遍历编译后的每个节点, 检查其安全性.</p>
-<p>由于在FILTER标记时, 只会用到大小判断的表达式, 所以在整个表达式中, 只会出现:</p>
-<ul>
-<li>逻辑运算符</li>
-<li>比较运算符</li>
-<li>负('-')前缀</li>
-<li>数字元素</li>
-<li>名称元素</li>
-</ul>
+<p>由于在FILTER标记时, 只会用到大小判断的表达式, 所以在整个表达式中, 除了一些操作语句之外, 只可能出现Num和Name.</p>
 <p>当出现这几种之外的元素时, 就应该判断为不安全的表达式, 并报错:</p>
 <div class="highlight"><pre><span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="k">def</span> <span class="nf">check_eval</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">check_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_or_string</span><span class="p">):</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="n">node_or_string</span> <span class="o">=</span> <span class="nb">compile</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;eval&#39;</span><span class="p">,</span> <span class="n">PyCF_ONLY_AST</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="n">Expression</span><span class="p">):</span>
         <span class="n">node_or_string</span> <span class="o">=</span> <span class="n">node_or_string</span><span class="o">.</span><span class="n">body</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="n">BoolOp</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">node_or_string</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-            <span class="n">check_eval</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_eval</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="n">Compare</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Num</span><span class="p">,</span> <span class="n">UnaryOp</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;unsupported expression!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_eval</span><span class="p">(</span><span class="n">node_or_string</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">comparator</span> <span class="ow">in</span> <span class="n">node_or_string</span><span class="o">.</span><span class="n">comparators</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">comparator</span><span class="p">,</span> <span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Num</span><span class="p">,</span> <span class="n">UnaryOp</span><span class="p">)):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;unsupported expression!&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">check_eval</span><span class="p">(</span><span class="n">comparator</span><span class="p">)</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="n">UnaryOp</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="o">.</span><span class="n">operand</span><span class="p">,</span> <span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Num</span><span class="p">)):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;unsupported expression!&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_eval</span><span class="p">(</span><span class="n">node_or_string</span><span class="o">.</span><span class="n">operand</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="n">BinOp</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_eval</span><span class="p">(</span><span class="n">node_or_string</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_eval</span><span class="p">(</span><span class="n">node_or_string</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="n">Subscript</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_eval</span><span class="p">(</span><span class="n">node_or_string</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node_or_string</span><span class="p">,</span> <span class="p">(</span><span class="n">Name</span><span class="p">,</span> <span class="n">Num</span><span class="p">)):</span>
+        <span class="c"># only Name or Num base element is allowed</span>
+        <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s">&quot;unsupported expression!&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="bp">None</span>
 </pre></div>
 
 
 <p>表达式通过上述代码中描述的严格检查之后, 再进行<code>eval</code>运算, 从而保证程序的安全.</p>
+<h3>最终实现</h3>
+<p>除了上述内容之外, 还需要:</p>
+<ol>
+<li>加上genotypeFilter之类的特性, 让脚本和gatk的VariantFiltration的调用表现等尽量一致;</li>
+<li>添加自定义的默认值参数, 使得脚本可用性更强;</li>
+</ol>
+<p>完成这些功能之后, 就可以使用自己编写的脚本来替代gatk的VariantFiltration, 更好地帮助日常工作.</p>
             </div>
             <!-- /.entry-content -->
 
