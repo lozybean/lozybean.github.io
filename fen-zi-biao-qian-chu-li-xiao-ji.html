@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>分子标签处理小记 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/fen-zi-biao-qian-chu-li-xiao-ji.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="MID,UMI,ctDNA" />
+        <meta name="description" content="什么是分子标签 分析超低频突变时, 为了提高变异识别的准确性, PCR之前在文库中加入若干个随机碱基形成的序列, 这段随机序列就叫做所谓的分子标签. 分子标签有两个主要的特点: 随机序列, 并且序列的长度会有一定要求, 让序列具有充分的随机性, 随机序列的作用是尽可能保证初始文库中, 每一个序列拷贝都和特异的分子标签结合. 在PCR之前结合到文库中, 由于需要每个原始拷贝结合到特异的分子标签, 当然就需要在PCR过程之前结合. 由于分子标签可以和原始拷贝特异性结合, 在后续的PCR过程后, 就可以通过分子标签区分出原始拷贝与PCR扩增产物, 意味着通过数据分析, 理论上可以重现原始拷贝的序列分布, 从而更加精确地找出突变. 分子标签还可以帮助减少背景噪音, 一个原始拷贝在PCR过程、测序过程之后, 会产生误差, 可以认为该误差是随机误差(背景噪音). 这多条可能存在随机误差的序列, 可以通过数据分析, 得到一条一致性序列, 在这个过程中有效减少背景噪音对超低频突变检测带来的影响. 分子标签的类型 根据分子标签在文库中所在的位置, 大体可以分为两类: 和insert连接, 在insert的一端或两端插入分子标签; 和adaptor连接, 在index的位置插入分子标签; 这两种分子标签各有特点, 第一种分子标签可以保证更长的序列, 从而实现更好的随机性, 第二种分子标签虽然长度上有所限制, 但是在illumina平台测序过程中, 不会由于分子标签处的测序错误而对插入片断造成影响. 目前我还无法武断地说哪种就一定更好. 数据拆分 第一种分子标签, 由于在insert区域, 所以数据拆分和一般的文库一样, 但是如果是illumina平台, 使用 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="分子标签处理小记"/>
+        <meta property="og:url" content="http://www.lyon0804.com/fen-zi-biao-qian-chu-li-xiao-ji.html"/>
+        <meta property="og:description" content="什么是分子标签 分析超低频突变时, 为了提高变异识别的准确性, PCR之前在文库中加入若干个随机碱基形成的序列, 这段随机序列就叫做所谓的分子标签. 分子标签有两个主要的特点: 随机序列, 并且序列的长度会有一定要求, 让序列具有充分的随机性, 随机序列的作用是尽可能保证初始文库中, 每一个序列拷贝都和特异的分子标签结合. 在PCR之前结合到文库中, 由于需要每个原始拷贝结合到特异的分子标签, 当然就需要在PCR过程之前结合. 由于分子标签可以和原始拷贝特异性结合, 在后续的PCR过程后, 就可以通过分子标签区分出原始拷贝与PCR扩增产物, 意味着通过数据分析, 理论上可以重现原始拷贝的序列分布, 从而更加精确地找出突变. 分子标签还可以帮助减少背景噪音, 一个原始拷贝在PCR过程、测序过程之后, 会产生误差, 可以认为该误差是随机误差(背景噪音). 这多条可能存在随机误差的序列, 可以通过数据分析, 得到一条一致性序列, 在这个过程中有效减少背景噪音对超低频突变检测带来的影响. 分子标签的类型 根据分子标签在文库中所在的位置, 大体可以分为两类: 和insert连接, 在insert的一端或两端插入分子标签; 和adaptor连接, 在index的位置插入分子标签; 这两种分子标签各有特点, 第一种分子标签可以保证更长的序列, 从而实现更好的随机性, 第二种分子标签虽然长度上有所限制, 但是在illumina平台测序过程中, 不会由于分子标签处的测序错误而对插入片断造成影响. 目前我还无法武断地说哪种就一定更好. 数据拆分 第一种分子标签, 由于在insert区域, 所以数据拆分和一般的文库一样, 但是如果是illumina平台, 使用 ..."/>
+        <meta property="article:published_time" content="2017-02-22" />
+            <meta property="article:section" content="bioinformatics" />
+            <meta property="article:tag" content="MID" />
+            <meta property="article:tag" content="UMI" />
+            <meta property="article:tag" content="ctDNA" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/fen-zi-biao-qian-chu-li-xiao-ji.html"
+                       rel="bookmark"
+                       title="Permalink to 分子标签处理小记">
+                        分子标签处理小记
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-02-22T00:00:00+08:00"> Wed 22 February 2017</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/mid.html">MID</a>
+        /
+	<a href="http://www.lyon0804.com/tag/umi.html">UMI</a>
+        /
+	<a href="http://www.lyon0804.com/tag/ctdna.html">ctDNA</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>什么是分子标签</h2>
+<p>分析超低频突变时, 为了提高变异识别的准确性, PCR之前在文库中加入若干个随机碱基形成的序列, 这段随机序列就叫做所谓的分子标签.</p>
+<p>分子标签有两个主要的特点:</p>
+<ol>
+<li>随机序列, 并且序列的长度会有一定要求, 让序列具有充分的随机性, 随机序列的作用是尽可能保证初始文库中, 每一个序列拷贝都和特异的分子标签结合.</li>
+<li>在PCR之前结合到文库中, 由于需要每个原始拷贝结合到特异的分子标签, 当然就需要在PCR过程之前结合.</li>
+</ol>
+<p>由于分子标签可以和原始拷贝特异性结合, 在后续的PCR过程后, 就可以通过分子标签区分出原始拷贝与PCR扩增产物, 意味着通过数据分析, 理论上可以重现原始拷贝的序列分布, 从而更加精确地找出突变.</p>
+<p>分子标签还可以帮助减少背景噪音, 一个原始拷贝在PCR过程、测序过程之后, 会产生误差, 可以认为该误差是随机误差(背景噪音). 这多条可能存在随机误差的序列, 可以通过数据分析, 得到一条一致性序列, 在这个过程中有效减少背景噪音对超低频突变检测带来的影响.</p>
+<h2>分子标签的类型</h2>
+<p>根据分子标签在文库中所在的位置, 大体可以分为两类:</p>
+<ol>
+<li>和insert连接, 在insert的一端或两端插入分子标签;</li>
+<li>和adaptor连接, 在index的位置插入分子标签;</li>
+</ol>
+<p>这两种分子标签各有特点, 第一种分子标签可以保证更长的序列, 从而实现更好的随机性, 第二种分子标签虽然长度上有所限制, 但是在illumina平台测序过程中, 不会由于分子标签处的测序错误而对插入片断造成影响.</p>
+<p>目前我还无法武断地说哪种就一定更好.</p>
+<h2>数据拆分</h2>
+<p>第一种分子标签, 由于在insert区域, 所以数据拆分和一般的文库一样, 但是如果是illumina平台, 使用<code>bcl2fastq</code>软件进行拆分的话, 通过在settings section里面设置分子标签的位置, 可以将分子标签从reads上截取, 并放到reads的id处, 可以节省很多的工作, 并且个人认为这是一种不错的表示方法, 希望以后可以成为通用规则.</p>
+<p>第二种分子标签, 目前没有支持直接拆分的软件(2017-02-22), 但是可以通过一个窍门, 依然使用<code>bcl2fastq</code>来拆分. 具体操作方式是在拆分之前, 修改RunInfo.xml, 修改Reads这个数据段, 把应该是index2的几个cycle合并到read2上, 让<code>bcl2fastq</code>错误认为index2的这几个cycle是read2, 就可以通过和第一种分子标签一样的方法进行拆分了. PS: 这个方法连illumina的生信支持都没发现, 应该是我首创吧, 不过还是希望<code>bcl2fastq</code>后续版本可以直接支持这个区域的分子标签拆分.</p>
+<h2>数据处理</h2>
+<p>分子标签的数据处理大体分为下面几步:</p>
+<ol>
+<li>序列比对, 并对bam文件排序: 由于分子标签结合的是同一个原始拷贝, 这些序列比对到参考基因组的位置必然是接近的, 通过排序后的bam文件, 实际上就完成了分子标签的聚集工作.</li>
+<li>去接头(这里用到的方法会比较特别): 遍历bam文件, 如果某一行的cigar 3'端具有soft clip, 并且read的长度超过了模板的长度, 可以想象肯定是测到插入片断之外的东西了(大部分是接头, 也有可能是分子标签等), 这时候就需要截掉3'端的soft clip. 这个步骤在ctDNA中会显得比较重要, 因为ctDNA的片断往往比较短, 比正常打断的DNA片断更加容易出现这种情况, 并且如果是第一种类型的分子标签, 一般比对方法去接头的方式是不能去除3'端连接的分子标签的.</li>
+<li>序列过滤: 根据不同的实验方法进行序列的过滤, 按要求过滤是否匹配参考基因组、比对质量、是否mate paired、是否proper paired等, 另外比较特殊的是需要检查分子标签的结构, 当分子标签中重复碱基过多时, 应当过滤掉, 特别是NextSeq等双通道仪器的测序结果中的poly-G结构;</li>
+<li>找单端一致性序列: 这一步可能会有很多不同的方法, 我目前采用的是<a href="https://github.com/loeblab/Duplex-Sequencing">Duplex_Sequence</a>使用的方法, 对于同一个分子标签结合的序列, 观察cigar, 取出most common的cigar对应的序列, 并去除其他cigar对应的序列; 对于most common cigar对应的序列集, 考察其序列数量是否大于阈值(确保重复以去除背景噪音), 若小于阈值则过滤(这里就对测序深度提出要求, 每一个分子标签必须要测够一定的重复), 该阈值根据实际情况选取; 若大于阈值, 则从第一个碱基开始遍历, 考察most common的碱基占的比例, 如果该比例大于阈值, 则确定这个位置的一致性碱基, 若该比例小于该阈值, 则使用N代替, 完成遍历后得到一致性序列;</li>
+<li>一致性序列过滤: 为了保证一致性序列的可靠性, 需要对其中的N碱基个数进行限制, 当N过多时, 应当过滤掉该序列;</li>
+<li>双端一致性序列: 当分子标签通过adaptor和insert链接产生时, 和insert的两端链接的adaptor带的分子标签都是随机, 从而形成a-5'insert3'-b和a-3'insert5'-b这样两条互补链, 后续PCR过程后, a-insert-b和b-insert-a实际上代表着同一个原始拷贝, 找出这样的组合, 并且比较对应基因组位置的碱基情况, 可以进一步排除背景噪音;</li>
+<li>iDES: 根据bam文件的训练结果, 去除背景噪音, 这个我还没有特别搞明白, 目前的处理中也没有加入这一步, 具体可以参考<a href="https://www.ncbi.nlm.nih.gov/pubmed/27018799">CAPP Seq的这篇文献</a>;</li>
+<li>从bam文件中获得fastq: 分子标签处理的最后一步, 不详细讲如果处理的, 提几个比较容易出错的地方: 1. 确保read1和read2是配对的, 可以从比对的位置判断; 2. read1和read2的id一致性, 并且尽量避免重复的reads id; 完成这一步之后, 从得到的fastq格式开始, 按照常规的分析方法即可; PS: 是的, 你需要重新比对一次! 仔细想想, cigar, 比对位置, mate信息等等都已经被认为篡改了.</li>
+</ol>
+<h2>特异性?</h2>
+<p>分子标签一定能保证特异性吗? 其实未必, 特别是比较短的分子标签(如Swift建库试剂盒使用的9个碱基长度的分子标签), 往往同一个分子标签可以结合到不同的位置, 但是通过数据分析, 可以认为比对到基因组位置较远的位置, 虽然是同一个分子标签, 但实际上并不是同一个原始拷贝. 由于打断序列或者ctDNA序列的随机性, 相对人类的基因组范围来说, 这种方法可以在很大的程度上保证分子标签的特异性.</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="fen-zi-biao-qian-chu-li-xiao-ji" data-title="分子标签处理小记" data-url="http://www.lyon0804.com/fen-zi-biao-qian-chu-li-xiao-ji.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'fen-zi-biao-qian-chu-li-xiao-ji', '分子标签处理小记' , 'http://www.lyon0804.com/fen-zi-biao-qian-chu-li-xiao-ji.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

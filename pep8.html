@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>PEP8 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/pep8.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="python,PEP8" />
+        <meta name="description" content="PEP(Python Enhancement Proposals)，是一系列关于Python的改进建议，其中的第8篇建议，即PEP8（Title: Style Guide for Python Code），则是针对Python的代码编写规范提出的一些建议。本文记录一些比较个人比较在意的点。 Readability Counts 一份编码建议旨在提高编码的可读性，统一的代码编写规范对代码可读性来说非常重要，而且从PEP中，可以看出Python的设计哲学，从而更好地理解Python。 代码编排 1. 使用4个空格缩进，避免使用tab缩进 强制使用缩进是Python代码的一大特点，但是同时也是很多人对Python绝望的特性，这是由于很多不好的缩进习惯造成的，甚至在一些知名实验室中的代码都存在这些问题（如The Huttenhower Lab的LEfSe的源码中，混合使用了空格和tab的缩进，如果只从代码角度上讲，这份源码是烂透了)。 为什么不使用tab（制表符）进行缩进呢？这是因为不同环境下，对制表符的转换有所不同，而空格则可以永远保持相同的外观。使用tab键作为缩进的代码，如果对其做复制操作，则多半会出缩进问题。 使用tab缩进的好处是，只需要按一次键盘 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="PEP8"/>
+        <meta property="og:url" content="http://www.lyon0804.com/pep8.html"/>
+        <meta property="og:description" content="PEP(Python Enhancement Proposals)，是一系列关于Python的改进建议，其中的第8篇建议，即PEP8（Title: Style Guide for Python Code），则是针对Python的代码编写规范提出的一些建议。本文记录一些比较个人比较在意的点。 Readability Counts 一份编码建议旨在提高编码的可读性，统一的代码编写规范对代码可读性来说非常重要，而且从PEP中，可以看出Python的设计哲学，从而更好地理解Python。 代码编排 1. 使用4个空格缩进，避免使用tab缩进 强制使用缩进是Python代码的一大特点，但是同时也是很多人对Python绝望的特性，这是由于很多不好的缩进习惯造成的，甚至在一些知名实验室中的代码都存在这些问题（如The Huttenhower Lab的LEfSe的源码中，混合使用了空格和tab的缩进，如果只从代码角度上讲，这份源码是烂透了)。 为什么不使用tab（制表符）进行缩进呢？这是因为不同环境下，对制表符的转换有所不同，而空格则可以永远保持相同的外观。使用tab键作为缩进的代码，如果对其做复制操作，则多半会出缩进问题。 使用tab缩进的好处是，只需要按一次键盘 ..."/>
+        <meta property="article:published_time" content="2015-09-27" />
+            <meta property="article:section" content="Learning" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="PEP8" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/pep8.html"
+                       rel="bookmark"
+                       title="Permalink to PEP8">
+                        PEP8
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-09-27T00:00:00+08:00"> Sun 27 September 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/python.html">python</a>
+        /
+	<a href="http://www.lyon0804.com/tag/pep8.html">PEP8</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><a href="https://www.python.org/dev/peps/"><strong>PEP</strong></a>(Python Enhancement Proposals)，是一系列关于Python的改进建议，其中的第8篇建议，即<strong>PEP8</strong>（Title: Style Guide for Python Code），则是针对Python的代码编写规范提出的一些建议。本文记录一些比较个人比较在意的点。</p>
+<blockquote>
+<p>Readability Counts</p>
+</blockquote>
+<p>一份编码建议旨在提高编码的可读性，统一的代码编写规范对代码可读性来说非常重要，而且从PEP中，可以看出Python的设计哲学，从而更好地理解Python。</p>
+<h2>代码编排</h2>
+<h4>1. 使用4个空格缩进，避免使用tab缩进</h4>
+<p>强制使用缩进是Python代码的一大特点，但是同时也是很多人对Python绝望的特性，这是由于很多不好的缩进习惯造成的，甚至在一些知名实验室中的代码都存在这些问题（如The Huttenhower Lab的LEfSe的<a href="https://bitbucket.org/nsegata/lefse">源码</a>中，混合使用了空格和tab的缩进，如果只从代码角度上讲，这份源码是烂透了)。</p>
+<p>为什么不使用tab（制表符）进行缩进呢？这是因为不同环境下，对制表符的转换有所不同，而空格则可以永远保持相同的外观。使用tab键作为缩进的代码，如果对其做复制操作，则多半会出缩进问题。</p>
+<p>使用tab缩进的好处是，只需要按一次键盘，但是基本上主流IDE和编辑器都支持expand tab，如：</p>
+<ul>
+<li>vim中，设置<code>expandtab</code>、<code>softtabstop=4</code>即可在输入tab时自动转换为4个空格，使用<code>autocmd FileType python setlocal</code>设置，只在编辑python文件时生效。</li>
+<li>sublime中，设置   <code>"tab_size": 4</code>,<code>"translate_tabs_to_spaces": true</code>这两项，即可在输入tab时进行转换。</li>
+<li>pycharm等IDE在设置中都有indent选项，pycharm默认为4个空格。</li>
+</ul>
+<p>在python3中，混合使用tab和空格将会报错，python2中，使用-t选项可以显示警告，使用-tt选项可以直接报错。</p>
+<h4>2. 代码一行最大长度为79</h4>
+<p>在编程时，应该注意以下两点，来保证代码一行长度不过长：</p>
+<ul>
+<li>避免在一行中写出复杂的生成式或者列表推导式，有时候为了显示能够熟练使用一些技巧，会写出很长的推导式，这样的代码可读性较差，在性能上也不一定具有提升，这种写法是<strong>complicated</strong>的，为了代码可读性，平凡的<strong>simple</strong>要比装逼的<strong>complicated</strong>好的多。</li>
+<li>不要使用<code>;</code>将多条语句强行写到同一行上。</li>
+<li>不可避免地需要较长代码时，应该使用<code>\</code>符号进行分隔，分隔的同时应该注意缩进规则，不可使用和下一级相同的缩进，参考：<a href="https://www.python.org/dev/peps/pep-0008/#indentation">https://www.python.org/dev/peps/pep-0008/#indentation</a>；</li>
+<li>参数列表过长时，应该换行，并且遵守上述缩进规则。</li>
+</ul>
+<p>对一行代码的最大长度做出限制，看似是比较顽固保守的，但是其中透露出<code>The Zen of Python</code>中的重要思想：</p>
+<blockquote>
+<p>Simple is better than complex.</p>
+<p>Complex is better than complicated.</p>
+</blockquote>
+<h4>3. 空行与空格的使用</h4>
+<p>空行的含义在于分割逻辑，空行使用原则为：</p>
+<ul>
+<li>类和顶级元素之间空两行</li>
+<li>方法定义之间空一行</li>
+<li>同一个函数内逻辑上无关的段落空一行，并且尽量避免这种情况，一个函数应该实现最小功能</li>
+<li>其他地方不要使用空行</li>
+</ul>
+<p>空格用来在一个句子中，分隔独立含义的元素。</p>
+<ul>
+<li>
+<p>避免不必要的空格，如：</p>
+<ol>
+<li>在括号后面不要使用空格，如：<del>spam( ham[ 1 ], { eggs: 2 } )</del>，正确的写法为：<code>spam(ham[1], {eggs: 2})</code>；</li>
+<li>在分割符号（<code>,</code>，<code>;</code>，<code>:</code>）前面不要用空格，如：<del>if x == 4 : print x , y ; x , y = y , x</del>，正确的写法为：<code>if x == 4: print x, y; x, y = y, x</code>；</li>
+<li>在具有独立含义的元素中，不使用空格，如在切片操作中，两个冒号两侧都不应该使用空格；</li>
+<li>在函数调用的小括号前、索引的中括号前不应该使用空格；</li>
+<li>不要为了让<code>=</code>对齐，而在<code>=</code>两侧添加多余的空格；</li>
+</ol>
+</li>
+<li>
+<p>在操作符两侧使用一个空格，当操作符有优先级关系时，只再低优先级的操作符两侧添加空格，如：</p>
+<ol>
+<li><code>i = i + 1</code></li>
+<li><code>submitted += 1</code></li>
+<li><code>x = x*2 - 1</code></li>
+<li><code>hypot2 = x*x + y*y</code></li>
+<li><code>c = (a+b) * (a-b)</code></li>
+</ol>
+</li>
+<li>
+<p>在表示字典参数时，<code>=</code>两侧不添加空格，如：<code>complex(real, imag=0.0)</code>，但是，当出现<code>:</code>的参数注释以及<code>-&gt;</code>的返回值注释时，则应该使用空格，如：<code>def munge(sep: AnyStr = None):</code>，<code>def munge() -&gt; AnyStr:</code>；</p>
+</li>
+</ul>
+<p>不论<code>if</code>、<code>try</code>后面有几条语句，都应该分行显示；不论语句多么简短，不同的语句都应该分行显示，而不要使用<code>;</code>连接，如：</p>
+<div class="highlight"><pre><span class="k">if</span> <span class="n">foo</span> <span class="o">==</span> <span class="s">&#39;blah&#39;</span><span class="p">:</span>
+    <span class="n">do_blah_thing</span><span class="p">()</span>
+<span class="n">do_one</span><span class="p">()</span>
+<span class="n">do_two</span><span class="p">()</span>
+<span class="n">do_three</span><span class="p">()</span>
+</pre></div>
+
+
+<p>而不能写作<del>if foo == 'blah': do_blah_thing()</del>，<del>do_one(); do_two(); do_three()</del>等；</p>
+<h2>文档编排</h2>
+<h4>1. 编排顺序</h4>
+<p>按照：<em>docstring</em> -&gt; <em>import</em> -&gt; <em>globals</em> &amp; <em>constance</em> -&gt; 其他定义的顺序编排。</p>
+<p><a href="https://www.python.org/dev/peps/pep-0257">PEP257</a>给出了文档描述编写时的建议，只需要为<code>public</code>的模块、类、方法添加文档描述，非<code>public</code>的内容不需要添加描述，意味着不希望使用者使用或者修改这部分代码，以免更新后的代码不可控，虽然Python没有提供直接<code>private</code>，在提供了更大使用空间的同时，对使用者也有了更高的要求。</p>
+<p>在import部分，应当以<em>标准库</em> -&gt; <em>三方库</em> -&gt; <em>自己编写的库</em>的顺序导入，并在中间以空行隔开，python2中如果需要导入<code>__future__</code>，则应该写在最开头；在import时，每个独立的模块都应该使用单独的<code>import</code>，而不要使用<code>,</code>一次导入多个模块，如：<del>import sys, os</del>，但是同一个模块的不同类、方法则可以使用<code>,</code>一次导入多个，如正确的写法示例：</p>
+<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+</pre></div>
+
+
+<h4>2. 注释</h4>
+<blockquote>
+<p>Comments that contradict the code are worse than no comments</p>
+</blockquote>
+<p>不要添加过多不必要的注释，在代码更新时，必须更新注释内容。注释的内容必须使用完整的英文句子。</p>
+<p>块注释时，应该以<code>#</code>并且紧跟一个空格开头，空行应该以单独的<code>#</code>表示，如：</p>
+<div class="highlight"><pre><span class="c"># It is a block comment.</span>
+<span class="c">#</span>
+<span class="c"># Something else.</span>
+<span class="c">#</span>
+<span class="c"># It is the end line.</span>
+</pre></div>
+
+
+<p>单行注释应该<strong>尽量避免</strong>，如确实要使用，则在代码和注释之间添加至少两个空格。</p>
+<p>注释的内容不应该是语句的翻译，而是解释语句的意义，如：</p>
+<p>这是一个无谓的注释，这种注释不如没有：</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>                 <span class="c"># Increment x</span>
+</pre></div>
+
+
+<p>这是一个有意义的注释，解释该语句的意义：</p>
+<div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span>                 <span class="c"># Compensate for border</span>
+</pre></div>
+
+
+<h2>命名规范</h2>
+<ol>
+<li>没有必要给同一个模块的函数添加统一的前缀，因为Python中函数将始终受到模块的名称保护，同样的方法也受到所在对象的名称保护；</li>
+<li>使用单个下划线<code>_</code>开头的方法，表示不建议直接使用，有些模块中习惯使用单个下划线<code>_</code>结尾，用以区分关键字；使用双下划线<code>__</code>开头，无法正常直接导入，如果非要使用，则需要用<code>_ClassName__boo</code>这种方式；在开头和结尾使用双下划线<code>__</code>表示一些魔术方法，如<code>__str__</code>、<code>__class__</code>等等；</li>
+<li>避免单独使用小写<code>l</code>、大写<code>O</code>、大写<code>I</code>等容易搞错的字母；</li>
+<li>模块名称应该使用简短的、全小写的单词，可以使用下划线来增加可读性，而包名中则不应该使用下划线；由于模块名称对应文件名称，应该考虑多平台下的文件命名规范；</li>
+<li>类名应该使用<code>CapWords</code>的方式，如果是内部类，则使用<code>_CapWords</code>;</li>
+<li>异常类的命名，应该使用：<code>CapWordsError</code>的方式；</li>
+<li>函数和变量命名应该全部使用小写字母，用下划线来增加可读性；</li>
+<li>常量命名应该全部使用大写字母，用下划线来增加可读性；</li>
+</ol>
+<h2>编码优化建议</h2>
+<p>PEP8给出了很多具体的建议，详细可以参考<a href="https://www.python.org/dev/peps/pep-0008/#programming-recommendations">官方文档</a></p>
+<ol>
+<li>对于不同的Python，应该考虑到实现的过程，从而使用最好的代码来编写，如字符串连接操作时：在CPython(标准Python解释器)中，<code>+</code>的效率非常高，而Jython中使用<code>.join()</code>效率比较高；</li>
+<li>使用<code>is</code>、<code>is not</code>来代替<code>==</code>、<code>!=</code>；避免对非布尔变量直接判断，而应该使用<code>if x is not None</code>的形式；避免使用<code>if not x is None</code>这种容易混肴的语句；如果是布尔变量，则应该直接用来判断，而不要再和布尔值比较，如当<code>greeting</code>是布尔变量时，应该使用<code>if greeting</code>而不是<code>if greeting == True</code>或者更差的<code>if greeting is True</code>；</li>
+<li>尽量避免使用匿名函数<code>lambda</code>，而对每个函数都进行定义；</li>
+<li>使用模块和包中的异常类，避免直接使用<code>Exception</code>；更加不要使用裸露的<code>except</code>来获取所有的异常，而应该紧跟具体的异常；<code>try</code>的中的代码应该尽量少，从而利于异常的准确定位，不要在<code>try</code>后面直接<code>return</code>一个过程,应该将计算的过程代码独立出来；</li>
+<li>使用<code>raise ValueError('message')</code>来代替<code>raise ValueError,'message'</code>；</li>
+<li>应该避免空的<code>return</code>，而使用<code>return None</code>；并且在分支结构中，确保每个分支都有返回值，而不应该置空一些可能不重要的分支；</li>
+<li>检查对象类型时，应该使用<code>isinstanceof(obj,int)</code>，而不是<code>type(obj) is type(1)</code>，这样会造成一次额外的运算；</li>
+<li>同样的，检查序列是否为空时，应该直接判断，如<code>if seq</code>,而不要使用<code>if len(seq)</code>先求长度；</li>
+<li>使用内置的方法，而不是另外重新实现，如判断字符串的后缀时，应该使用<code>if foo.endswith('gz')</code>而不应该使用<code>if foo[:-2] == 'gz'</code>；</li>
+</ol>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="pep8" data-title="PEP8" data-url="http://www.lyon0804.com/pep8.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'pep8', 'PEP8' , 'http://www.lyon0804.com/pep8.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

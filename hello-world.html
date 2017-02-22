@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>Hello World! - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/hello-world.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="pelican,gitcafe,gitpages" />
+        <meta name="description" content="print(&#39;hello world!&#39;) 使用gitcafepages + pelican + Macdown 搭建第一个博客： 注册使用gitcafe pages 使用pelican 第一篇文章！ 更改主题 添加插件 域名绑定 一些好用的工具 感谢 1. 注册使用gitcafe pages： 到gitcafe上申请一个账号，如：username，新建仓库：username，gitcafe就自动识别为pages项目啦~ 为什么没有用github呢？github访问速度不是很稳定啊（GFW你懂的），并且虽然只是自己的博客，但是不仅仅要考虑自己，也要考虑访问者的体验，所以还是选择gitcafe了。 有了仓库之后，需要添加ssh-key，这样，就可以建立ssh连接，在本地更改远程仓库了。 新建ssh-key： ssh-keygen -t rsa -C &#34;youremail@example.com&#34; 接着会提示保存的路径以及文件名，密码就留空好了，完成之后 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Hello World!"/>
+        <meta property="og:url" content="http://www.lyon0804.com/hello-world.html"/>
+        <meta property="og:description" content="print(&#39;hello world!&#39;) 使用gitcafepages + pelican + Macdown 搭建第一个博客： 注册使用gitcafe pages 使用pelican 第一篇文章！ 更改主题 添加插件 域名绑定 一些好用的工具 感谢 1. 注册使用gitcafe pages： 到gitcafe上申请一个账号，如：username，新建仓库：username，gitcafe就自动识别为pages项目啦~ 为什么没有用github呢？github访问速度不是很稳定啊（GFW你懂的），并且虽然只是自己的博客，但是不仅仅要考虑自己，也要考虑访问者的体验，所以还是选择gitcafe了。 有了仓库之后，需要添加ssh-key，这样，就可以建立ssh连接，在本地更改远程仓库了。 新建ssh-key： ssh-keygen -t rsa -C &#34;youremail@example.com&#34; 接着会提示保存的路径以及文件名，密码就留空好了，完成之后 ..."/>
+        <meta property="article:published_time" content="2015-09-11" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="pelican" />
+            <meta property="article:tag" content="gitcafe" />
+            <meta property="article:tag" content="gitpages" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/hello-world.html"
+                       rel="bookmark"
+                       title="Permalink to Hello World!">
+                        Hello World!
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-09-11T00:00:00+08:00"> Fri 11 September 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/pelican.html">pelican</a>
+        /
+	<a href="http://www.lyon0804.com/tag/gitcafe.html">gitcafe</a>
+        /
+	<a href="http://www.lyon0804.com/tag/gitpages.html">gitpages</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="s">&#39;hello world!&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<p>使用gitcafepages + pelican + Macdown 搭建第一个博客：</p>
+<ol>
+<li>注册使用gitcafe pages</li>
+<li>使用pelican</li>
+<li>第一篇文章！</li>
+<li>更改主题</li>
+<li>添加插件</li>
+<li>域名绑定</li>
+<li>一些好用的工具</li>
+<li>感谢</li>
+</ol>
+<h2>1. 注册使用gitcafe pages：</h2>
+<p>到<code>gitcafe</code>上申请一个账号，如：username，新建仓库：username，gitcafe就自动识别为pages项目啦~</p>
+<p>为什么没有用github呢？github访问速度不是很稳定啊（GFW你懂的），并且虽然只是自己的博客，但是不仅仅要考虑自己，也要考虑访问者的体验，所以还是选择gitcafe了。</p>
+<p>有了仓库之后，需要添加ssh-key，这样，就可以建立ssh连接，在本地更改远程仓库了。</p>
+<p>新建ssh-key：</p>
+<div class="highlight"><pre>ssh-keygen -t rsa -C <span class="s2">&quot;youremail@example.com&quot;</span>
+</pre></div>
+
+
+<p>接着会提示保存的路径以及文件名，密码就留空好了，完成之后，将.pub结尾的那个公钥的内容添加到gitcafe账户中（在settings/SSH keys里面可以找到~），gitcafe pages就建立完成啦~</p>
+<h2>2. 安装pelican</h2>
+<p>Pelican是一套开源的博客生成软件，使用python编写，所以安装pelican和安装一般的python包是一样的，相信小伙伴们都有各种不同的方式安装了~</p>
+<p>比如，我的环境是macos，使用homebrew管理软件，使用pip安装python包：</p>
+<div class="highlight"><pre>brew install python
+pip install pelican
+pip install markdown
+pip install ghp-import
+</pre></div>
+
+
+<p>markdown支持包是必须的~ 这个ghp-import是可选的，如果想要使用默认的<code>make github</code>命令，则需要安装这个包，我感觉还是自己写几行脚本容易理解...</p>
+<p>如果成功的话就太好了，不过由于某GFW的原因，pelican可能安装会有一些慢（包括其他的python包），通过使用国内的镜像可以大大提高速度，如使用豆瓣源：</p>
+<div class="highlight"><pre>pip install pelican -i http://pypi.douban.com/simple --trusted-host pypi.douban.com
+</pre></div>
+
+
+<p>pelican安装好之后，选择一个目录就可以初始化博客啦：</p>
+<div class="highlight"><pre>mkdir blog
+<span class="nb">cd </span>blog
+pelican-quickstart
+</pre></div>
+
+
+<p>之后会问你一系列的问题，按照要求回答就好啦，回答完成之后，会建立以下目录格式：</p>
+<div class="highlight"><pre>blog/
+┣ Makefile             #一些设置，如FTP、SSH等服务器的设置，之前的问题中也会有，如果对自己的回答不满意，也可以在这里更改
+┣ content              #博客页面的源文件目录
+┣ develop_server.sh    #用于开启测试服务器的脚本
+┣ fabfile.py           #一些脚本的配置
+┣ output               #生成的输出文件
+┣ pelicanconf.py       #主要配置文件
+┣ publishconf.py       #发布脚本
+</pre></div>
+
+
+<p>然后，到<code>output</code>文件夹下面，添加gitcafe仓库，并且设置本地git配置，git的教程大家可以看廖雪峰的博客：<a href="http://www.liaoxuefeng.com"><code>廖雪峰的官方网站</code></a>。</p>
+<div class="highlight"><pre>git config --local user.name <span class="s1">&#39;yourname&#39;</span>
+git config --local user.email <span class="s1">&#39;youremail@example.com&#39;</span>
+git init
+git remote add gitcafe <span class="s1">&#39;git@gitcafe.com:usrname/usrname.git&#39;</span>
+git checkout -b gh-pages
+touch Readme.md
+git add *
+git commit -m <span class="s1">&#39;init repo&#39;</span>
+git push -u gitcafe gh-pages
+</pre></div>
+
+
+<p>注意了，这里的分支一定要填写gh-pages，不仅可以兼容github，而且这样才可以启用gitcafe的pages服务，master是不能用pages服务的。</p>
+<p>不同的情况下，添加远程仓库的方式会不一样，但是总之这一步要正确添加远程仓库就是了~</p>
+<p>完成这些之后，就可以动手写博客啦~</p>
+<h2>3. 第一篇文章！</h2>
+<p>随便选择并且使用一款markdown编辑器，动手写吧~</p>
+<p>在你的博客开头，添加以下的内容：</p>
+<div class="highlight"><pre><span class="n">Title</span><span class="o">:</span> <span class="n">Hello</span> <span class="n">World</span>
+<span class="n">Date</span><span class="o">:</span> <span class="mi">2015</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">11</span>
+<span class="n">Category</span><span class="o">:</span> <span class="n">pages</span>
+<span class="n">Tags</span><span class="o">:</span> <span class="n">pelican</span><span class="o">,</span> <span class="n">gitcafe</span><span class="o">,</span> <span class="n">gitpages</span>
+</pre></div>
+
+
+<p>这些内容大家应该能猜到是什么作用了吧？</p>
+<p>再下面就是你的博客正文啦，在完成大作之后，到项目目录下，执行：</p>
+<div class="highlight"><pre><span class="nb">cd</span> ..
+make html
+</pre></div>
+
+
+<p>此时，就在output文件夹下面成功生成了博客页面了，在项目路径下，执行：<code>sh develop_server.sh start</code>,然后通过<a href="127.0.0.1:8000">127.0.0.1:8000</a>就可以看到你的页面效果啦~</p>
+<p>当然，这个时候博客还是在你的本地，如果想让其他人也访问到你的博客的话，就需要同步到gitcafe pages上，到output文件夹下面，执行：</p>
+<div class="highlight"><pre>git add -A
+git commit -m <span class="s1">&#39;my first page&#39;</span>
+git push -u gitcafe gh-pages
+</pre></div>
+
+
+<p>然后访问<code>yourname.gitcafe.io</code>即可成功访问第一篇文章啦~</p>
+<p>但是你一定不满足那么多的操作步骤吧？下面编辑Makefile，定制我们的工作流程：</p>
+<p>编辑Makefile，添加以下几行：</p>
+<div class="highlight"><pre><span class="nf">gitcafe</span><span class="o">:</span> <span class="n">publish</span>
+    <span class="nb">cd</span> <span class="k">$(</span>OUTPUTDIR<span class="k">)</span><span class="p">;</span> git add -A<span class="p">;</span> git commit -m <span class="s1">&#39;Generate Pelican site&#39;</span><span class="p">;</span> git push -u gitcafe gh-pages
+</pre></div>
+
+
+<p>同时，修改<code>publishconf.py</code>，将其中的<code>DELETE_OUTPUT_DIRECTORY</code>设置为<code>False</code>，否则每次<code>make publish</code>的时候，都会把output目录删除掉，这对我使用自定义的make命令会造成困扰，不如自己管理<code>git</code>仓库。</p>
+<p>做完上述工作，以后就可以通过下面的命令一键同步啦：</p>
+<p><code>make gitcafe</code></p>
+<h2>4. 更改主题</h2>
+<p>可以用一些其他人已经设计好的主题，如使用pelican-bootstrap3主题等；首先需要下载主题：</p>
+<div class="highlight"><pre>mkdir themes
+<span class="nb">cd </span>thems
+git clone git://github.com/getpelican/pelican-themes.git ./
+</pre></div>
+
+
+<p>在其中挑选一个主题，并且使用下面的命令安装：</p>
+<div class="highlight"><pre>pelican-themes -i pelican-bootstrap3
+pelican-themes -l
+</pre></div>
+
+
+<p>第二条命令可以看到当前安装的主体列表，选择想要更改的主体，并且修改<code>pelicanconf.py</code>，添加<code>THEME = 'pelican-bootstrap3'</code>一行，然后重新<code>make html</code>，试试效果吧~</p>
+<h2>5. 添加插件</h2>
+<p>首先还是先下载插件:</p>
+<div class="highlight"><pre>mkdir plugins
+cd plugins
+git clone git://github.com/getpelican/pelican-plugins.git ./
+</pre></div>
+
+
+<p>然后在<code>pelicanconf.py</code>中，以安装sitemap为例，修改下面的内容：</p>
+<div class="highlight"><pre><span class="n">PLUGIN_PATHS</span> <span class="o">=</span> <span class="p">[</span><span class="s">u&#39;plugins&#39;</span><span class="p">]</span>
+<span class="n">PlUGINS</span> <span class="o">=</span> <span class="p">[</span><span class="s">&#39;sitemap&#39;</span><span class="p">]</span>
+
+<span class="n">SITEMAP</span><span class="o">=</span><span class="p">{</span>
+    <span class="s">&#39;format&#39;</span> <span class="p">:</span> <span class="s">&#39;xml&#39;</span><span class="p">,</span>
+    <span class="s">&#39;priorities&#39;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="s">&#39;articles&#39;</span> <span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+        <span class="s">&#39;indexes&#39;</span> <span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="s">&#39;pages&#39;</span> <span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="s">&#39;changefreqs&#39;</span><span class="p">:{</span>
+        <span class="s">&#39;articles&#39;</span> <span class="p">:</span> <span class="s">&#39;monthly&#39;</span><span class="p">,</span>
+        <span class="s">&#39;indexes&#39;</span> <span class="p">:</span> <span class="s">&#39;daily&#39;</span><span class="p">,</span>
+        <span class="s">&#39;pages&#39;</span> <span class="p">:</span> <span class="s">&#39;monthly&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>之后再执行<code>make html</code>，通过<a href="http://127.0.0.1:8000/sitemap.xml">http://127.0.0.1:8000/sitemap.xml</a>即可看到效果啦~</p>
+<h2>6. 申请购买域名</h2>
+<p>到这里为止，博客的基本内容就完成的差不多了，但是个性化的域名还是比较重要的，到<a href="https://www.godaddy.com"><code>Godaddy</code></a>上面，注册并且申请一个域名，通过支付宝付款购买之后，就有自己的独立域名了，但是光有域名还不行，还要和空间绑定起来，这里其实就拿<code>gitcafe</code>当做空间，做一个绑定；</p>
+<p>首先，到<a href="https://www.dnspod.cn"><code>DNSPOD</code></a>上面，注册一个账号，然后添加域名解析服务，添加刚购买的域名，会将之前的信息导入，此时，会新增两条NS记录，到<code>Godaddy</code>上的域名管理界面，在<code>DNS Manager-Settings</code>中，将<code>Nameservers</code>修改为<code>custom</code>，并且添加在DNSPOD上产生的两条NS记录；之后，解析的工作就交给<code>DNSPOD</code>了；添加一个A记录，指向地址为：<code>117.79.146.98</code>，添加一个CNAME记录，主机记录为<code>www</code>，记录值：<code>gitcafe.io</code>；到这里就完成域名部分的工作了；</p>
+<p>回到<code>gitcafe</code>的项目管理目录，在<code>Pages 服务</code>下面，添加购买的域名，访问你购买的域名，看看是不是有效果了~</p>
+<h2>7. 一些好用的工具</h2>
+<p>好用的markdown编辑器：MacDown，也就是我现在正在使用的编辑器，安装非常简单：</p>
+<div class="highlight"><pre>brew cask install macdown
+</pre></div>
+
+
+<p>就完成啦，关键还是免费开源的，必须要赞一个~</p>
+<p>国内可用的图床：<code>新浪微博</code></p>
+<h2>8. 感谢</h2>
+<p>第一次搭建博客，花了整整一天时间，期间借鉴了不少前辈的经验<code>lizherui,cold,poem_of_sunshine</code>，非常感谢~</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="hello-world" data-title="Hello World!" data-url="http://www.lyon0804.com/hello-world.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'hello-world', 'Hello World!' , 'http://www.lyon0804.com/hello-world.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>JavaScript表单 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/javascriptbiao-dan.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="javascript" />
+        <meta name="description" content="理解表单 表单在HTML中使用&lt;form&gt;元素表示, 对应在JavaScript中为HTMLFormElement类型, 该类型继承HTMLElement, 并且拥有以下特有属性或方法: acceptCharset: 服务器能够处理的字符集; action: 接受请求的URL; elements: 表单中所有控件的集合; enctype: 请求的编码类型; length: 表单中控件的数量; method: 要发送的HTTP类型; name: 表单的名称; target: 用于发送请求和接收响应的窗口名称; reset(): 将所有表单域重置为默认值; submit(): 提交表单; 除了使用getElementById()等方式获取表单元素之外, document.forms可以一次性获取页面中的所有表单; 有两种方式可以提交表单, 一种是通过创建submit按钮," />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="JavaScript表单"/>
+        <meta property="og:url" content="http://www.lyon0804.com/javascriptbiao-dan.html"/>
+        <meta property="og:description" content="理解表单 表单在HTML中使用&lt;form&gt;元素表示, 对应在JavaScript中为HTMLFormElement类型, 该类型继承HTMLElement, 并且拥有以下特有属性或方法: acceptCharset: 服务器能够处理的字符集; action: 接受请求的URL; elements: 表单中所有控件的集合; enctype: 请求的编码类型; length: 表单中控件的数量; method: 要发送的HTTP类型; name: 表单的名称; target: 用于发送请求和接收响应的窗口名称; reset(): 将所有表单域重置为默认值; submit(): 提交表单; 除了使用getElementById()等方式获取表单元素之外, document.forms可以一次性获取页面中的所有表单; 有两种方式可以提交表单, 一种是通过创建submit按钮,"/>
+        <meta property="article:published_time" content="2015-12-07" />
+            <meta property="article:section" content="Learning" />
+            <meta property="article:tag" content="javascript" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/javascriptbiao-dan.html"
+                       rel="bookmark"
+                       title="Permalink to JavaScript表单">
+                        JavaScript表单
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-12-07T00:00:00+08:00"> Mon 07 December 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/javascript.html">javascript</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>理解表单</h2>
+<p>表单在HTML中使用&lt;form&gt;元素表示, 对应在JavaScript中为HTMLFormElement类型, 该类型继承HTMLElement, 并且拥有以下特有属性或方法:</p>
+<ul>
+<li><code>acceptCharset</code>: 服务器能够处理的字符集;</li>
+<li><code>action</code>: 接受请求的URL;</li>
+<li><code>elements</code>: 表单中所有控件的集合;</li>
+<li><code>enctype</code>: 请求的编码类型;</li>
+<li><code>length</code>: 表单中控件的数量;</li>
+<li><code>method</code>: 要发送的HTTP类型;</li>
+<li><code>name</code>: 表单的名称;</li>
+<li><code>target</code>: 用于发送请求和接收响应的窗口名称;</li>
+<li><code>reset()</code>: 将所有表单域重置为默认值;</li>
+<li><code>submit()</code>: 提交表单;</li>
+</ul>
+<p>除了使用<code>getElementById()</code>等方式获取表单元素之外, <code>document.forms</code>可以一次性获取页面中的所有表单;</p>
+<p>有两种方式可以提交表单, 一种是通过创建<code>submit</code>按钮,</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="javascriptbiao-dan" data-title="JavaScript表单" data-url="http://www.lyon0804.com/javascriptbiao-dan.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'javascriptbiao-dan', 'JavaScript表单' , 'http://www.lyon0804.com/javascriptbiao-dan.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

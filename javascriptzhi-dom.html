@@ -1,0 +1,719 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>JavaScript之DOM - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/javascriptzhi-dom.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="javascript" />
+        <meta name="description" content="DOM(文档对象模型)是针对XML和HTML文档的一个API, 分为3级, 其中: DOM1: 页面结构及查询标准; DOM2: 扩展DOM1, 在已有类型基础上添加方法和属性, 引入更多的交互能力; DOM3: 扩展DOM1, 增强既有类型的基础上, 添加了新的类型用以扩展API; 由于IE浏览器使用COM对象的形式实现DOM, 与其他浏览器中的行为特点并不一致; DOM 节点层次 DOM将一个XML或者HTML描述成由多层节点构成的结构, 所有页面都会标记为一个有特定根节点(document)的树形结构; 示例文档: &lt;html&gt; &lt;head&gt; &lt;title&gt; Title Node &lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;p class=&#39;paragraph&#39;&gt; Paragraph Node &lt;/p&gt; &lt;ul&gt; &lt;li&gt;item 1&lt;/li&gt; &lt;li&gt;item 2&lt;/li&gt; &lt;li ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="JavaScript之DOM"/>
+        <meta property="og:url" content="http://www.lyon0804.com/javascriptzhi-dom.html"/>
+        <meta property="og:description" content="DOM(文档对象模型)是针对XML和HTML文档的一个API, 分为3级, 其中: DOM1: 页面结构及查询标准; DOM2: 扩展DOM1, 在已有类型基础上添加方法和属性, 引入更多的交互能力; DOM3: 扩展DOM1, 增强既有类型的基础上, 添加了新的类型用以扩展API; 由于IE浏览器使用COM对象的形式实现DOM, 与其他浏览器中的行为特点并不一致; DOM 节点层次 DOM将一个XML或者HTML描述成由多层节点构成的结构, 所有页面都会标记为一个有特定根节点(document)的树形结构; 示例文档: &lt;html&gt; &lt;head&gt; &lt;title&gt; Title Node &lt;/title&gt; &lt;/head&gt; &lt;body&gt; &lt;p class=&#39;paragraph&#39;&gt; Paragraph Node &lt;/p&gt; &lt;ul&gt; &lt;li&gt;item 1&lt;/li&gt; &lt;li&gt;item 2&lt;/li&gt; &lt;li ..."/>
+        <meta property="article:published_time" content="2015-11-27" />
+            <meta property="article:section" content="Learning" />
+            <meta property="article:tag" content="javascript" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/javascriptzhi-dom.html"
+                       rel="bookmark"
+                       title="Permalink to JavaScript之DOM">
+                        JavaScript之DOM
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-11-27T00:00:00+08:00"> Fri 27 November 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/javascript.html">javascript</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p><strong>DOM</strong>(文档对象模型)是针对XML和HTML文档的一个API, 分为3级, 其中:</p>
+<ul>
+<li>DOM1: 页面结构及查询标准;</li>
+<li>DOM2: 扩展DOM1, 在已有类型基础上添加方法和属性, 引入更多的交互能力;</li>
+<li>DOM3: 扩展DOM1, 增强既有类型的基础上, 添加了新的类型用以扩展API;</li>
+</ul>
+<p>由于<em>IE浏览器</em>使用COM对象的形式实现DOM, 与其他浏览器中的行为特点并不一致;</p>
+<h2>DOM 节点层次</h2>
+<p>DOM将一个XML或者HTML描述成由多层节点构成的结构, 所有页面都会标记为一个有特定根节点(document)的树形结构;</p>
+<p>示例文档:</p>
+<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+    <span class="nt">&lt;head&gt;</span>
+        <span class="nt">&lt;title&gt;</span>
+            Title Node
+        <span class="nt">&lt;/title&gt;</span>
+    <span class="nt">&lt;/head&gt;</span>
+    <span class="nt">&lt;body&gt;</span>
+        <span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">&#39;paragraph&#39;</span><span class="nt">&gt;</span> Paragraph Node <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;ul&gt;</span>
+            <span class="nt">&lt;li&gt;</span>item 1<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>item 2<span class="nt">&lt;/li&gt;</span>
+            <span class="nt">&lt;li&gt;</span>item 3<span class="nt">&lt;/li&gt;</span>
+        <span class="nt">&lt;/ul&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;first&quot;</span> <span class="na">id=</span><span class="s">&quot;demo&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;p&gt;</span> first div <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;secend&quot;</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;p&gt;</span> second div <span class="nt">&lt;/p&gt;</span>
+        <span class="nt">&lt;/div&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">&quot;learn_dom.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</pre></div>
+
+
+<h3>Node</h3>
+<p>其中所有的节点类型都继承自相同的<code>Node</code>接口, 该接口主要有三个属性:</p>
+<ul>
+<li><code>nodeType</code>: 节点类型;</li>
+<li><code>nodeName</code>: 节点名称;</li>
+<li><code>nodeValue</code>: 节点值;</li>
+</ul>
+<p>该接口定义了一系列的节点类型, 保存在每个节点的<code>nodeType</code>属性中, 所有节点类型都必须是其中之一:</p>
+<ul>
+<li>Node.ELEMENT_NODE(1): 元素类型, 也是最常用的类型;</li>
+<li>Node.ATTRIBUTE_NODE(2);</li>
+<li>Node.TEXT_NODE(3);</li>
+<li>Node.CDATA_SECTION_NODE(4);</li>
+<li>Node.ENTITY_REFERENCE_NODE(5);</li>
+<li>Node.ENTITY_NODE(6);</li>
+<li>Node.PROCESSION_INSTRUCTION_NODE(7);</li>
+<li>Node.COMMENT_NODE(8);</li>
+<li>Node.DOCUMENT_NODE(9);</li>
+<li>Node.DOCUMENT_TYPE_NODE(10);</li>
+<li>Node.DOCUMENT_FRAGMENT_NODE(11);</li>
+<li>Node.NOTATION_NODE(12);</li>
+</ul>
+<p>所有上述元素类型可以有字符串常量和整数两种形式表示, 但是在<em>IE浏览器</em>中, 只能使用整数值, 所以使用整数值是一种比较好的方式;</p>
+<p>文档中的所有节点存在文档树的关系:</p>
+<ul>
+<li>文档树的根节点必然是<code>document</code>;</li>
+<li>每个节点都有<code>childNodes</code>属性, 保存一个<code>NodeList</code>对象, 但并不是所有类型的节点都有子节点;</li>
+<li><code>NodeList</code>对象虽然有<code>length</code>属性, 也可使用下标访问其中元素, 但是并不是<code>Array</code>的实例, 只能将某个时刻的<code>NodeList</code>对象快照转化为<code>Array</code>实例;</li>
+<li>每个节点都有<code>parentNode</code>属性, 表示父节点, <code>document</code>节点的父节点为<code>null</code>;</li>
+<li>每个节点都有<code>nextSibling</code>和<code>previousSibling</code>, 表示其后一个同辈节点以及前一个同辈节点;</li>
+<li>所有节点都有<code>ownerDocument</code>属性, 表示该节点指向的文档节点, <code>document</code>节点该属性为<code>null</code>;</li>
+</ul>
+<p>获取当前<code>NodeList</code>快照的方式:</p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">convertToArray</span><span class="p">(</span><span class="nx">nodes</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">array</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+    <span class="k">try</span> <span class="p">{</span>
+        <span class="nx">array</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">nodes</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="p">}</span><span class="k">catch</span><span class="p">(</span><span class="nx">ex</span><span class="p">){</span>
+        <span class="nx">array</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="nx">len</span><span class="o">=</span><span class="nx">nodes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="nx">array</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">array</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<div class="highlight"><pre><span class="c1">// learn_dom.js</span>
+<span class="kd">var</span> <span class="nx">html</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">html</span><span class="p">);</span>  <span class="c1">// [object HTMLHtmlElement]</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">html</span><span class="p">.</span><span class="nx">nodeType</span><span class="p">);</span>  <span class="c1">// 1</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">html</span><span class="p">.</span><span class="nx">nodeName</span><span class="p">);</span>  <span class="c1">// HTML</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">html</span><span class="p">.</span><span class="nx">nodeValue</span><span class="p">);</span>  <span class="c1">// null</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">html</span><span class="p">.</span><span class="nx">parent</span><span class="p">);</span>  <span class="c1">// [object HTMLDocument]</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">html</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">);</span>  <span class="c1">// [object NodeList]</span>
+<span class="nx">html_children</span> <span class="o">=</span> <span class="nx">convertToArray</span><span class="p">(</span><span class="nx">html</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">);</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">html_children</span><span class="p">);</span>  <span class="c1">// [object HTMLHeadElement],[object Text],[object HTMLBodyElement]</span>
+<span class="nx">head</span> <span class="o">=</span> <span class="nx">html_children</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">head</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">);</span>  <span class="c1">// [object Text]</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">head</span><span class="p">.</span><span class="nx">previousSibling</span><span class="p">);</span>  <span class="c1">// null</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">head</span><span class="p">.</span><span class="nx">ownerDocument</span><span class="p">);</span>  <span class="c1">// [object HTMLDocument]</span>
+</pre></div>
+
+
+<p>节点的关系指针是只读的, 所以若要操作节点, 并不能直接修改节点关系, 只能通过内置的几个操作方法:</p>
+<ul>
+<li><code>appendChild()</code>: 在childNodes的最后添加一个节点, 该方法执行后返回新增的节点;</li>
+<li><code>insertBefore()</code>: 在某个节点之前插入节点, 成为该节点的前一个同辈节点, 同样会返回该节点;</li>
+<li><code>replaceChild()</code>: 替换某个节点, 被替换掉的节点仍然存在文档中, 只是没有了在文档中的位置;</li>
+<li><code>removeChild()</code>: 移除某个节点, 移除的节点只是没有了在文档中的位置;</li>
+<li><code>cloneNode()</code>: 复制一个节点, 如果传入一个参数为<code>true</code>, 则会同时复制节点以及整个子节点树; 返回的节点没有父节点, 必须通过其他方法添加到节点树中;</li>
+<li><code>normalize()</code>: 删除空的文本节点, 合并相邻的文本节点;</li>
+</ul>
+<p>上述前四个方法都是针对子节点进行操作, 但有些类型的节点并没有子节点, 此时将会发生错误;</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">body</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">ul</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">ul_2</span> <span class="o">=</span> <span class="nx">ul</span><span class="p">.</span><span class="nx">cloneNode</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">new_ul</span> <span class="o">=</span> <span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">ul_2</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">new_ul</span> <span class="o">==</span> <span class="nx">ul_2</span><span class="p">);</span>  <span class="c1">// true</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">body</span><span class="p">.</span><span class="nx">lastChild</span> <span class="o">==</span> <span class="nx">new_ul</span><span class="p">);</span>  <span class="c1">// true</span>
+</pre></div>
+
+
+<h3>Document</h3>
+<p>在浏览器中, <code>document</code>对象是<code>window</code>对象的一个属性, 是<code>HTMLDocument</code>(继承自<code>Document</code>)的一个实例, 是浏览器文档中其他节点的根节点, 各项属性为:</p>
+<ul>
+<li><code>nodeType</code>: DOCUMENT_NODE(9);</li>
+<li><code>nodeName</code>: #document;</li>
+<li><code>nodeValue</code>: null;</li>
+<li><code>parentNode</code>: null;</li>
+<li><code>ownerDocument</code>: null;</li>
+<li>子节点可能为: 最多一个DocumentType, 最多一个Element, ProcessingInstruction或Comment;</li>
+</ul>
+<p>在上面的例子中, <code>document</code>的唯一Element子节点就是一个<code>html</code>元素, 通过<code>document.childNodes[0]</code>访问, 同时也可以通过<code>document.documentElement</code>属性访问得到; 后面一种访问方式可以保证获得Element子节点, 而当存在<code>&lt;!DOCUTYPE&gt;</code>标签时, 则DocumentType节点可能为第一个子节点;</p>
+<p>DocumentType子节点可以通过<code>document.doctype</code>属性可靠访问, 除了<code>IE8</code>以及之前版本会将其认为是Comment; 该属性在不同的浏览器中表现各异;</p>
+<p>除了上述属性外, <code>document</code>具有表现页面信息的属性:</p>
+<ul>
+<li><code>title</code>: 文档标题;</li>
+<li><code>URL</code>: 页面完整URL;</li>
+<li><code>domain</code>: 页面域名;</li>
+<li><code>referrer</code>: 页面来源URL;</li>
+</ul>
+<p><code>domain</code>属性可以修改为当前域名的更加<em>松散</em>的方式, 从而完成两个子域之间的跨域通信;</p>
+<div class="highlight"><pre><span class="c1">// document.domain == &#39;p2p.wrox.com&#39;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">domain</span> <span class="o">=</span> <span class="s1">&#39;wrox.com&#39;</span><span class="p">;</span>  <span class="c1">// 设置后, 该域名下的不同子域, 如: p2p.wrox.com, c2c.wrox.com可以互相通信;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">domain</span> <span class="o">=</span> <span class="s1">&#39;p2p.wrox.com&#39;</span><span class="p">;</span>  <span class="c1">// 错误, 只能将域名修改为更加松散的方式;</span>
+</pre></div>
+
+
+<p>document更常见的应用在于查找元素, 通过以下两个方法:</p>
+<ul>
+<li><code>getElementById()</code>: 通过元素id查找, 得到相应元素, 如果没有该id, 则返回null;</li>
+<li><code>getElementByTagName()</code>: 通过标签名查找, 得到一个HTMLCollection;</li>
+<li><code>HTMLCollection</code>对象中的元素可以通过下标索引来获取元素, 如果元素有<code>name</code>属性, 则可以通过该值访问;</li>
+</ul>
+<p>这些方法不同浏览器的表现不同, IE7以及更低版本使用<code>getElementById()</code>查找时会忽略大小写, 并且<code>name</code>属性也可以被<code>getElementById()</code>获取, 等等; 在html中<code>getElementByTagName()</code>将忽略大小写, 但是xml中大小写敏感;</p>
+<p><code>getElementByTagName("*")</code>可以获得所有元素;</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">first_div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;demo&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">);</span>  <span class="c1">// [object HTMLDivElement]</span>
+<span class="kd">var</span> <span class="nx">divs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">divs</span><span class="p">);</span>  <span class="c1">//  [object HTMLCollection]</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">divs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="nx">divs</span><span class="p">[</span><span class="s1">&#39;demo&#39;</span><span class="p">]);</span>  <span class="c1">// true</span>
+</pre></div>
+
+
+<p>除了使用上述两个方法之外, document对象还有一些特殊的集合(<code>HTMLCollection</code>对象):</p>
+<ul>
+<li><code>document.anchors</code>: 文档中所有带name特性的&lt;a&gt;元素;</li>
+<li><code>document.links</code>: 文档中所有带href特性的&lt;a&gt;元素;</li>
+<li><code>document.forms</code>: 文档中所有的&lt;form&gt;元素;</li>
+<li><code>document.images</code>: 文档中所有的&lt;img&gt;元素;</li>
+</ul>
+<p>document对象还提供了以下写入文档的方法:</p>
+<ul>
+<li><code>write()</code>: 原样写入;</li>
+<li><code>writeln()</code>: 在末尾添加<code>\n</code>换行符;</li>
+<li><code>open()</code>, <code>close()</code>: 打开和关闭网页的输出流;</li>
+</ul>
+<p>之前的几篇实例中改写的<code>print()</code>方法就用到了文档的写入;</p>
+<h3>Element</h3>
+<p><code>Element</code>类型就是网页中的元素, 上述通过<code>getElementById()</code>等得到的就是<code>Element</code>对象; 该对象的节点属性为:</p>
+<ul>
+<li><code>nodeType</code>: ELEMENT_NODE(1);</li>
+<li><code>nodeName</code>: 元素的标签名;</li>
+<li><code>nodeValue</code>: null;</li>
+<li><code>parentNode</code>: 可能为Document或者Element;</li>
+<li>子节点可能为: Element, Text, Comment, ProcessingInstruction, CDATASection 或 EntityReference;</li>
+</ul>
+<p>除了使用<code>nodeName</code>访问元素的标签名, <code>tagName</code>属性也会返回相同值, 元素标签名查找时忽略大小写, 但是实际返回时在HTML中始终为大写;</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">first_div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;demo&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">.</span><span class="nx">tagName</span><span class="p">);</span>  <span class="c1">// DIV</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">.</span><span class="nx">nodeName</span> <span class="o">==</span> <span class="nx">first_div</span><span class="p">.</span><span class="nx">tagName</span><span class="p">);</span>  <span class="c1">// true</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">.</span><span class="nx">tagName</span> <span class="o">==</span> <span class="s1">&#39;div&#39;</span><span class="p">);</span>  <span class="c1">// false</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">.</span><span class="nx">tagName</span><span class="p">.</span><span class="nx">toLowerCase</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;div&#39;</span><span class="p">);</span>  <span class="c1">// true</span>
+</pre></div>
+
+
+<p>所有的HTML元素都由HTMLElement类型(继承自Element)及其子类型表示, 该类型在Element基础上添加了以下属性:</p>
+<ul>
+<li><code>id</code>: 元素在文档中的唯一标识符;</li>
+<li><code>className</code>: 元素的class特性;</li>
+<li><code>title</code>: 元素的附加说明信息, title特性;</li>
+<li><code>lang</code>: 语言代码;</li>
+<li><code>dir</code>: 语言方向, "ltr"(left-to-right)或者"rtl"(right-to-left);</li>
+</ul>
+<p>这些值都可以被修改(虽然并不一定在客户端体现), 修改后会立即应用对应的CSS样式;</p>
+<p>除了上述属性描述了一部分HTML元素的特性之外, 还可以通过以下方法来访问或者修改这些特性:</p>
+<ul>
+<li><code>getAttribute()</code>: 获取特性;</li>
+<li><code>setAttribute()</code>: 修改特性;</li>
+<li><code>removeAttribute()</code>: 删除特性;</li>
+</ul>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">first_div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;demo&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>  <span class="c1">// demo</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">.</span><span class="nx">className</span> <span class="o">==</span> <span class="nx">first_div</span><span class="p">.</span><span class="nx">getAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">));</span>  <span class="c1">// true</span>
+<span class="nx">first_div</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span><span class="s1">&#39;another&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">.</span><span class="nx">className</span><span class="p">)</span>  <span class="c1">// another</span>
+</pre></div>
+
+
+<p>同时, Element元素是唯一使用<code>attributes</code>属性的节点类型, 该属性包含一个NamedNodeMap, 元素的每个特性都由一个Attr节点表示, 并且这些节点都保存再NamedNodeMap中, 通过以下方法获取或者操作属性:</p>
+<ul>
+<li><code>getNamedItem(name)</code>: 返回html元素的对应特性(Attr节点)的值, 也可通过下标直接访问;</li>
+<li><code>removeNamedItem(name)</code>: 移除该Attr节点;</li>
+<li><code>setNamedItem(node)</code>: 添加新Attr节点;</li>
+<li><code>item(pos)</code>: 返回在pos位置出的Attr节点;</li>
+</ul>
+<p>上述方式获取操作属性并不如之前的方法方便, 但是使用这些方法可以对属性进行遍历:</p>
+<div class="highlight"><pre><span class="kd">function</span> <span class="nx">outputAttributes</span><span class="p">(</span><span class="nx">element</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">pairs</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nx">len</span><span class="o">=</span><span class="nx">element</span><span class="p">.</span><span class="nx">attributes</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+        <span class="kd">var</span> <span class="nx">attrName</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">attributes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">nodeName</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">attrValue</span> <span class="o">=</span> <span class="nx">element</span><span class="p">.</span><span class="nx">attributes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">nodeValue</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">element</span><span class="p">.</span><span class="nx">attributes</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">specified</span><span class="p">){</span>  <span class="c1">// for IE7 or lower;</span>
+            <span class="nx">pairs</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">attrName</span> <span class="o">+</span> <span class="s1">&#39;=&quot;&#39;</span> <span class="o">+</span> <span class="nx">attrValue</span> <span class="o">+</span> <span class="s1">&#39;&quot;&#39;</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">pairs</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>通过<code>document.createElement()</code>方法可以创建一个元素节点, 该方法接收一个参数指定元素标签名, 同时为该元素设置ownerDocument属性, 并通过Element元素的相应方法设置属性, 但是此时该元素在文档中并没有其位置, 需要通过<code>node.appendChild</code>等方法将其添加到文档树中;</p>
+<p>Element类型也具有<code>getElementById()</code>以及<code>getElementByTagName()</code>方法, 此时, 这两个方法只返回子节点下的相应元素;</p>
+<h3>Text</h3>
+<p>Text类型表示文本节点, 该节点不包含HTML代码, 只包含转义后的HTMl字符, 该类型节点属性为:</p>
+<ul>
+<li><code>nodeType</code>: TEXT_NODE(3);</li>
+<li><code>nodeName</code>: #text;</li>
+<li><code>nodeValue</code>: 具体的文本内容;</li>
+<li><code>parentNode</code>: Element;</li>
+<li>不支持子节点;</li>
+</ul>
+<p>在html中, 除了IE浏览器之外, 两个标签之间都会有一个空的文本节点;</p>
+<p>通过<code>nodeValue</code>属性可以修改文本内容, 也可以通过以下方法修改:</p>
+<ul>
+<li><code>appendData(text)</code>: 在末尾添加text;</li>
+<li><code>deleteData(offset, count)</code>: 从offset位置开始删除count个字符;</li>
+<li><code>insertData(offset, text)</code>: 在offset指定位置插入text;</li>
+<li><code>replaceData(offset, count, text)</code>: 用text替换从offset指定位置开始到offset+count出的文本;</li>
+<li><code>splitText(offset)</code>: 从offset位置将文本分为两个文本节点, 前一个作为原节点的值, 后一个为新节点的值, 返回新节点;</li>
+<li><code>subsringData(offset, count)</code>: 提取offset开始count个字符的文本;</li>
+<li><code>createTextNode(text)</code>: 创建文本节点, 传入参数为文本值;</li>
+</ul>
+<p>在DOM文档中, 相邻的文档节点容易导致混乱, 为了合并相邻文档节点, 可以使用前文介绍的<code>document.normalize()</code>方法; 而<code>splitText()</code>方法则会产生完全相反的结果;</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">first_div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;demo&#39;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">first_div</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="nx">p</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">nodeValue</span><span class="p">);</span>  <span class="c1">// first div</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>  <span class="c1">// first div</span>
+<span class="nx">text</span><span class="p">.</span><span class="nx">appendData</span><span class="p">(</span><span class="s1">&#39; append&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>  <span class="c1">// first div append</span>
+<span class="nx">text</span><span class="p">.</span><span class="nx">insertData</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="s1">&#39; insert&#39;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>  <span class="c1">// first insert div append</span>
+<span class="nx">another_text</span> <span class="o">=</span> <span class="nx">text</span><span class="p">.</span><span class="nx">substringData</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">another_text</span><span class="p">);</span>  <span class="c1">// insert</span>
+<span class="kd">var</span> <span class="nx">new_text</span> <span class="o">=</span> <span class="nx">text</span><span class="p">.</span><span class="nx">splitText</span><span class="p">(</span><span class="mi">6</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">text</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>  <span class="c1">// first</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">new_text</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>  <span class="c1">// insert div append</span>
+<span class="nx">another_text</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="nx">another_text</span><span class="p">);</span>
+<span class="nx">p</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">another_text</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">convertToArray</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">));</span>  <span class="c1">// [object Text],[object Text],[object Text]</span>
+<span class="nx">p</span><span class="p">.</span><span class="nx">normalize</span><span class="p">();</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">convertToArray</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">childNodes</span><span class="p">));</span>  <span class="c1">// [object Text]</span>
+</pre></div>
+
+
+<h3>其他类型</h3>
+<p>其他并不常用的类型有:</p>
+<ul>
+<li><code>Comment</code>类型: 表示注释节点;</li>
+<li><code>CDATASection</code>类型: 只针对XML, 表示CDATA区域;</li>
+<li><code>DocumentType</code>类型: 表示&lt;!DOCTYPE&gt;标签指定的节点;</li>
+<li><code>DocumentFragment</code>类型: 唯一没有对应标记的类型, 是一种轻量级文档, 可以包含和控制节点;</li>
+<li><code>Attr</code>类型: 元素的特性节点;</li>
+</ul>
+<h2>DOM 操作</h2>
+<h3>动态脚本</h3>
+<p>通过在DOM插入&lt;script&gt;元素, 可以在javascript中创建动态脚本, 和脚本在html中的两种存在方式一样, 动态脚本也有两种创建方式:</p>
+<ul>
+<li>动态加载外部javascript脚本;</li>
+<li>直接在页面中插入脚本代码;</li>
+</ul>
+<p>动态插入脚本需要访问script元素以及修改其属性等, 在不同浏览器中表现不同, 下面展示js高程书上的两个实例函数:</p>
+<div class="highlight"><pre><span class="c1">// 动态加载外部脚本</span>
+<span class="kd">function</span> <span class="nx">loadScript</span><span class="p">(</span><span class="nx">url</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+    <span class="nx">script</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
+    <span class="nx">script</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">script</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// 动态插入脚本代码</span>
+<span class="kd">function</span> <span class="nx">loadScriptString</span><span class="p">(</span><span class="nx">code</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">script</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+    <span class="nx">script</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span>
+    <span class="k">try</span><span class="p">{</span>
+        <span class="nx">script</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="nx">code</span><span class="p">));</span>
+    <span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="nx">ex</span><span class="p">){</span>
+        <span class="nx">script</span><span class="p">.</span><span class="nx">text</span> <span class="o">=</span> <span class="nx">code</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChilde</span><span class="p">(</span><span class="nx">script</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>上述两种加载方式有些区别, 第二种方式可以立即加载完成, 相当于将字符串传递给<code>evel()</code>, 而第一种方式由于需要加载文件, 并没有标准方法可以探知合适加载完成;</p>
+<h3>动态样式</h3>
+<p>和动态脚本类似, 在javascript中创建css样式, 称为动态样式, 同样也有两种方式:</p>
+<ul>
+<li>在link元素中添加外部css引用;</li>
+<li>在style元素中添加css代码;</li>
+</ul>
+<p>对应函数为:</p>
+<div class="highlight"><pre><span class="c1">// 在link元素中动态加载外部css</span>
+<span class="kd">function</span> <span class="nx">loadStyle</span><span class="p">(</span><span class="nx">url</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">link</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;link&#39;</span><span class="p">);</span>
+    <span class="nx">link</span><span class="p">.</span><span class="nx">rel</span> <span class="o">=</span> <span class="s1">&#39;stylesheet&#39;</span><span class="p">;</span>
+    <span class="nx">link</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/css&#39;</span><span class="p">;</span>
+    <span class="nx">link</span><span class="p">.</span><span class="nx">href</span> <span class="o">=</span> <span class="nx">url</span><span class="p">;</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">link</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// 在style元素中动态插入css</span>
+<span class="kd">function</span> <span class="nx">loadStyleString</span><span class="p">(</span><span class="nx">css</span><span class="p">){</span>
+    <span class="kd">var</span> <span class="nx">style</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;style&#39;</span><span class="p">);</span>
+    <span class="nx">style</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/css&#39;</span><span class="p">;</span>
+    <span class="k">try</span><span class="p">{</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="nx">css</span><span class="p">));</span>
+    <span class="p">}</span><span class="k">catch</span> <span class="p">(</span><span class="nx">ex</span><span class="p">){</span>
+        <span class="nx">style</span><span class="p">.</span><span class="nx">styleSheet</span><span class="p">.</span><span class="nx">cssText</span> <span class="o">=</span> <span class="nx">css</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">style</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>需要指出: 在文档中<code>document.head</code>的Note中描述:</p>
+<blockquote>
+<p><code>document.head</code> is read-only. Trying to assign a value to this property will fail silently or, when in <em>ECMAScript Strict Mode</em> in a Gecko browser, throw a <em>TypeError</em>.</p>
+</blockquote>
+<p>然而在实际测试中, firefox 和 safari 均可以往<code>document.head</code>中添加子节点, 并且正常显示, 可能添加子节点并没有对该元素做出修改, 但是没有深入探究, 如果出问题, 则应该使用<code>document.getElementByTagName('head')[0]</code>来获取;</p>
+<h3>表格</h3>
+<p>由于&lt;table&gt;元素结构比较复杂, 在动态添加表格时, 往往需要编辑大量代码, 并且不够直观, 为此, HTML DOM为&lt;table&gt;、&lt;tbody&gt;、&lt;tr&gt;元素添加更多的属性和方法:</p>
+<p>在&lt;table&gt;中:</p>
+<ul>
+<li><code>rows</code>: 表格中所有行的HTMLColletion;</li>
+<li><code>insertRow(pos)</code>: 在rows集合指定位置插入一行;</li>
+<li><code>deleteRow(pos)</code>: 删除指定位置行;</li>
+<li><code>caption</code>: 保存着&lt;caption&gt;元素的指针;</li>
+<li><code>createCaption()</code>: 创建&lt;caption&gt;元素并返回其引用;</li>
+<li><code>deleteCaption()</code>: 删除&lt;caption&gt;元素;</li>
+<li><code>tFoot</code>: &lt;tfoot&gt;元素的指针;</li>
+<li><code>createTFoot()</code>: 创建&lt;tfoot&gt;元素并返回其引用;</li>
+<li><code>deleteTFoot()</code>: 删除&lt;tfoot&gt;元素;</li>
+<li><code>tHead</code>: &lt;thead&gt;元素的指针;</li>
+<li><code>createTHead()</code>: 创建&lt;thead&gt;元素并返回其引用;</li>
+<li><code>deleteTHead()</code>: 删除&lt;thead&gt;元素;</li>
+<li><code>tBodies</code>: &lt;tbody&gt;元素的HTMLCollection;</li>
+</ul>
+<p>在&lt;tbody&gt;中:</p>
+<ul>
+<li><code>rows</code>: &lt;tbody&gt;中所有行的HTMLCollection;</li>
+<li><code>deleteRow(pos)</code>: 删除指定位置的行;</li>
+<li><code>insertRow(pos)</code>: 向rows集合的指定位置插入行并返回其引用;</li>
+</ul>
+<p>在&lt;tr&gt;中:</p>
+<ul>
+<li><code>cells</code>: &lt;tr&gt;中所有单元格的HTMLCollection;</li>
+<li><code>deleteCell(pos)</code>: 删除指定位置单元格;</li>
+<li><code>insertCell(pos)</code>: 向cells集合的指定位置插入单元格并返回其引用;</li>
+</ul>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">table</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">);</span>
+<span class="nx">table</span><span class="p">.</span><span class="nx">border</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="nx">table</span><span class="p">.</span><span class="nx">width</span> <span class="o">=</span> <span class="s1">&#39;100%&#39;</span><span class="p">;</span>
+
+<span class="kd">var</span> <span class="nx">tbody</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;tbody&#39;</span><span class="p">);</span>
+<span class="nx">table</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">tbody</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">row1</span> <span class="o">=</span> <span class="nx">tbody</span><span class="p">.</span><span class="nx">insertRow</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">cell_1_1</span> <span class="o">=</span> <span class="nx">row1</span><span class="p">.</span><span class="nx">insertCell</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">text_1_1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="s1">&#39;cell 1,1&#39;</span><span class="p">);</span>
+<span class="nx">cell_1_1</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">text_1_1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">cell_1_2</span> <span class="o">=</span> <span class="nx">row1</span><span class="p">.</span><span class="nx">insertCell</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">text_1_2</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="s1">&#39;cell 1,2&#39;</span><span class="p">);</span>
+<span class="nx">cell_1_2</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">text_1_2</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">row2</span> <span class="o">=</span> <span class="nx">tbody</span><span class="p">.</span><span class="nx">insertRow</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">cell_2_1</span> <span class="o">=</span> <span class="nx">row2</span><span class="p">.</span><span class="nx">insertCell</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">text_2_1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="s1">&#39;cell 2,1&#39;</span><span class="p">);</span>
+<span class="nx">cell_2_1</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">text_2_1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">cell_2_2</span> <span class="o">=</span> <span class="nx">row2</span><span class="p">.</span><span class="nx">insertCell</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">text_2_2</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createTextNode</span><span class="p">(</span><span class="s1">&#39;cell 2,2&#39;</span><span class="p">);</span>
+<span class="nx">cell_2_2</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">text_2_2</span><span class="p">);</span>
+
+<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">table</span><span class="p">);</span>
+</pre></div>
+
+
+<p>以上实例代码将表格操作更加易于理解;</p>
+<h3>NodeList</h3>
+<p>NodeList对象以及NamedNodeMap和HTMLCollection等都是动态扩展的, 随着DOM实时更新, 所以当访问这些元素时, 都会有一次基于文档的查询, 为了尽量减少访问次数, 最好查看其当时的快照(如前文给出的转换方法);</p>
+<p>在遍历NodeList等元素时, 应该将其<code>length</code>属性提前取出, 否则有可能由于动态扩展的问题造成死循环;</p>
+<h2>DOM扩展</h2>
+<p>DOM最主要的扩展是Selectors API(选择符API)以及HTML5, 这些扩展为DOM添加了更多的属性;</p>
+<h3>Selector API</h3>
+<p>Select API主要实现使用<strong>CSS选择符</strong>来获取元素, 主要有以下两种方法:</p>
+<ul>
+<li><code>querySelector()</code>: 接收一个CSS选择符, 并且返回与该模式匹配的第一个元素;</li>
+<li><code>querySelectorAll()</code>: 接收一个CSS选择符, 并且返回与该模式匹配的NodeList;</li>
+</ul>
+<p>个别比较老旧的浏览器并不支持该扩展, 在使用之前应该做好功能检查工作;</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">first_div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;body&gt;div.first#demo&quot;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">first_div</span><span class="p">);</span>  <span class="c1">// [object HTMLDivElement]</span>
+<span class="kd">var</span> <span class="nx">divs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">divs</span><span class="p">);</span>  <span class="c1">// [object NodeList]</span>
+</pre></div>
+
+
+<p>使用CSS选择符给获取元素带来很大便利, 更便利的方式应该还是jQuery上关于DOM的操作;</p>
+<h3>元素遍历</h3>
+<p>如果直接遍历Node, 则需要判断节点类型; 如果需要直接遍历元素, 则可以用到以下的属性:</p>
+<ul>
+<li><code>childElementCount</code>: 返回子元素的个数;</li>
+<li><code>firstElementChild</code>: 指向第一个元素;</li>
+<li><code>lastElementChild</code>: 指向最后一个元素;</li>
+<li><code>previousElementSibling</code>: 前一个同辈元素;</li>
+<li><code>nextElementSibling</code>: 后一个同辈元素;</li>
+</ul>
+<p>和Node的属性可以对应, 可以省略节点类型判断;</p>
+<h3>HTML5中的DOM扩展</h3>
+<p>由于class属性的大量使用, HTML5对类的功能进行了扩充, 主要添加了以下两个属性方法:</p>
+<ul>
+<li><code>getElementsByClassName()</code>: 该方法通过接受一个或者多个类名的字符串, 返回NodeList;</li>
+<li><code>classList</code>: 该属性针对具有多个class属性的元素, 提供比className更加强大的类处理;</li>
+</ul>
+<p>通过以上方法和属性的扩展, 大大强化了对类的操作;</p>
+<p>HTML5在DOM中添加了焦点功能, 用来获取DOM的焦点元素以及焦点的管理等, 主要通过以下属性和方法:</p>
+<ul>
+<li><code>document.activeElement</code>: 该属性获取当前DOM中的焦点元素, 当页面加载完成时, 一般保存body元素, 通过tab键等方式可以改变焦点;</li>
+<li><code>document.hasFocus()</code>: 该方法用来检测文档是否获得焦点, 由于页面未加载完成时没有焦点, 该方法可以用以判断;</li>
+<li><code>focus()</code>: 元素调用该方法可以获得焦点;</li>
+</ul>
+<p>HTML5还为HTMLDocument添加了以下属性:</p>
+<ul>
+<li><code>document.readyState</code>: 该属性有两个可能的值: loading和complete, 用以描述文档加载状态;</li>
+<li><code>document.compatMode</code>: 该属性有两个可能的值: CSS1Compat和BackCompat, 用以区分渲染模式;</li>
+<li><code>document.head</code>: 返回head元素;</li>
+<li><code>document.charset</code>: 返回文档使用的字符集;</li>
+<li><code>document.defaultCharset</code>: 返回文档默认字符集;</li>
+</ul>
+<p>在HTML5中可以为元素添加非标准属性, 只需要添加前缀<code>data-</code>, 这些属性会被添加到元素的<code>dataset</code>属性中作为DOMStringMap存在, 但是键名会做一些处理(去掉前缀、去掉非字符、转换为小写等)使用:</p>
+<div class="highlight"><pre><span class="nb">document</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="s1">&#39;&lt;div id=&quot;myDiv&quot; data-myname=&quot;someValue&quot;&gt;&lt;/div&gt;&#39;</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;#myDiv&quot;</span><span class="p">);</span>
+<span class="nx">print</span><span class="p">(</span><span class="nx">div</span><span class="p">.</span><span class="nx">dataset</span><span class="p">.</span><span class="nx">myname</span><span class="p">)</span>  <span class="c1">// someValue</span>
+</pre></div>
+
+
+<p>为了方便给文档插入大量HTML标记, HTML5加入了以下属性:</p>
+<ul>
+<li><code>innerHTML</code>: 返回调用元素的所有子节点对应的HTML标记;</li>
+<li><code>outerHTML</code>: 返回调用元素本身以及其所有子节点的HTML标记;</li>
+<li><code>insertAdjacentHTML()</code>: 该方法接收两个参数, 第二个参数为HTML字符串, 第一个参数表示插入位置, 必须是以下四个值之一:<ul>
+<li>beforebegin: 在当前元素之前插入紧邻的同辈元素;</li>
+<li>afterbegin: 在当前元素之下插入一个子元素, 该子元素作为第一个子元素;</li>
+<li>beforeend: 在当前元素之下插入一个子元素, 该子元素作为最后一个元素;</li>
+<li>afterend: 在当前元素之后插入紧邻的同辈元素;</li>
+</ul>
+</li>
+</ul>
+<p>利用以上属性方法, 可以在文档中方便地插入大量的标记, 如前文的插入表格, 使用以上属性方法可以简化为:</p>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">ul</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s2">&quot;body&gt;ul&quot;</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">ul</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">ul</span><span class="p">.</span><span class="nx">outerHTML</span><span class="p">);</span>
+<span class="nx">ul</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="s2">&quot;beforeend&quot;</span><span class="p">,</span> <span class="s2">&quot;&lt;li&gt; item 4 &lt;/li&gt;&quot;</span><span class="p">)</span>
+<span class="kd">var</span> <span class="nx">table_string</span> <span class="o">=</span>
+    <span class="err">`</span><span class="o">&lt;</span><span class="nx">table</span> <span class="nx">width</span><span class="o">=</span><span class="s2">&quot;100%&quot;</span> <span class="nx">border</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nx">tbody</span><span class="o">&gt;</span>
+            <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">cell</span> <span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">cell</span> <span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+            <span class="o">&lt;</span><span class="err">/tr&gt;</span>
+            <span class="o">&lt;</span><span class="nx">tr</span><span class="o">&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">cell</span> <span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+                <span class="o">&lt;</span><span class="nx">td</span><span class="o">&gt;</span><span class="nx">cell</span> <span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="o">&lt;</span><span class="err">/td&gt;</span>
+            <span class="o">&lt;</span><span class="err">/tr&gt;</span>
+        <span class="o">&lt;</span><span class="err">/tbody&gt;</span>
+    <span class="o">&lt;</span><span class="err">/table&gt;`</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">insertAdjacentHTML</span><span class="p">(</span><span class="s2">&quot;beforeend&quot;</span><span class="p">,</span><span class="nx">table_string</span><span class="p">)</span>
+</pre></div>
+
+
+<p>上述多行字符串需要ES6支持;</p>
+<p>四个位置对应的是标签出现的先后, 如beforebegin表示调用元素开始之前, 也就是上一个同辈元素; afterbegin则是调用元素开始之后, 也就是第一个子元素;</p>
+<p>使用上述属性方法替换或者插入元素时, 如果其中带有事件处理, 则有可能导致事件处理的内存占用, 应该手动释放事件处理有关的绑定;</p>
+<p>HTML5添加了<code>scrollIntoView()</code>方法, 使得元素在滚动页面时一直保持可见;</p>
+<p>除了上述扩展之外, 不同浏览器之间还有一些没有被HTML5标准化的扩展, 就算已经标准化的扩展, 最好也需要查看一下浏览器的支持情况, 最新情况总是可以在文档中找到;</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="javascriptzhi-dom" data-title="JavaScript之DOM" data-url="http://www.lyon0804.com/javascriptzhi-dom.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'javascriptzhi-dom', 'JavaScript之DOM' , 'http://www.lyon0804.com/javascriptzhi-dom.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,363 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>在pelican中使用多说 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="comment,pelican,duoshuo" />
+        <meta name="description" content="本文记录在pelican中实现评论系统的过程 disqus是pelican默认支持的评论系统，然而由于墙内的原因，访问总是会有些问题（最近ss也不行了），国内的多说也是不错的选择，为了使用多说，首先需要在多说上创建一个账号，填写使用的站点等信息之后，多说将会自动提示复制以下js代码： &lt;!-- 多说评论框 start --&gt; &lt;div class=&#34;ds-thread&#34; data-thread-key=&#34;请将此处替换成文章在你的站点中的ID&#34; data-title=&#34;请替换成文章的标题&#34; data-url=&#34;请替换成文章的网址&#34;&gt;&lt;/div&gt; &lt;!-- 多说评论框 end --&gt; &lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt; &lt;script type=&#34;text/javascript&#34;&gt; var duoshuoQuery = {short_name:&#34;lyon0804&#34;}; (function() { var ds = document.createElement(&#39;script&#39;); ds.type = &#39;text/javascript&#39;;ds ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="在pelican中使用多说"/>
+        <meta property="og:url" content="http://www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html"/>
+        <meta property="og:description" content="本文记录在pelican中实现评论系统的过程 disqus是pelican默认支持的评论系统，然而由于墙内的原因，访问总是会有些问题（最近ss也不行了），国内的多说也是不错的选择，为了使用多说，首先需要在多说上创建一个账号，填写使用的站点等信息之后，多说将会自动提示复制以下js代码： &lt;!-- 多说评论框 start --&gt; &lt;div class=&#34;ds-thread&#34; data-thread-key=&#34;请将此处替换成文章在你的站点中的ID&#34; data-title=&#34;请替换成文章的标题&#34; data-url=&#34;请替换成文章的网址&#34;&gt;&lt;/div&gt; &lt;!-- 多说评论框 end --&gt; &lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt; &lt;script type=&#34;text/javascript&#34;&gt; var duoshuoQuery = {short_name:&#34;lyon0804&#34;}; (function() { var ds = document.createElement(&#39;script&#39;); ds.type = &#39;text/javascript&#39;;ds ..."/>
+        <meta property="article:published_time" content="2015-09-18" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="comment" />
+            <meta property="article:tag" content="pelican" />
+            <meta property="article:tag" content="duoshuo" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html"
+                       rel="bookmark"
+                       title="Permalink to 在pelican中使用多说">
+                        在pelican中使用多说
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-09-18T00:00:00+08:00"> Fri 18 September 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/comment.html">comment</a>
+        /
+	<a href="http://www.lyon0804.com/tag/pelican.html">pelican</a>
+        /
+	<a href="http://www.lyon0804.com/tag/duoshuo.html">duoshuo</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>本文记录在pelican中实现评论系统的过程</p>
+<p><a href="https://disqus.com"><code>disqus</code></a>是pelican默认支持的评论系统，然而由于墙内的原因，访问总是会有些问题（最近ss也不行了），国内的<a href="http://duoshuo.com"><code>多说</code></a>也是不错的选择，为了使用<code>多说</code>，首先需要在多说上创建一个账号，填写使用的站点等信息之后，多说将会自动提示复制以下js代码：</p>
+<div class="highlight"><pre><span class="c">&lt;!-- 多说评论框 start --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;ds-thread&quot;</span> <span class="na">data-thread-key=</span><span class="s">&quot;请将此处替换成文章在你的站点中的ID&quot;</span> <span class="na">data-title=</span><span class="s">&quot;请替换成文章的标题&quot;</span> <span class="na">data-url=</span><span class="s">&quot;请替换成文章的网址&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="c">&lt;!-- 多说评论框 end --&gt;</span>
+<span class="c">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+<span class="kd">var</span> <span class="nx">duoshuoQuery</span> <span class="o">=</span> <span class="p">{</span><span class="nx">short_name</span><span class="o">:</span><span class="s2">&quot;lyon0804&quot;</span><span class="p">};</span>
+    <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ds</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+        <span class="nx">ds</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span><span class="nx">ds</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="nx">ds</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span> <span class="o">==</span> <span class="s1">&#39;https:&#39;</span> <span class="o">?</span> <span class="s1">&#39;https:&#39;</span> <span class="o">:</span> <span class="s1">&#39;http:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;//static.duoshuo.com/embed.js&#39;</span><span class="p">;</span>
+        <span class="nx">ds</span><span class="p">.</span><span class="nx">charset</span> <span class="o">=</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">;</span>
+        <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+         <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">ds</span><span class="p">);</span>
+    <span class="p">})();</span>
+    <span class="nt">&lt;/script&gt;</span>
+<span class="c">&lt;!-- 多说公共JS代码 end --&gt;</span>
+</pre></div>
+
+
+<p>根据该代码内容的提示，需要替换以及修改部分内容，如：</p>
+<div class="highlight"><pre><span class="c">&lt;!-- 多说评论框 start --&gt;</span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;ds-thread&quot;</span> <span class="na">data-thread-key=</span><span class="s">&quot;{{ article.slug }}&quot;</span> <span class="na">data-title=</span><span class="s">&quot;{{ article.title }}&quot;</span> <span class="na">data-url=</span><span class="s">&quot;{{ SITEURL }}/{{ article.url }}&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+<span class="c">&lt;!-- 多说评论框 end --&gt;</span>
+<span class="c">&lt;!-- 多说公共JS代码 start (一个网页只需插入一次) --&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+<span class="kd">var</span> <span class="nx">duoshuoQuery</span> <span class="o">=</span> <span class="p">{</span><span class="nx">short_name</span><span class="o">:</span><span class="s2">&quot;lyon0804&quot;</span><span class="p">};</span>
+    <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">ds</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+        <span class="nx">ds</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span><span class="nx">ds</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="nx">ds</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span> <span class="o">==</span> <span class="s1">&#39;https:&#39;</span> <span class="o">?</span> <span class="s1">&#39;https:&#39;</span> <span class="o">:</span> <span class="s1">&#39;http:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;//static.duoshuo.com/embed.js&#39;</span><span class="p">;</span>
+        <span class="nx">ds</span><span class="p">.</span><span class="nx">charset</span> <span class="o">=</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">;</span>
+        <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+         <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">ds</span><span class="p">);</span>
+    <span class="p">})();</span>
+    <span class="nt">&lt;/script&gt;</span>
+<span class="c">&lt;!-- 多说公共JS代码 end --&gt;</span>
+</pre></div>
+
+
+<h2>在pelican网页模板中添加代码</h2>
+<p>由于每个主题生成的最终网页不同，pelican的网页模板当然是存放在每个主题中，根据下面的思路：</p>
+<ol>
+<li>找到pelican的安装地址，如：<code>/usr/local/Cellar/python/2.7.10_2/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/pelican</code>,主题的默认安装位置在该目录下的<code>themes</code>中，到主题目录中，找到自己使用的主题，发现有一个<code>templates</code>文件夹，这里面肯定就是存放模板了；</li>
+<li>由于评论应该显示在文章中，所以想当然应该查看一下<code>article.html</code>中的内容，找到显示文章主题的部分，并且在最后，发现以下内容：<code>{% include 'includes/comments.html' %}</code>，所以应该是在该文件中加载评论信息；</li>
+<li>编辑该文件，第一行显示：<code>{% if DISQUS_SITENAME %}</code>，应该是使用全大写的全局常量来控制是否显示评论，由于默认支持的是<code>Disqus</code>，这里检查的也就是<code>DISQUS_SITENAME</code>是否设置了；</li>
+</ol>
+<p>找到模板之后就简单了，照葫芦画瓢，在相同文件下，添加以下内容：</p>
+<div class="highlight"><pre>{% if DUOSHUO_SITENAME %}
+    <span class="nt">&lt;hr/&gt;</span>
+    <span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;comments&quot;</span> <span class="na">id=</span><span class="s">&quot;comments&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h2&gt;</span>Comments<span class="nt">&lt;/h2&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;ds-thread&quot;</span> <span class="na">data-thread-key=</span><span class="s">&quot;{{ article.slug }}&quot;</span> <span class="na">data-title=</span><span class="s">&quot;{{ article.title }}&quot;</span> <span class="na">data-url=</span><span class="s">&quot;{{ SITEURL }}/{{ article.url }}&quot;</span><span class="nt">&gt;&lt;/div&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+            <span class="kd">var</span> <span class="nx">duoshuoQuery</span> <span class="o">=</span> <span class="p">{</span><span class="nx">short_name</span><span class="o">:</span><span class="s2">&quot;{{ DUOSHUO_SITENAME }}&quot;</span><span class="p">};</span>
+            <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">ds</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+                <span class="nx">ds</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span><span class="nx">ds</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="nx">ds</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span> <span class="o">==</span> <span class="s1">&#39;https:&#39;</span> <span class="o">?</span> <span class="s1">&#39;https:&#39;</span> <span class="o">:</span> <span class="s1">&#39;http:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;//static.duoshuo.com/embed.js&#39;</span><span class="p">;</span>
+                <span class="nx">ds</span><span class="p">.</span><span class="nx">charset</span> <span class="o">=</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">;</span>
+                <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                 <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">ds</span><span class="p">);</span>
+            <span class="p">})();</span>
+        <span class="nt">&lt;/script&gt;</span>
+        <span class="nt">&lt;noscript&gt;</span>Please enable JavaScript to view the <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://duoshuo.com/&quot;</span><span class="nt">&gt;</span>comments powered by
+        Duoshuo.<span class="nt">&lt;/a&gt;&lt;/noscript&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://duoshuo.com&quot;</span> <span class="na">class=</span><span class="s">&quot;dsq-brlink&quot;</span><span class="nt">&gt;</span>comments powered by <span class="nt">&lt;span&gt;</span>Duoshuo<span class="nt">&lt;/span&gt;&lt;/a&gt;</span>
+
+    <span class="nt">&lt;/section&gt;</span>
+{% endif %}
+</pre></div>
+
+
+<p>其中最后第二行当用户关闭js的时候弹出提示，最后一行显示多说的链接，但是如果想要显示多说的logo，还需要在css中添加多说logo的字图；</p>
+<p>接下来，到pelicanconf.py中，添加DUOSHUO_SITENAME，让这段代码通过判断，试试效果吧~</p>
+<h2>异步加载</h2>
+<p>为了让评论模块不影响页面加载速度，使用异步加载的方式，点击显示评论的时候才加载评论框，js还没怎么学，幸好已经<a href="http://liam0205.me/2014/07/22/duoshuo-delay/">有人</a>已经在hexo上实现了，根据pelican的特点，模仿者写了一段js：</p>
+<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+    <span class="kd">function</span> <span class="nx">toggleDuoshuoComments</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">title</span><span class="p">,</span> <span class="nx">url</span><span class="p">){</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">jQuery</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">has</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">).</span><span class="nx">length</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span>
+            <span class="nx">jQuery</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">empty</span><span class="p">();</span>
+            <span class="k">return</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span><span class="s1">&#39;ds-thread&#39;</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-thread-key&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-title&#39;</span><span class="p">,</span><span class="nx">title</span><span class="p">);</span>
+        <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-url&#39;</span><span class="p">,</span> <span class="nx">url</span><span class="p">);</span>
+        <span class="nx">DUOSHUO</span><span class="p">.</span><span class="nx">EmbedThread</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+        <span class="nx">jQuery</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="nt">&lt;/script&gt;</span>
+<span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;javascript:void(0);&quot;</span> <span class="na">onclick=</span><span class="s">&quot;toggleDuoshuoComments(&#39;#comment-box&#39;, &#39;{{ article.slug }}&#39;, &#39;{{ article.title }}&#39; , &#39;{{ SITEURL }}/{{ article.url }}&#39;);&quot;</span><span class="nt">&gt;</span>
+查看评论<span class="nt">&lt;/a&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;comment-box&quot;</span> <span class="nt">&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;hr/&gt;</span>
+</pre></div>
+
+
+<p>然后将之前的评论框加载注释掉：</p>
+<div class="highlight"><pre><span class="c">&lt;!--         &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;{{ article.slug }}&quot; data-title=&quot;{{ article.title }}&quot; data-url=&quot;{{ SITEURL }}/{{ article.url }}&quot;&gt;&lt;/div&gt; --&gt;</span>
+</pre></div>
+
+
+<p>就完成异步加载的工作了</p>
+<h2>代码一览</h2>
+<p>最终总体代码看起来就像这样：</p>
+<div class="highlight"><pre>{% if DUOSHUO_SITENAME %}
+    <span class="nt">&lt;hr/&gt;</span>
+    <span class="nt">&lt;section</span> <span class="na">class=</span><span class="s">&quot;comments&quot;</span> <span class="na">id=</span><span class="s">&quot;comments&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;h2&gt;</span>Comments<span class="nt">&lt;/h2&gt;</span>
+<span class="c">&lt;!--         &lt;div class=&quot;ds-thread&quot; data-thread-key=&quot;{{ article.slug }}&quot; data-title=&quot;{{ article.title }}&quot; data-url=&quot;{{ SITEURL }}/{{ article.url }}&quot;&gt;&lt;/div&gt; --&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+            <span class="kd">var</span> <span class="nx">duoshuoQuery</span> <span class="o">=</span> <span class="p">{</span><span class="nx">short_name</span><span class="o">:</span><span class="s2">&quot;{{ DUOSHUO_SITENAME }}&quot;</span><span class="p">};</span>
+            <span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+                <span class="kd">var</span> <span class="nx">ds</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;script&#39;</span><span class="p">);</span>
+                <span class="nx">ds</span><span class="p">.</span><span class="nx">type</span> <span class="o">=</span> <span class="s1">&#39;text/javascript&#39;</span><span class="p">;</span><span class="nx">ds</span><span class="p">.</span><span class="nx">async</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+                <span class="nx">ds</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">protocol</span> <span class="o">==</span> <span class="s1">&#39;https:&#39;</span> <span class="o">?</span> <span class="s1">&#39;https:&#39;</span> <span class="o">:</span> <span class="s1">&#39;http:&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;//static.duoshuo.com/embed.js&#39;</span><span class="p">;</span>
+                <span class="nx">ds</span><span class="p">.</span><span class="nx">charset</span> <span class="o">=</span> <span class="s1">&#39;UTF-8&#39;</span><span class="p">;</span>
+                <span class="p">(</span><span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;head&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                 <span class="o">||</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementsByTagName</span><span class="p">(</span><span class="s1">&#39;body&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">ds</span><span class="p">);</span>
+            <span class="p">})();</span>
+        <span class="nt">&lt;/script&gt;</span>
+        <span class="nt">&lt;script </span><span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span><span class="nt">&gt;</span>
+            <span class="kd">function</span> <span class="nx">toggleDuoshuoComments</span><span class="p">(</span><span class="nx">container</span><span class="p">,</span> <span class="nx">id</span><span class="p">,</span> <span class="nx">title</span><span class="p">,</span> <span class="nx">url</span><span class="p">){</span>
+                <span class="k">if</span><span class="p">(</span><span class="nx">jQuery</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">has</span><span class="p">(</span><span class="s2">&quot;div&quot;</span><span class="p">).</span><span class="nx">length</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">){</span>
+                    <span class="nx">jQuery</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">empty</span><span class="p">();</span>
+                    <span class="k">return</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">);</span>
+                <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;class&#39;</span><span class="p">,</span><span class="s1">&#39;ds-thread&#39;</span><span class="p">);</span>
+                <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-thread-key&#39;</span><span class="p">,</span> <span class="nx">id</span><span class="p">);</span>
+                <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-title&#39;</span><span class="p">,</span><span class="nx">title</span><span class="p">);</span>
+                <span class="nx">el</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">&#39;data-url&#39;</span><span class="p">,</span> <span class="nx">url</span><span class="p">);</span>
+                <span class="nx">DUOSHUO</span><span class="p">.</span><span class="nx">EmbedThread</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+                <span class="nx">jQuery</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">el</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="nt">&lt;/script&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;javascript:void(0);&quot;</span> <span class="na">onclick=</span><span class="s">&quot;toggleDuoshuoComments(&#39;#comment-box&#39;, &#39;{{ article.slug }}&#39;, &#39;{{ article.title }}&#39; , &#39;{{ SITEURL }}/{{ article.url }}&#39;);&quot;</span><span class="nt">&gt;</span>
+        查看评论<span class="nt">&lt;/a&gt;</span>
+        <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;comment-box&quot;</span> <span class="nt">&gt;&lt;/div&gt;</span>
+        <span class="nt">&lt;hr/&gt;</span>
+        <span class="nt">&lt;noscript&gt;</span>Please enable JavaScript to view the <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://duoshuo.com/&quot;</span><span class="nt">&gt;</span>comments powered by
+        Duoshuo.<span class="nt">&lt;/a&gt;&lt;/noscript&gt;</span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;http://duoshuo.com&quot;</span> <span class="na">class=</span><span class="s">&quot;dsq-brlink&quot;</span><span class="nt">&gt;</span>comments powered by <span class="nt">&lt;span&gt;</span>Duoshuo<span class="nt">&lt;/span&gt;&lt;/a&gt;</span>
+
+    <span class="nt">&lt;/section&gt;</span>
+{% endif %}
+</pre></div>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="zai-pelicanzhong-shi-yong-duo-shuo" data-title="在pelican中使用多说" data-url="http://www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'zai-pelicanzhong-shi-yong-duo-shuo', '在pelican中使用多说' , 'http://www.lyon0804.com/zai-pelicanzhong-shi-yong-duo-shuo.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

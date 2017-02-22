@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>urllib.request模块中的三大组件 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="python,urllib,http" />
+        <meta name="description" content="Request类 Request类用于生成请求对象，描述一个的URL请求的相关信息。其构造方法为： Request(url, data=None, headers={}, origin_req_host=None, unverifiable=False, method=None) 各个参数依次为： url : 包含一个有效URL，该URL不一定是真实的URL，urllib会自动处理重定向过程，并将真实url返回，可以被Response对象获取到，并通过geturl()方法返回真实URL； data : 必须是字节码数据，如果是unicode，应该先encode成字节码；当该参数被设定时，请求方法将会变成POST，并且只能被当前Request对象使用；data应该作为标准application/x-www-form-urlencoded格式的缓存，可以通过urllib.parse.urlencode()函数生成该格式；使用data ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="urllib.request模块中的三大组件"/>
+        <meta property="og:url" content="http://www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html"/>
+        <meta property="og:description" content="Request类 Request类用于生成请求对象，描述一个的URL请求的相关信息。其构造方法为： Request(url, data=None, headers={}, origin_req_host=None, unverifiable=False, method=None) 各个参数依次为： url : 包含一个有效URL，该URL不一定是真实的URL，urllib会自动处理重定向过程，并将真实url返回，可以被Response对象获取到，并通过geturl()方法返回真实URL； data : 必须是字节码数据，如果是unicode，应该先encode成字节码；当该参数被设定时，请求方法将会变成POST，并且只能被当前Request对象使用；data应该作为标准application/x-www-form-urlencoded格式的缓存，可以通过urllib.parse.urlencode()函数生成该格式；使用data ..."/>
+        <meta property="article:published_time" content="2015-10-31" />
+            <meta property="article:section" content="Learning" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:tag" content="urllib" />
+            <meta property="article:tag" content="http" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html"
+                       rel="bookmark"
+                       title="Permalink to urllib.request模块中的三大组件">
+                        urllib.request模块中的三大组件
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-10-31T00:00:00+08:00"> Sat 31 October 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/python.html">python</a>
+        /
+	<a href="http://www.lyon0804.com/tag/urllib.html">urllib</a>
+        /
+	<a href="http://www.lyon0804.com/tag/http.html">http</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>Request类</h2>
+<p><code>Request</code>类用于生成请求对象，描述一个的URL请求的相关信息。其构造方法为：</p>
+<div class="highlight"><pre><span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="p">{},</span> <span class="n">origin_req_host</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">unverifiable</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+
+
+<p>各个参数依次为：</p>
+<ol>
+<li><code>url</code> : 包含一个有效URL，该URL不一定是真实的URL，urllib会自动处理重定向过程，并将真实url返回，可以被<code>Response</code>对象获取到，并通过<code>geturl()</code>方法返回真实URL；</li>
+<li><code>data</code> : 必须是字节码数据，如果是<code>unicode</code>，应该先<code>encode</code>成字节码；当该参数被设定时，请求方法将会变成POST，并且只能被当前Request对象使用；<code>data</code>应该作为标准<code>application/x-www-form-urlencoded</code>格式的缓存，可以通过<code>urllib.parse.urlencode()</code>函数生成该格式；使用<code>data</code>时，应该正确设置<code>Content-Type</code>首部，确保服务器正确识别；</li>
+<li><code>headers</code> : 是一个<code>dict</code>对象，该按照键值对的形式，添加到首部中，除了通过<code>headers</code>参数，还可以使用<code>add_header()</code>方法后续逐一添加首部；</li>
+<li><code>origin_req_host</code> : 该值代表原始主机地址，如网页图片的原始主机地址等；</li>
+<li><code>unverifiable</code> : 通过设定该值为<code>True</code>，可以获取一些无法被自动获取的资源；</li>
+<li><code>method</code> : 指定使用的HTTP方法，如果不指定该参数，则使用默认方法，当<code>data</code>为空时，该参数默认为<code>GET</code>，当<code>data</code>不为空时，该参数默认为<code>POST</code>；可以通过<code>get_method()</code>方法获取实际使用的方法；</li>
+</ol>
+<p><code>Request()</code>对象是一个基本对象，该对象包括<code>方法</code>、<code>数据</code>、<code>首部</code>、<code>代理</code>等各种URL基本信息，当使用该请求时，使用这些已经配置好的信息来完成请求。该对象的常规属性方法不再赘述，有几个比较特殊的方法：</p>
+<ul>
+<li><code>add_unredirected_header(key,header)</code> : 和普通的首部不同，由该方法指定的首部将不会被添加到重定向的请求中；</li>
+<li><code>set_proxy(host,type)</code> : 该方法设定请求的代理，发送请求前先连接到代理服务器；</li>
+</ul>
+<h2>OpenerDirector类</h2>
+<p>通过<code>OpenerDirector</code>类实例化的对象(以下称<code>opener</code>)，是句柄(<code>handlers</code>)链和异常恢复的管理器，模块中的<code>urlopen()</code>函数就是一个<code>opener</code>的具体方法，通过模块中的<code>install_opener()</code>函数，可以改变默认的<code>urlopen()</code>，更加好的办法是，通过<code>build_opener()</code>函数来新建一个<code>opener</code>；</p>
+<blockquote>
+<p>如果说Request是演员的话，Opener是一个导演的角色负责统筹规划，而Handler则是场工包揽粗活重活，但是三者联合才能做出作品。</p>
+</blockquote>
+<p>该对象包含以下方法：</p>
+<ol>
+<li><code>add_handler(handler)</code> : 添加一个句柄，该句柄是BaseHandler()对象，该方法将搜索该对象的以下方法: protocol_open()、http_error_type()、protocol_error()、protocal_request()、protocol_response()，并将其添加到句柄链中。</li>
+<li><code>open(url, data=None[, timeout])</code> : 打开一个url，更加常用的是一个<code>Request()</code>对象。该方法的返回值和异常值和<code>urlopen()</code>函数类似；可选参数<code>timeout</code>仅在HTTP、HTTPS、FTP协议中有效，指定连接超时的时间，默认由套接字(socket)的默认超时时间指定；</li>
+<li><code>error(proto, *args)</code> : 指定协议的错误，如果是HTTP协议，则可以使用错误代码来指定，如：<code>http_error_404</code>等；</li>
+</ol>
+<p>一个opener打开一个URL，需要通过以下三个阶段：</p>
+<ol>
+<li>所有的handler执行<code>protocal_request()</code>方法，完成请求的初始化操作；</li>
+<li>所有的handler执行<code>protocal_open()</code>方法，如果有一个handler接收到<code>None</code>或者引发异常，都会终止该阶段；该算法首先尝试<code>default_open()</code>方法，当其返回空时，再循环调用<code>protocal_open()</code>方法(该方法名根据不同的handler会不同)，如果这些方法仍然返回空，则再循环调用<code>unknown_open()</code>方法；</li>
+<li>所有handler执行<code>protocal_response()</code>方法，处理响应结果；</li>
+</ol>
+<h2>BaseHandler类</h2>
+<p>该类中定义基本的handler方法和属性，并被具体的Handler类继承，这些类定义了具体的请求的处理方式。</p>
+<p>常用的HTTP子类有：</p>
+<ul>
+<li><code>HTTPDefaultErrorHandler</code> : 定义HTTP错误码的默认处理；</li>
+<li><code>HTTPRedirectHanlder</code> : 重定向句柄，该句柄处理返回码为<code>30*</code>的HTTP请求，并重定向到新的URL；</li>
+<li><code>HTTPCookieProcessor(cookiejar=None)</code> : Cookie管理句柄，需要传入一个<code>cookiejar</code>对象，该对象可由<code>http.cookiejar.CookieJar()</code>类实例化；</li>
+<li><code>ProxyHandler(proxies=None)</code> : 代理管理句柄，会自动读取系统环境变量中的代理；</li>
+<li><code>HTTPHandler</code> : HTTP处理句柄</li>
+<li><code>HTTPSHandler</code> : HTTPS处理句柄</li>
+</ul>
+<p>通过以上这一些句柄定义具体的请求操作，并使用opener管理统筹整个过程的进行。</p>
+<h2>补充实验</h2>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="urllibrequestmo-kuai-zhong-de-san-da-zu-jian" data-title="urllib.request模块中的三大组件" data-url="http://www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'urllibrequestmo-kuai-zhong-de-san-da-zu-jian', 'urllib.request模块中的三大组件' , 'http://www.lyon0804.com/urllibrequestmo-kuai-zhong-de-san-da-zu-jian.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

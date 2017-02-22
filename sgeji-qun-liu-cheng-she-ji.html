@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>SGE集群流程设计 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="SGE,pipeline" />
+        <meta name="description" content="由于华大基因等公司的大量使用，SGE计算集群在生物信息领域仍然有比较广泛的应用；生物大数据时代的到来，可靠、易维护的分析流程也日益重要。 本文阐述本人在一次16S/ITS流程设计与搭建时的心得，大体思路如下： 流程整体思路 其中： src中的程序，包含比较复杂的逻辑实现（包含基于string.Tempelate的R语言脚本模板）； script中脚本，规定程序的调用接口，默认值设置，帮助文档等内容； bin中的功能模块，规定了脚本的调用顺序，以及读取和写出功能的配置文件，一个功能中的脚本之间不应该同时存在两个资源需求较大的脚本，并且不应该存在功能逻辑上明显可以区分的脚本； Pipeline中是对功能模块的具体调用，以及针对不同集群系统的任务投递规则，功能模块之间串并行调用的选择，以及每个功能的资源分配等实现； 其他来源的程序（如qiime、RDPTools等），也必须通过script重新定义接口，以符合当前流程的需要，并且在script中调用。 R和Python的交叉开发 R语言中有大量可靠的统计分析函数，以及强大的科学作图功能，结合python更加强大的组织能力，两种语言（以及perl语言）结合开发是生物信息分析过程中较为常见的行为。 在python中使用r语言有rpy2等方式，但是这种方式并不是特别容易理解，利用python中的字符串模板，将R语言的实现逻辑和python的组织架构分离，并调用系统命令运行R语言，这样的好处是直接调用系统环境的R，方便更换R语言环境； 为了避免R中的 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="SGE集群流程设计"/>
+        <meta property="og:url" content="http://www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html"/>
+        <meta property="og:description" content="由于华大基因等公司的大量使用，SGE计算集群在生物信息领域仍然有比较广泛的应用；生物大数据时代的到来，可靠、易维护的分析流程也日益重要。 本文阐述本人在一次16S/ITS流程设计与搭建时的心得，大体思路如下： 流程整体思路 其中： src中的程序，包含比较复杂的逻辑实现（包含基于string.Tempelate的R语言脚本模板）； script中脚本，规定程序的调用接口，默认值设置，帮助文档等内容； bin中的功能模块，规定了脚本的调用顺序，以及读取和写出功能的配置文件，一个功能中的脚本之间不应该同时存在两个资源需求较大的脚本，并且不应该存在功能逻辑上明显可以区分的脚本； Pipeline中是对功能模块的具体调用，以及针对不同集群系统的任务投递规则，功能模块之间串并行调用的选择，以及每个功能的资源分配等实现； 其他来源的程序（如qiime、RDPTools等），也必须通过script重新定义接口，以符合当前流程的需要，并且在script中调用。 R和Python的交叉开发 R语言中有大量可靠的统计分析函数，以及强大的科学作图功能，结合python更加强大的组织能力，两种语言（以及perl语言）结合开发是生物信息分析过程中较为常见的行为。 在python中使用r语言有rpy2等方式，但是这种方式并不是特别容易理解，利用python中的字符串模板，将R语言的实现逻辑和python的组织架构分离，并调用系统命令运行R语言，这样的好处是直接调用系统环境的R，方便更换R语言环境； 为了避免R中的 ..."/>
+        <meta property="article:published_time" content="2015-09-18" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="SGE" />
+            <meta property="article:tag" content="pipeline" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html"
+                       rel="bookmark"
+                       title="Permalink to SGE集群流程设计">
+                        SGE集群流程设计
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2015-09-18T00:00:00+08:00"> Fri 18 September 2015</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/sge.html">SGE</a>
+        /
+	<a href="http://www.lyon0804.com/tag/pipeline.html">pipeline</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <blockquote>
+<p>由于华大基因等公司的大量使用，SGE计算集群在生物信息领域仍然有比较广泛的应用；生物大数据时代的到来，可靠、易维护的分析流程也日益重要。</p>
+</blockquote>
+<p>本文阐述本人在一次16S/ITS流程设计与搭建时的心得，大体思路如下：</p>
+<h2>流程整体思路</h2>
+<p><img alt="pipeline" src="http://ww3.sinaimg.cn/mw1024/95202659gw1ew6qpe8f4ej21a413atf7.jpg" /></p>
+<p>其中：</p>
+<ul>
+<li>src中的程序，包含比较复杂的逻辑实现（包含基于string.Tempelate的R语言脚本模板）；</li>
+<li>script中脚本，规定程序的调用接口，默认值设置，帮助文档等内容；</li>
+<li>bin中的功能模块，规定了脚本的调用顺序，以及读取和写出功能的配置文件，一个功能中的脚本之间不应该同时存在两个资源需求较大的脚本，并且不应该存在功能逻辑上明显可以区分的脚本；</li>
+<li>Pipeline中是对功能模块的具体调用，以及针对不同集群系统的任务投递规则，功能模块之间串并行调用的选择，以及每个功能的资源分配等实现；</li>
+</ul>
+<p>其他来源的程序（如<a href="http://qiime.org">qiime</a>、<a href="https://github.com/rdpstaff">RDPTools</a>等），也必须通过script重新定义接口，以符合当前流程的需要，并且在script中调用。</p>
+<h2>R和Python的交叉开发</h2>
+<p>R语言中有大量可靠的统计分析函数，以及强大的科学作图功能，结合python更加强大的组织能力，两种语言（以及perl语言）结合开发是生物信息分析过程中较为常见的行为。</p>
+<p>在python中使用r语言有rpy2等方式，但是这种方式并不是特别容易理解，利用python中的字符串模板，将R语言的实现逻辑和python的组织架构分离，并调用系统命令运行R语言，这样的好处是直接调用系统环境的R，方便更换R语言环境；</p>
+<p>为了避免R中的<code>$</code>符号使用和默认的模板分隔符冲突，改写Template，并将delimiter值改变为<code>@#</code>；</p>
+<p>思路如下：</p>
+<p><img alt="python_with_R" src="http://ww1.sinaimg.cn/mw1024/95202659gw1ew6qpe521zj212y11agpg.jpg" /></p>
+<h2>流程搭建步骤</h2>
+<p>通过将四种不同逻辑分离，在易于维护的同时，搭建其他不同的流程也将会变得比较清晰；一般流程搭建的步骤为：</p>
+<ol>
+<li>设计功能模块的流程，明确需要用到的软件，以及需要开发的程序；</li>
+<li>根据具体的分析要求，对上述软件和程序进行接口包装，流程只需要对接口负责，改变软件版本或者软件具体内容并不需要重新修改流程；</li>
+<li>完成未有需要开发的程序开发，程序中尽量实现最小功能实现，避免并行处理，通过任务分配完成并行，最大限度地使用计算资源；完成单一程序的测试等；</li>
+<li>功能模块测试，资源消耗的统计；</li>
+<li>制定功能模块的调用规则，分配资源，对不产生依赖的功能之间并行投递任务，产生依赖的功能串行投递任务；</li>
+</ol>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="sgeji-qun-liu-cheng-she-ji" data-title="SGE集群流程设计" data-url="http://www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'sgeji-qun-liu-cheng-she-ji', 'SGE集群流程设计' , 'http://www.lyon0804.com/sgeji-qun-liu-cheng-she-ji.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

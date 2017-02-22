@@ -1,0 +1,433 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>[翻译]Variant Normalization - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/fan-yi-variant-normalization.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="bioinformatics,variant,normalization,vcf" />
+        <meta name="description" content="原文链接: http://genome.sph.umich.edu/wiki/Variant_Normalization 介绍 VCF(Variant Call Format)格式文件是一种灵活的格式, 这种格式可以用来表示从SNPs、INDELs到CNVs等很多种变异类型. 然而, VCF文件中的变异表达在参考型和突变型的表示上具有不唯一性. 一次失败的识别很容易造成错误的分析. 这篇Wiki描述了变异标准化(variant normalization)的过程, 该过程不仅适用于双等位基因同时适用于多等位基因. 然后我们对该过程的正确性给出了证明. 定义 VCF中的变异标准化涉及两个方面: 变异长度上的简约性(parsimony) 变异位置左对齐(left alignment) 简约性(Parsimony) 在变异表达中, 简约性代表用尽可能少但是不为0的核苷酸数量来表示每一个等位基因. 它描述了变异的长度属性, 定义如下: 当且仅当一个变异使用了尽可能少的核苷酸, 并且没有一个等位基因的长度为0时, 称该变异为简约的. 并定义: 如果每个等位基因的最左侧核苷酸相同, 且移除该核苷酸并不会导致空等位基因, 则称该变异在左侧有多余核苷酸. 如下实例中, 多核苷酸多态性在前三种表示上都有多余核苷酸, 而第四种表示上则是简约的 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="[翻译]Variant Normalization"/>
+        <meta property="og:url" content="http://www.lyon0804.com/fan-yi-variant-normalization.html"/>
+        <meta property="og:description" content="原文链接: http://genome.sph.umich.edu/wiki/Variant_Normalization 介绍 VCF(Variant Call Format)格式文件是一种灵活的格式, 这种格式可以用来表示从SNPs、INDELs到CNVs等很多种变异类型. 然而, VCF文件中的变异表达在参考型和突变型的表示上具有不唯一性. 一次失败的识别很容易造成错误的分析. 这篇Wiki描述了变异标准化(variant normalization)的过程, 该过程不仅适用于双等位基因同时适用于多等位基因. 然后我们对该过程的正确性给出了证明. 定义 VCF中的变异标准化涉及两个方面: 变异长度上的简约性(parsimony) 变异位置左对齐(left alignment) 简约性(Parsimony) 在变异表达中, 简约性代表用尽可能少但是不为0的核苷酸数量来表示每一个等位基因. 它描述了变异的长度属性, 定义如下: 当且仅当一个变异使用了尽可能少的核苷酸, 并且没有一个等位基因的长度为0时, 称该变异为简约的. 并定义: 如果每个等位基因的最左侧核苷酸相同, 且移除该核苷酸并不会导致空等位基因, 则称该变异在左侧有多余核苷酸. 如下实例中, 多核苷酸多态性在前三种表示上都有多余核苷酸, 而第四种表示上则是简约的 ..."/>
+        <meta property="article:published_time" content="2016-07-13" />
+            <meta property="article:section" content="bioinformatics" />
+            <meta property="article:tag" content="bioinformatics" />
+            <meta property="article:tag" content="variant" />
+            <meta property="article:tag" content="normalization" />
+            <meta property="article:tag" content="vcf" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/fan-yi-variant-normalization.html"
+                       rel="bookmark"
+                       title="Permalink to [翻译]Variant Normalization">
+                        [翻译]Variant Normalization
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2016-07-13T00:00:00+08:00"> Wed 13 July 2016</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/bioinformatics.html">bioinformatics</a>
+        /
+	<a href="http://www.lyon0804.com/tag/variant.html">variant</a>
+        /
+	<a href="http://www.lyon0804.com/tag/normalization.html">normalization</a>
+        /
+	<a href="http://www.lyon0804.com/tag/vcf.html">vcf</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>原文链接: http://genome.sph.umich.edu/wiki/Variant_Normalization</p>
+<h2>介绍</h2>
+<p>VCF(Variant Call Format)格式文件是一种灵活的格式, 这种格式可以用来表示从SNPs、INDELs到CNVs等很多种变异类型. 然而, VCF文件中的变异表达在参考型和突变型的表示上具有不唯一性. 一次失败的识别很容易造成错误的分析.</p>
+<p>这篇Wiki描述了变异标准化(variant normalization)的过程, 该过程不仅适用于双等位基因同时适用于多等位基因. 然后我们对该过程的正确性给出了证明.</p>
+<h2>定义</h2>
+<p>VCF中的变异标准化涉及两个方面: </p>
+<ul>
+<li>变异长度上的<strong>简约性</strong>(parsimony)</li>
+<li>变异位置<strong>左对齐</strong>(left alignment)</li>
+</ul>
+<h3>简约性(Parsimony)</h3>
+<p>在变异表达中, 简约性代表用尽可能少但是不为0的核苷酸数量来表示每一个等位基因. 它描述了变异的长度属性, 定义如下:</p>
+<blockquote>
+<p>当且仅当一个变异使用了尽可能少的核苷酸, 并且没有一个等位基因的长度为0时, 称该变异为简约的.</p>
+</blockquote>
+<p>并定义:</p>
+<blockquote>
+<p>如果每个等位基因的最左侧核苷酸相同, 且移除该核苷酸并不会导致空等位基因, 则称该变异在左侧有多余核苷酸.</p>
+</blockquote>
+<p>如下实例中, 多核苷酸多态性在前三种表示上都有多余核苷酸, 而第四种表示上则是简约的. 当一个变异在左侧具有多余核苷酸时, 称该变异为左侧未简约, 并需要进行左切除. 同理, 右侧未简约也需要进行由切除. 简约性在INDELs一样体现, 在左对齐章节将做示范.</p>
+<p><img alt="parsimony" src="http://genome.sph.umich.edu/w/images/9/98/Normalization_mnp.png" /></p>
+<p>图中展示了多核苷酸多态性的多种展示, 最左列用颜色区分了四种可能存在的不同表示方式. 右边一列展示了在VCF文件中的相应表示. 最后一列展示了四种方式的简约性表现.</p>
+<p>在简约性的定义的基础上, 容易看到:</p>
+<blockquote>
+<p>如果一个变异是非简约的, 则所有的等位基因长度必须大于1.</p>
+</blockquote>
+<p>逆命题不成立.</p>
+<h3>左对齐(Left alignment)</h3>
+<p>将一个变异左对齐表示将该变异的起始位置尽可能地向左移动. 这是插入(insertion)缺失(deletion)中的相关概念, 描述了变异的位置属性. 为了区分左对齐和简单的对一个变异左填充, 给出定义如下:</p>
+<blockquote>
+<p>在保持所有等位基因长度的前提下, 当且仅当一个变异不可能再往左移动时, 称该变异为左对齐的.</p>
+</blockquote>
+<p>下图展示了一个没有标准化的短串联重复序列(一种特殊的indel). 并且用和图中颜色对应的文字对变异进行描述.</p>
+<ul>
+<li><span style="color:#ff0000">VCF文件要求任意一个等位基因都不能以空字符串的形式表示(空等位基因). 红色的indel是非法的VCF表示方式.</span></li>
+<li><span style="color:#008000">绿色的变异并不是左对齐的, 你可以在该变异的每个等位基因左边加上一个核苷酸, 并移除每个等位基因右边的C. 但该变异是简约的.</span></li>
+<li><span style="color:#F9A908">橙色的变异是左对齐的, 但是右侧并不简约.</span></li>
+<li><span style="color:#0000FF">蓝色的变异是左对齐的, 但是左侧并不简约.</span></li>
+<li><span style="color:#800080">褐红色的变异是左对齐并且简约的.</span></li>
+</ul>
+<p><img alt="left_alignment" src="http://genome.sph.umich.edu/w/images/5/53/Normalization_str.png" /></p>
+<p>图中展示了CA微卫星(Short Tendem Repeat)的多种表示方式, 最左列用颜色区分了五种可能存在的不同表示方式. 右边一列展示了在VCF文件中的相应表示. 最后一列展示了该微卫星的五种方式的左对齐以及简约性表现.</p>
+<h2>区分是否标准化</h2>
+<blockquote>
+<p>当且仅当一个变异是简约且左对齐时, 称该变异是标准化的.</p>
+</blockquote>
+<h3>引论</h3>
+<p>为了检测一个变异是否标准化, 我们首先需要证明以下引论(1):</p>
+<blockquote>
+<p>当且仅当变异是非左对齐或者非右简约时, 该变异的所有等位基因都以同样的核苷酸结尾.</p>
+</blockquote>
+<p>从<strong>=&gt;</strong>方向证明:</p>
+<ul>
+<li>如果一个indel是左对齐并且右侧简约时, 该变异的所有等位基因不以同样的核苷酸结尾.</li>
+</ul>
+<p>首先假设一个indel已经左对齐并且右侧简约. 当任一等位基因长度大于1时, 由于该indel是右侧简约的, 很显然每个等位基因不能以同样的核苷酸结尾. 当其中某一等位基因长度为1时, 并假设所有的等位基因都以A结尾. 此时, 为了避免出现空等位基因的情况, 右侧已经不再能去除相同的A核苷酸, 故右侧仍然是简约的. 在任意等位基因左侧延长一个核苷酸(复制参考基因组), 此时在右侧就出现了多余的核苷酸. 将该核苷酸去除, 结果导致indel的每个等位基因在保持长度不变的前提下向左移动了一个位置, 这和该indel是左对齐矛盾. 因此, 所有的等位基因都不能以相同的核苷酸结尾.</p>
+<p>从<strong>&lt;=</strong>方向证明:</p>
+<ul>
+<li>如果一个indel是非左对齐或者非右简约时, 该变异的所有等位基因都以同样的核苷酸结尾.</li>
+</ul>
+<p>假设该变异是非左对齐的, 则对该变异进行左对齐操作时, 为了保证长度不变, 则每移动一个核苷酸就必须从右侧移除一个相同的核苷酸, 因此该变异右侧至少存在一个相同的核苷酸, 否则无法进行左对齐操作.</p>
+<p>假设该变异是非右简约的, 根据定义可知, 该变异的所有等位基因中, 最右侧的碱基都必须相同以期望被移除.</p>
+<h3>必然性</h3>
+<blockquote>
+<p>一个变异是标准化的当且仅当:
+1. 在左侧没有多余的碱基;
+2. 任意一个等位基因都以不同的核苷酸结尾;</p>
+</blockquote>
+<p>证明:</p>
+<p>一个变异是标准化的当且仅当该变异简约并且左对齐</p>
+<p>=&gt; 一个变异是标准化的当且仅当该变异左简约并且右简约并且左对齐</p>
+<p>=&gt; 一个变异是标准化的当且仅当该变异左侧没有多余核苷酸并且右侧没有多余核苷酸并且左对齐</p>
+<p>=&gt; 一个变异是标准化的当且仅当该变异左侧没有多余的核苷酸并且所有等位基因不以相同的核苷酸结尾 (引论1)</p>
+<h3>唯一性</h3>
+<p>变异的标准化得到唯一的变异表达是非常重要的, 在我们证明之前, 先凭直觉接受: 一个变异的任意表达都可以通过同时在等位基因一端添加参考核苷酸或者同时在等位基因的一端移除相同的核苷酸, 从而得到另外一种表达.</p>
+<p>现在假设有变异的两个标准化A和B. 不失一般性, 假设B在A的右侧, 由于标准化的定义, A和B都是左对齐的, 如果A和B不在同一个位置则意味着B可以通过向左对齐变成A(由于A和B表示了相同的变异), 与B是标准化矛盾, 所以A和B必然在相同的位置.</p>
+<p>假设A和B虽然在同一个位置, 但是长度不同, 不失一般性认为B比A长, 则B肯定是非简约并且可以通过去除核苷酸达到和A相同的长度, 与B标准化矛盾, 所以A和B长度必然相同.</p>
+<p>由于A和B必然在同一个位置并且长度相同, 故变异的标准化表示是唯一的.</p>
+<h2>实施</h2>
+<p><a href="http://genome.sph.umich.edu/wiki/Vt#Normalization">vt</a>中已经得到了实施.</p>
+<h3>标准化的算法</h3>
+<p>现在我们知道了如何区分一个变异是否标准化, 我们只需要操作变异表达方式, 直到最后侧的核苷酸不同并且去除左侧多余的核苷酸, 即可得到一个标准化后的变异表达. 标准化双等位基因和多等位基因的算法表示如下:</p>
+<p><img alt="algorithm" src="http://genome.sph.umich.edu/w/images/9/9b/Variant_normalization_algorithm.png" /></p>
+<p>1到8行进行了左对齐操作并且保证右侧简约. 9到11行保证左侧的简约.</p>
+<h3>比较</h3>
+<h4>2014年5月20号</h4>
+<p>下面的表格展示了对一个不公开数据进行标准化时, 正确标准化的变异数量. 该比较在2014年5月20号完成.</p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>bcftools</th>
+<th>gatk</th>
+<th>vt</th>
+<th>comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#normalized</td>
+<td>-</td>
+<td>18794</td>
+<td>18849</td>
+<td>bcftools的标准化存在bug, 会去除不同的核苷酸.</td>
+</tr>
+<tr>
+<td>#normalized after bcftools</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>#normalized after gatk</td>
+<td>-</td>
+<td>0</td>
+<td>57</td>
+<td>57个gatk的标准化结果被vt重新左对齐. 其中有6个是双等位基因, 51个是多等位基因. 注意有两个变异被gatk修改但是没有完全标准化</td>
+</tr>
+<tr>
+<td>#normalized after vt</td>
+<td>-</td>
+<td>0</td>
+<td>0</td>
+<td>vt的标准化结果没有被进一步标准化</td>
+</tr>
+</tbody>
+</table>
+<p>使用的命令为:</p>
+<ul>
+<li>bcftools norm -f ref.fa in.vcf -O z &gt; out.vcf.gz</li>
+<li>java -jar GenomeAnalysisTK.jar -T LeftAlignAndTrimVariants --trimAlleles -R ref.fa --variant in.vcf.gz -o out.vcf.gz</li>
+<li>vt normalize -r ref.vcf.gz -o out.vcf.gz</li>
+</ul>
+<p>使用的版本为:</p>
+<ul>
+<li>bcftools v0.2.0-rc8-5-g0e06231 (using htslib 0.2.0-rc8-6-gd49dfa6)</li>
+<li>GATK v3.1-1-g07a4bf8</li>
+<li>vt normalize v0.5</li>
+</ul>
+<p>问题已经在2015年5月20号传达给bcftools和gatk</p>
+<h4>2014年5月22号</h4>
+<p>下面的表格展示了对一个不公开数据进行标准化时, 正确标准化的变异数量. 该比较在2014年5月22号完成. bcftools更新了.</p>
+<table>
+<thead>
+<tr>
+<th>Dataset</th>
+<th>bcftools</th>
+<th>gatk</th>
+<th>vt</th>
+<th>comments</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>#normalized</td>
+<td>18849</td>
+<td>18794</td>
+<td>18849</td>
+<td>bcftools的标准化和vt已经使用相同的算法.</td>
+</tr>
+<tr>
+<td>#normalized after bcftools</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>bcftools的标准化结果没有被进一步标准化</td>
+</tr>
+<tr>
+<td>#normalized after gatk</td>
+<td>-</td>
+<td>0</td>
+<td>57</td>
+<td>gatk的写了只使用双等位基因的文档. 57个gatk的标准化结果被vt重新左对齐. 其中有6个是双等位基因, 51个是多等位基因. 注意有两个变异被gatk修改但是没有完全标准化</td>
+</tr>
+<tr>
+<td>#normalized after vt</td>
+<td>-</td>
+<td>0</td>
+<td>0</td>
+<td>vt的标准化结果没有被进一步标准化</td>
+</tr>
+</tbody>
+</table>
+<p>使用的命令为:</p>
+<ul>
+<li>bcftools norm -f ref.fa in.vcf -O z &gt; out.vcf.gz</li>
+<li>java -jar GenomeAnalysisTK.jar -T LeftAlignAndTrimVariants --trimAlleles -R ref.fa --variant in.vcf.gz -o out.vcf.gz</li>
+<li>vt normalize -r ref.vcf.gz -o out.vcf.gz</li>
+</ul>
+<p>使用的版本为:</p>
+<ul>
+<li>bcftools v0.2.0-rc8-5-g0e06231 (using htslib 0.2.0-rc8-6-gd49dfa6) [updated non release development version]</li>
+<li>GATK v3.1-1-g07a4bf8</li>
+<li>vt normalize v0.5</li>
+</ul>
+<h2>一个该标准化算法失效的例子</h2>
+<p>我们用下面的规则区分变异的标准化(normalization)和分解/组合(decomposition/reconstruction):</p>
+<p>标准化代表着将一个变异的多个表达降低为一个权威的表达. 标准化可以适用于双等位基因和多等位基因. 变异标准化问题已经被解决, 并且有一个唯一的表示方式(左对齐并且简约的表达). 数学证明已经发表.<a href="http://bioinformatics.oxfordjournals.org/content/suppl/2015/02/19/btv112.DC1/VtNormApplicationNote_supp_20141113_1346.pdf">1</a></p>
+<p>变异的分解代表着将一个变异的表达拆分成多个变异. 这个分解可以是纵向的 —— 将一个多等位基因分解成双等位基因. 也可以是横向的 —— 将一个包含多个indel和snp群的复合变异分解成多个单一变异. 横向分解常常不仅有一个结果. 相似地, 将多个变异组合重构成一个变异也有横向和纵向两种方式. 讲一个复合变异纵向分解是一个多对一的函数, 将多个双等位基因组合为一个复合变异则并不具有唯一解, 需要考虑到所有等位基因可能的排列.</p>
+<p>如果你的例子中包含了变异的分解和组合, 那么你就有可能发现前后不一致.</p>
+<p>区分标准化和分解组合的不同点是非常重要的. 标准化的概念意味着变异有标准表示格式. 如果在你的标准化概念里加入分解和组合, 由于可辨别性的内在差异(是否具有唯一解等), 你将会得到前后不一致的情况.</p>
+<p>当进行分解组合操作时, 我认为应当考虑以下几点:</p>
+<ul>
+<li>你的变异仅仅用来表示单个个体还是一个群体？</li>
+<li>这些基因型是否在独立的阶段产生?</li>
+</ul>
+<p>在不同的情况下可能得到不同的答案.</p>
+<p><a href="https://github.com/atks/vt/issues/16">An example of inconsistent variant representation due to using vt normalize</a></p>
+<h2>引用</h2>
+<p><a href="http://bioinformatics.oxfordjournals.org/content/31/13/2202">Adrian Tan, Gonçalo R. Abecasis and Hyun Min Kang. (2015) Unified Representation of Genetic Variants. Bioinformatics.</a></p>
+<h2>维护者</h2>
+<p>该页面由<a href="atks@umich.edu">Adrian</a>维护.</p>
+<h2>申明</h2>
+<p>原文地址: http://genome.sph.umich.edu/wiki/Variant_Normalization</p>
+<p>本文由本人(Lyon0804)翻译并发布, 如果侵犯原文权利请告知.</p>
+<p>转载请注明本文地址: http://www.lyon0804.com/fan-yi-variant-normalization.html</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="fan-yi-variant-normalization" data-title="[翻译]Variant Normalization" data-url="http://www.lyon0804.com/fan-yi-variant-normalization.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'fan-yi-variant-normalization', '[翻译]Variant Normalization' , 'http://www.lyon0804.com/fan-yi-variant-normalization.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
