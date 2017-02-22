@@ -32,7 +32,7 @@
 &lt;li&gt;从bam文件中获得fastq: 分子标签处理的最后一步, 不详细讲如果处理的, 提几个比较容易出错的地方: 1. 确保read1和read2是配对的, 可以从比对的位置判断; 2. read1和read2的id一致性, 并且尽量避免重复的reads id; 完成这一步之后, 从得到的fastq格式开始, 按照常规的分析方法即可; PS: 是的, 你需要重新比对一次! 仔细想想, cigar, 比对位置, mate信息等等都已经被认为篡改了.&lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2&gt;特异性?&lt;/h2&gt;
-&lt;p&gt;分子标签一定能保证特异性吗? 其实未必, 特别是比较短的分子标签(如Swift建库试剂盒使用的9个碱基长度的分子标签), 往往同一个分子标签可以结合到不同的位置, 但是通过数据分析, 可以认为比对到基因组位置较远的位置, 虽然是同一个分子标签, 但实际上并不是同一个原始拷贝. 由于打断序列或者ctDNA序列的随机性, 相对人类的基因组范围来说, 这种方法可以在很大的程度上保证分子标签的特异性.&lt;/p&gt;</summary><category term="MID"></category><category term="UMI"></category><category term="分子标签"></category><category term="ctDNA"></category></entry><entry><title>标记VCF文件FILTER</title><link href="http://www.lyon0804.com/biao-ji-vcfwen-jian-filter.html" rel="alternate"></link><updated>2016-10-27T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-10-27:biao-ji-vcfwen-jian-filter.html</id><summary type="html">&lt;h2&gt;前文&lt;/h2&gt;
+&lt;p&gt;分子标签一定能保证特异性吗? 其实未必, 特别是比较短的分子标签(如Swift建库试剂盒使用的9个碱基长度的分子标签), 往往同一个分子标签可以结合到不同的位置, 但是通过数据分析, 可以认为比对到基因组位置较远的位置, 虽然是同一个分子标签, 但实际上并不是同一个原始拷贝. 由于打断序列或者ctDNA序列的随机性, 相对人类的基因组范围来说, 这种方法可以在很大的程度上保证分子标签的特异性.&lt;/p&gt;</summary><category term="MID"></category><category term="UMI"></category><category term="ctDNA"></category></entry><entry><title>标记VCF文件FILTER</title><link href="http://www.lyon0804.com/biao-ji-vcfwen-jian-filter.html" rel="alternate"></link><updated>2016-10-27T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-10-27:biao-ji-vcfwen-jian-filter.html</id><summary type="html">&lt;h2&gt;前文&lt;/h2&gt;
 &lt;p&gt;本文将会涉及到的内容有:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;使用gatk对VCF文件进行FILTER标记;&lt;/li&gt;
