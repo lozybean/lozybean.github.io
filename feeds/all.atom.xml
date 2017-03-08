@@ -266,7 +266,7 @@
 
 
 &lt;p&gt;我不会说一些新的东西, 我们可以从中得到MRO的搜索顺序吗?&lt;/p&gt;
-&lt;p&gt;是的, 使用&lt;code&gt;__mro__&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;是的, 使用&lt;strong&gt;__mro__&lt;/strong&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Son&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__mro__&lt;/span&gt; &lt;span class="c"&gt;# (__main__.Son, __main__.Mother, __main__.Father, object)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
