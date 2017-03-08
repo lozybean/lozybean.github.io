@@ -523,7 +523,7 @@
 
 &lt;p&gt;答案是1因为b.x = 11在&lt;strong&gt;b&lt;/strong&gt;的命名空间中创建了一个新的属性(实例属性).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;a&lt;/strong&gt;的命名空间仍然是空的, 所以&lt;strong&gt;a.x&lt;/strong&gt;会在&lt;strong&gt;A&lt;/strong&gt;的命名空间中查找并且找到一个等于1的&lt;strong&gt;x&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;如果你像在Python的面向对象上走的更远的话, 我想没有比&lt;a href="https://speakerdeck.com/lgiordani/object-oriented-python-from-scratch"&gt;Leonardo Giordani's training&lt;/a&gt;更好的了.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>分子标签处理小记</title><link href="http://www.lyon0804.com/fen-zi-biao-qian-chu-li-xiao-ji.html" rel="alternate"></link><updated>2017-02-22T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-02-22:fen-zi-biao-qian-chu-li-xiao-ji.html</id><summary type="html">&lt;h2&gt;什么是分子标签&lt;/h2&gt;
+&lt;p&gt;如果你想在Python的面向对象上走的更远的话, 我想没有比&lt;a href="https://speakerdeck.com/lgiordani/object-oriented-python-from-scratch"&gt;Leonardo Giordani's training&lt;/a&gt;更好的了.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>分子标签处理小记</title><link href="http://www.lyon0804.com/fen-zi-biao-qian-chu-li-xiao-ji.html" rel="alternate"></link><updated>2017-02-22T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-02-22:fen-zi-biao-qian-chu-li-xiao-ji.html</id><summary type="html">&lt;h2&gt;什么是分子标签&lt;/h2&gt;
 &lt;p&gt;分析超低频突变时, 为了提高变异识别的准确性, PCR之前在文库中加入若干个随机碱基形成的序列, 这段随机序列就叫做所谓的分子标签.&lt;/p&gt;
 &lt;p&gt;分子标签有两个主要的特点:&lt;/p&gt;
 &lt;ol&gt;

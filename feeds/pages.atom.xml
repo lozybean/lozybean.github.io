@@ -523,7 +523,7 @@
 
 &lt;p&gt;答案是1因为b.x = 11在&lt;strong&gt;b&lt;/strong&gt;的命名空间中创建了一个新的属性(实例属性).&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;a&lt;/strong&gt;的命名空间仍然是空的, 所以&lt;strong&gt;a.x&lt;/strong&gt;会在&lt;strong&gt;A&lt;/strong&gt;的命名空间中查找并且找到一个等于1的&lt;strong&gt;x&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;如果你像在Python的面向对象上走的更远的话, 我想没有比&lt;a href="https://speakerdeck.com/lgiordani/object-oriented-python-from-scratch"&gt;Leonardo Giordani's training&lt;/a&gt;更好的了.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>Python3元编程技巧</title><link href="http://www.lyon0804.com/python3yuan-bian-cheng-ji-qiao.html" rel="alternate"></link><updated>2016-10-08T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-10-08:python3yuan-bian-cheng-ji-qiao.html</id><summary type="html">&lt;p&gt;本文参考&lt;a href="https://www.youtube.com/watch?time_continue=1&amp;amp;v=sPiWg5jSoZI"&gt;David Beazley 13年pycon的演讲&lt;/a&gt;整理. 
+&lt;p&gt;如果你想在Python的面向对象上走的更远的话, 我想没有比&lt;a href="https://speakerdeck.com/lgiordani/object-oriented-python-from-scratch"&gt;Leonardo Giordani's training&lt;/a&gt;更好的了.&lt;/p&gt;</summary><category term="python"></category></entry><entry><title>Python3元编程技巧</title><link href="http://www.lyon0804.com/python3yuan-bian-cheng-ji-qiao.html" rel="alternate"></link><updated>2016-10-08T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2016-10-08:python3yuan-bian-cheng-ji-qiao.html</id><summary type="html">&lt;p&gt;本文参考&lt;a href="https://www.youtube.com/watch?time_continue=1&amp;amp;v=sPiWg5jSoZI"&gt;David Beazley 13年pycon的演讲&lt;/a&gt;整理. 
 大师写了35年的程序, 依然对新技术保持高度热情, 走在技术的最前面. 甚至现在好多年轻人都执着于py2, 迟迟不肯学习py3, 惧怕新技术带来挑战, 想想真是不应该.
 大师是我辈的楷模, 感谢大师的精彩演讲!&lt;/p&gt;
 &lt;h2&gt;什么是元编程&lt;/h2&gt;
