@@ -36,6 +36,8 @@
     <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
     <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
 
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
 
 </head>
 <body>
@@ -266,7 +268,7 @@
 <p>为什么<strong>命名空间</strong>那么重要?</p>
 <p>因为每一个类都有一个命名空间, 并且类的每一个实例都有命名空间.</p>
 <p>他们是完全<strong>独立</strong>的, 但是<em>不知何故</em>也是相关的.</p>
-<p>让我们看一下类命名空间和实例命名空间的内部, 我们用到一个内置属性:<code>__dict__</code>.</p>
+<p>让我们看一下类命名空间和实例命名空间的内部, 我们用到一个内置属性:<strong>__dict__</strong>.</p>
 <div class="highlight"><pre><span class="c"># 我移除了C.__dict__输出中的所有内置函数/方法</span>
 <span class="n">C</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># mappingproxy({&#39;f&#39;: &lt;function C.f at 0x1039c1378&gt;, &#39;X&#39;: 10})</span>
 <span class="n">c</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># {}</span>
@@ -292,9 +294,9 @@
 
 <p>如果你想在类命名空间中加入新的成员, 你必须使用其他的方式.</p>
 <p>回到<strong>C的命名空间</strong>, 我们找到了<strong>f</strong>(我们的实例方法)和<strong>X</strong>.</p>
-<p>如我们所说, <strong>X</strong>不是一个<em>变量</em>, 并且在<code>C.__dict__</code>中定义.</p>
+<p>如我们所说, <strong>X</strong>不是一个<em>变量</em>, 并且在<strong>C.__dict__</strong>中定义.</p>
 <p>我们怎么称呼它呢? 叫它<strong>类属性</strong></p>
-<p>类属性的意思是, <strong>X</strong>属于<strong>C</strong>(class), 因为我们可以看到<strong>X</strong>在<strong>C的命名空间</strong>中(<code>C.__dict__</code>).</p>
+<p>类属性的意思是, <strong>X</strong>属于<strong>C</strong>(class), 因为我们可以看到<strong>X</strong>在<strong>C的命名空间</strong>中(C.__dict__).</p>
 <p>我们可以直接访问类属性吗?</p>
 <p>是的, 使用<strong>NameOfTheClass.AttributeName</strong>的方式.</p>
 <div class="highlight"><pre><span class="n">C</span><span class="o">.</span><span class="n">X</span> <span class="c"># 10</span>
@@ -321,7 +323,7 @@
 <p><strong>我们从self.X(实例中)访问到属于C(类属性X)的东西呢?</strong></p>
 <p>是时候开启下一个部分了.</p>
 <h2>MRO</h2>
-<p>MRO表示<strong><em>Method Resolution Order</em></strong>, 是为什么以及如何使用<strong>self.X</strong>访问到C.<strong>dict</strong>['X']的原因.</p>
+<p>MRO表示<strong><em>Method Resolution Order</em></strong>, 是为什么以及如何使用<strong>self.X</strong>访问到C.__dict__['X']的原因.</p>
 <p>如我所说: 类命名空间和实例命名空间是完全独立的, 但是不知何故也是相关的.</p>
 <p><strong>MRO</strong>就是<em>不知何故</em>的原因.</p>
 <p>当Python找一个属性的时候, 就像<strong>self.X</strong>, 它会按照下面的顺序进行:</p>
@@ -386,11 +388,11 @@
 
 <p>Python按照下面的顺序搜索:</p>
 <ol>
-<li><code>a.__dict__</code></li>
-<li><code>Son.__dict__</code></li>
-<li><code>Mother.__dict__</code></li>
-<li><code>Father.__dict__</code></li>
-<li><code>object.__dict__</code></li>
+<li>a.__dict__</li>
+<li>Son.__dict__</li>
+<li>Mother.__dict__</li>
+<li>Father.__dict__</li>
+<li>object.__dict__</li>
 </ol>
 <p>使用先到先得的规则.</p>
 <div class="highlight"><pre><span class="k">class</span> <span class="nc">Mother</span><span class="p">():</span>
