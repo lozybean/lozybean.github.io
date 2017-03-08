@@ -5,30 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/</loc>
-<lastmod>2017-02-23T01:10:10-00:00</lastmod>
+<lastmod>2017-03-08T21:23:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/archives.html</loc>
-<lastmod>2017-02-23T01:10:10-00:00</lastmod>
+<lastmod>2017-03-08T21:23:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/tags.html</loc>
-<lastmod>2017-02-23T01:10:10-00:00</lastmod>
+<lastmod>2017-03-08T21:23:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/categories.html</loc>
-<lastmod>2017-02-23T01:10:10-00:00</lastmod>
+<lastmod>2017-03-08T21:23:30-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html</loc>
+<lastmod>2017-03-07T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -306,7 +313,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/category/pages.html</loc>
-<lastmod>2016-10-08T00:00:00+08:06</lastmod>
+<lastmod>2017-03-07T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -509,7 +516,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/tag/python.html</loc>
-<lastmod>2016-10-08T00:00:00+08:06</lastmod>
+<lastmod>2017-03-07T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -642,7 +649,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/author/lyon.html</loc>
-<lastmod>2017-02-22T00:00:00+08:06</lastmod>
+<lastmod>2017-03-07T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

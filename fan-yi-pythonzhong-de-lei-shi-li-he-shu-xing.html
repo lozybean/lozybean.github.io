@@ -1,0 +1,730 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>[翻译]Python中的类、实例和属性 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="python" />
+        <meta name="description" content="本文已获得原作者同意翻译并转载, 原文链接 回归基础 几天前我得到一个问题. class A(): x = 1 a = A() b = A() b.x = 11 a.x # ? 我的回答是错误的, 但是这是一个很好的时机去选一些书和参考文档回来, 并且花几个小时在背后的几个概念上: 类、实例、属性还有命名空间. 所有你即将读到的东西都和Python3.x相关. 作用域简介 在Python中有两个非常重要的概念: 作用域和命名空间. 两个概念都和名称相关, 但是一般来说, 作用域和unqualified名称(如X)相关, 而命名空间和qualified属性名称相关(如object.X). *有关qualified names和unqualified names相关概念可以参考: stackoverflow、PEP3155 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="[翻译]Python中的类、实例和属性"/>
+        <meta property="og:url" content="http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html"/>
+        <meta property="og:description" content="本文已获得原作者同意翻译并转载, 原文链接 回归基础 几天前我得到一个问题. class A(): x = 1 a = A() b = A() b.x = 11 a.x # ? 我的回答是错误的, 但是这是一个很好的时机去选一些书和参考文档回来, 并且花几个小时在背后的几个概念上: 类、实例、属性还有命名空间. 所有你即将读到的东西都和Python3.x相关. 作用域简介 在Python中有两个非常重要的概念: 作用域和命名空间. 两个概念都和名称相关, 但是一般来说, 作用域和unqualified名称(如X)相关, 而命名空间和qualified属性名称相关(如object.X). *有关qualified names和unqualified names相关概念可以参考: stackoverflow、PEP3155 ..."/>
+        <meta property="article:published_time" content="2017-03-07" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="python" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html"
+                       rel="bookmark"
+                       title="Permalink to [翻译]Python中的类、实例和属性">
+                        [翻译]Python中的类、实例和属性
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-03-07T00:00:00+08:00"> Tue 07 March 2017</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/python.html">python</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>本文已获得原作者同意翻译并转载, <a href="https://www.chrisbarra.me/posts/classes-instances-and-attributes-in-python.html?nsukey=8bjWaPynrRb%2B8YFaWVC4sr0RzDBpwDmxHhRk8Uoj%2BpV4KH31tPmapBv2VOXALNNUvycR%2FT6NeoPodERRAw77ClzhS15DK%2FPkR5pU0GqkF6JZy9mvKPCo%2FEdxZSah1E2jjKE9NcKDB4Xxyi2olcAHItpQkVUXbyoTyQbSmI%2BcNleEdf9XguyRQeuJoLzaSAtW">原文链接</a></p>
+<h2>回归基础</h2>
+<p><img alt="baby_python" src="http://wx4.sinaimg.cn/mw690/95202659ly1fdemafx3mjj21vs0xwq60.jpg" /></p>
+<p>几天前我得到一个问题.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+
+<span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="c"># ?</span>
+</pre></div>
+
+
+<p>我的回答是错误的, 但是这是一个很好的时机去选一些书和<a href="https://docs.python.org/3.5/reference/">参考文档</a>回来, 并且花几个小时在背后的几个概念上: <strong>类</strong>、<strong>实例</strong>、<strong>属性</strong>还有<strong>命名空间</strong>.</p>
+<p>所有你即将读到的东西都和Python3.x相关.</p>
+<h2>作用域简介</h2>
+<p>在Python中有两个非常重要的概念: <strong>作用域</strong>和<strong>命名空间</strong>. 两个概念都和名称相关, 但是一般来说, <strong>作用域</strong>和unqualified名称(如X)相关, 而<strong>命名空间</strong>和qualified属性名称相关(如object.X). *有关qualified names和unqualified names相关概念可以参考: <a href="http://stackoverflow.com/questions/17403941/what-is-a-qualified-unqualified-name-in-python">stackoverflow</a>、<a href="https://www.python.org/dev/peps/pep-3155/">PEP3155</a>. 由于<strong>在Python中所有东西都是对象</strong>的事实, 这两者的差异很小, 但是一般来说我们可以这样假设.</p>
+<p>是时候来点代码了</p>
+<div class="highlight"><pre><span class="n">X</span> <span class="o">=</span> <span class="mi">20</span> <span class="c"># global X</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">f1</span><span class="p">():</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># local X</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">()</span> <span class="c"># 20</span>
+<span class="n">f1</span><span class="p">()</span> <span class="c"># 1</span>
+</pre></div>
+
+
+<p>Python(一般来说)遵循<strong>LEGB</strong>的规则, <strong>LEGB</strong>表示: <strong>Local</strong> -&gt; <strong>Enclosed</strong> -&gt; <strong>Global</strong> -&gt; <strong>Built-in</strong>.</p>
+<p><strong>LEGB</strong>规则的含义是: 当你呼叫<strong>X</strong>时, Python会按照以下顺序来查找:</p>
+<ol>
+<li>Local Scope, 局部作用域</li>
+<li>Enclosed Scope, 封闭作用域</li>
+<li>Global, 全局空间</li>
+<li>Built-in, 内置空间</li>
+</ol>
+<p>如果Python没有找到任何东西的话, 就会报错:</p>
+<div class="highlight"><pre><span class="c"># X = 20</span>
+<span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="n">f</span><span class="p">()</span> <span class="c"># 20</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">0</span><span class="n">ec059b9bfe1</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">f</span><span class="p">()</span>
+
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mi">4</span><span class="n">ce367479db4</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="n">f</span><span class="p">()</span>
+      <span class="mi">1</span> <span class="k">def</span> <span class="nf">f</span><span class="p">():</span>
+<span class="o">----&gt;</span> <span class="mi">2</span>     <span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+      <span class="mi">3</span>
+
+<span class="ne">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s">&#39;X&#39;</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+</pre></div>
+
+
+<p>如果你想了解更多有关<strong>LEGB</strong>的话, 你可以从<a href="http://stackoverflow.com/questions/291978/short-description-of-scoping-rules">这里</a>开始.</p>
+<p>让我们回到我们的类.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span><span class="p">():</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+</pre></div>
+
+
+<p>我们定义了一个简单的类, 叫做<strong>C</strong>, <strong>X</strong>在<strong>class C</strong>内部定义, <strong>c</strong>就是我们所说的<strong>C的对象</strong>或者<strong>C的实例</strong>.</p>
+<p><strong>"f"</strong>是一个<em>函数</em>并且接受一个参数: <strong>self</strong>.</p>
+<div class="highlight"><pre><span class="k">print</span><span class="p">(</span><span class="n">C</span><span class="o">.</span><span class="n">f</span><span class="p">,</span> <span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">function</span> <span class="n">C</span><span class="o">.</span><span class="n">f</span> <span class="n">at</span> <span class="mh">0x1039aaae8</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">bound</span> <span class="n">method</span> <span class="n">C</span><span class="o">.</span><span class="n">f</span> <span class="n">of</span> <span class="o">&lt;</span><span class="n">__main__</span><span class="o">.</span><span class="n">C</span> <span class="nb">object</span> <span class="n">at</span> <span class="mh">0x103ea8e10</span><span class="o">&gt;&gt;</span>
+</pre></div>
+
+
+<p>现在出现了第一个奇怪的部分, 我们呼叫了<strong>f</strong>, 一个在<strong>C</strong>内部定义的函数, 但是我们得到了<strong>两个不同的东西</strong>.</p>
+<p>一个叫<strong>C.f</strong>的<strong><em>函数</em></strong>和一个叫<strong>c.f</strong>的<strong><em>方法</em></strong>.</p>
+<p>这里的关键词是<strong>bound</strong>或者这是存在的主要不同点.</p>
+<p>但是让我们来运行我们的函数(或者说方法):</p>
+<div class="highlight"><pre><span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="mi">69</span><span class="n">c69864e152</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">72549</span><span class="n">c815346</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="n">f</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+      <span class="mi">2</span>     <span class="n">X</span> <span class="o">=</span> <span class="mi">10</span>
+      <span class="mi">3</span>     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="o">----&gt;</span> <span class="mi">4</span>         <span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+      <span class="mi">5</span> <span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+
+<span class="ne">NameError</span><span class="p">:</span> <span class="n">name</span> <span class="s">&#39;X&#39;</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">defined</span>
+</pre></div>
+
+
+<p>mmmm... Python按照<strong>LEGB</strong>的规则应该会找到X才对, <strong>LEGB</strong>的规则仍然被采取吗?</p>
+<p>让我们试试这个:</p>
+<div class="highlight"><pre><span class="n">X</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="k">class</span> <span class="nc">C</span><span class="p">():</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">Y</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">f1</span><span class="p">():</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+        <span class="n">f1</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">()</span>
+
+<span class="c"># Output: 50</span>
+<span class="c"># Output: 10</span>
+</pre></div>
+
+
+<p>我们有一个嵌套的函数(f1)并且我们在全局作用域中加上了 X = 50, now it works.</p>
+<p><strong>但是class C内部的X呢?</strong></p>
+<p>实际上<strong>X</strong>(C内部的)准确的说并不是一个<em>变量</em>, 它是一个<strong>属性</strong>并且在<strong>LEGB</strong>中和<em>变量</em>的有不同的表现.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span><span class="p">():</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="c"># 10</span>
+</pre></div>
+
+
+<p>我们仅仅在print函数内部改变用<strong>self.X</strong>替换了X, now it works.</p>
+<p>为什么?</p>
+<p>好吧... 是时候来解释一下<strong>self</strong>和<strong>命名空间</strong>的概念了.</p>
+<h2>Self</h2>
+<p>按我说的话, <strong>self</strong>只不过是一个参数.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span><span class="p">():</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">legion</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">legion</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="c"># 10</span>
+</pre></div>
+
+
+<p>这段代码起到一样的作用, 我们使用<strong>self</strong>作为惯例, 它仅仅是<strong>实例</strong>的一个引用, 在这里就是<strong>c</strong>, 当我们运行这个函数时作为参数传入.</p>
+<p>当我们输入<strong>c.f()</strong>时, Python会运行<strong>C.f(c)</strong>, 这里<strong>C</strong>是我们实例的类, <strong>f</strong>是我们的方法/函数, <strong>c</strong>是<strong>f</strong>需要的的第一个参数(self或者legion).</p>
+<p>你还记得这个吗?</p>
+<div class="highlight"><pre><span class="n">c</span><span class="o">.</span><span class="n">f</span> <span class="c"># &lt;bound method C.f of &lt;__main__.C object at 0x1039cf6d8&gt;&gt;</span>
+</pre></div>
+
+
+<p>现在<strong>bound</strong>的含义更加清楚了, 它意味着当我们使用<strong>c.f</strong>来运行<strong>f</strong>时, 我们自动地传入了实例的一个引用.</p>
+<p>所以从这一刻开始, 当我们谈到接收一个self参数的函数时, 我们就叫它<strong>实例方法</strong>.</p>
+<p>是的, 你可以有<strong>unbound method</strong>, 这些方法和实例不关联, 如<strong>类方法</strong>或者<strong>静态方法</strong>, 我们以后再讨论它.</p>
+<h2>命名空间: Namespaces</h2>
+<p>命名空间是一个名称的集合.</p>
+<p>一个<strong>对象</strong>的<strong>引用</strong>的集合, 如<strong>name=object</strong>.</p>
+<p>为什么<strong>命名空间</strong>那么重要?</p>
+<p>因为每一个类都有一个命名空间, 并且类的每一个实例都有命名空间.</p>
+<p>他们是完全<strong>独立</strong>的, 但是<em>不知何故</em>也是相关的.</p>
+<p>让我们看一下类命名空间和实例命名空间的内部, 我们用到一个内置属性:<code>__dict__</code>.</p>
+<div class="highlight"><pre><span class="c"># 我移除了C.__dict__输出中的所有内置函数/方法</span>
+<span class="n">C</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># mappingproxy({&#39;f&#39;: &lt;function C.f at 0x1039c1378&gt;, &#39;X&#39;: 10})</span>
+<span class="n">c</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># {}</span>
+</pre></div>
+
+
+<p>正如你看到的, 类命名空间和实例命名空间是完全不同的.</p>
+<p>类命名空间是一个<strong>mappingproxy</strong>, 实例命名空间是一个<strong>dict</strong>.</p>
+<p>mappingproxy是一种<strong>只读</strong>的字典.</p>
+<p>你可以在<a href="http://stackoverflow.com/questions/32720492/why-is-a-class-dict-a-mappingproxy"><strong>这里</strong></a>找到为什么要使用mappingproxy.</p>
+<p>当我说mappingproxy是只读的时候, 我的意思是你不能像字典一样给mappingproxy赋值一个值.</p>
+<div class="highlight"><pre><span class="n">C</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;X&#39;</span><span class="p">]</span> <span class="c"># 10</span>
+<span class="n">C</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span> <span class="c">#</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">TypeError</span>                                 <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">193</span><span class="o">-</span><span class="n">ec143c56e8cd</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+      <span class="mi">1</span> <span class="n">C</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;X&#39;</span><span class="p">]</span>
+<span class="o">----&gt;</span> <span class="mi">2</span> <span class="n">C</span><span class="o">.</span><span class="n">__dict__</span><span class="p">[</span><span class="s">&#39;X&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="ne">TypeError</span><span class="p">:</span> <span class="s">&#39;mappingproxy&#39;</span> <span class="nb">object</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">support</span> <span class="n">item</span> <span class="n">assignment</span>
+</pre></div>
+
+
+<p>如果你想在类命名空间中加入新的成员, 你必须使用其他的方式.</p>
+<p>回到<strong>C的命名空间</strong>, 我们找到了<strong>f</strong>(我们的实例方法)和<strong>X</strong>.</p>
+<p>如我们所说, <strong>X</strong>不是一个<em>变量</em>, 并且在<code>C.__dict__</code>中定义.</p>
+<p>我们怎么称呼它呢? 叫它<strong>类属性</strong></p>
+<p>类属性的意思是, <strong>X</strong>属于<strong>C</strong>(class), 因为我们可以看到<strong>X</strong>在<strong>C的命名空间</strong>中(<code>C.__dict__</code>).</p>
+<p>我们可以直接访问类属性吗?</p>
+<p>是的, 使用<strong>NameOfTheClass.AttributeName</strong>的方式.</p>
+<div class="highlight"><pre><span class="n">C</span><span class="o">.</span><span class="n">X</span> <span class="c"># 10</span>
+</pre></div>
+
+
+<p>概括如下:</p>
+<ol>
+<li>C的命名空间包含<strong>f</strong>(一个方法)和<strong>X</strong>(一个类属性)</li>
+<li>c的命名空间是空的</li>
+<li>我们使用<strong>C.X</strong>来访问C的X</li>
+</ol>
+<p>但是我们之前说到: <strong>类命名空间</strong>和<strong>实例命名空间</strong>是完全分离的.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">C</span><span class="p">():</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">C</span><span class="p">()</span>
+<span class="n">c</span><span class="o">.</span><span class="n">f</span><span class="p">()</span> <span class="c"># 10</span>
+</pre></div>
+
+
+<p>当我们输入<strong>self.X</strong>的时候, 我们告诉Python:"<em>在实例self的命名空间中找X</em>".</p>
+<p><strong>我们从self.X(实例中)访问到属于C(类属性X)的东西呢?</strong></p>
+<p>是时候开启下一个部分了.</p>
+<h2>MRO</h2>
+<p>MRO表示<strong><em>Method Resolution Order</em></strong>, 是为什么以及如何使用<strong>self.X</strong>访问到C.<strong>dict</strong>['X']的原因.</p>
+<p>如我所说: 类命名空间和实例命名空间是完全独立的, 但是不知何故也是相关的.</p>
+<p><strong>MRO</strong>就是<em>不知何故</em>的原因.</p>
+<p>当Python找一个属性的时候, 就像<strong>self.X</strong>, 它会按照下面的顺序进行:</p>
+<ol>
+<li>实例命名空间</li>
+<li>类命名空间</li>
+<li>父类命名空间</li>
+<li>object</li>
+</ol>
+<p>object是所有类的父类, 我们在这里不打算讨论它.</p>
+<p>让我们看另外一个例子</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Mother</span><span class="p">():</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="k">class</span> <span class="nc">Father</span><span class="p">():</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">34</span>
+<span class="k">class</span> <span class="nc">Son</span><span class="p">(</span><span class="n">Mother</span><span class="p">,</span> <span class="n">Father</span><span class="p">):</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Son</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="s">&quot;M&quot;</span><span class="p">)</span> <span class="c"># Output: 22</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="s">&quot;F&quot;</span><span class="p">)</span> <span class="c"># Output: 34</span>
+<span class="n">a</span><span class="o">.</span><span class="n">f</span><span class="p">(</span><span class="s">&quot;S&quot;</span><span class="p">)</span> <span class="c"># Output: 10</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">M</span><span class="p">)</span> <span class="c"># Output: 22</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">F</span><span class="p">)</span> <span class="c"># Output: 34</span>
+<span class="k">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">S</span><span class="p">)</span> <span class="c"># Output: 10</span>
+</pre></div>
+
+
+<p>利用<a href="https://docs.python.org/3/library/functions.html#getattr">getattr</a>   我们用我们的实例(self)和另外一个参数("M"、"F"或者"S")来得到我们的类属性;</p>
+<p>我使用<a href="https://docs.python.org/3/library/functions.html#getattr">getattr</a>是因为这样可以动态地指定属性的名称, 但和self.M是完全类似的(在我们的例子中是a.M).</p>
+<p>如我所说, 实例和它的类(Son)以及类的父类(Mother和Father)相关联.</p>
+<p>在实例和类以及类的父类之间给出一个顺序的过程称为<strong>linearization</strong>.</p>
+<p>在Python的MRO背后, 使用了一个叫<a href="https://www.python.org/download/releases/2.3/mro/">C3</a>的算法, 主要记住以下一点:</p>
+<ul>
+<li>孩子优先于父母, 并且尊重在<code>__bases__</code>中出现的顺序.</li>
+</ul>
+<p>bases就是我们作为参数放到类后面的东西: class Name(bases).</p>
+<ul>
+<li>实例<strong>a</strong>是类<strong>A</strong>的一个孩子</li>
+<li>类<strong>A</strong>是类<strong>Mother</strong>和<strong>Father</strong>的一个孩子</li>
+<li>类<strong>Mother</strong>和<strong>Father</strong>都是object的孩子</li>
+</ul>
+<p>使用<code>__bases__</code>可以一个类的父母的元组, 使用<code>__class__</code>可以得到实例的类:</p>
+<div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">__class__</span> <span class="c"># __main__.A,</span>
+<span class="n">Son</span><span class="o">.</span><span class="n">__bases__</span> <span class="c"># (__main__.Mother, __main__.Father)</span>
+<span class="n">Mother</span><span class="o">.</span><span class="n">__bases__</span> <span class="c"># (object,)</span>
+<span class="n">Father</span><span class="o">.</span><span class="n">__bases__</span> <span class="c"># (object,)</span>
+</pre></div>
+
+
+<p>我不会说一些新的东西, 我们可以从中得到MRO的搜索顺序吗?</p>
+<p>是的, 使用<code>__mro__</code>:</p>
+<div class="highlight"><pre><span class="n">Son</span><span class="o">.</span><span class="n">__mro__</span> <span class="c"># (__main__.Son, __main__.Mother, __main__.Father, object)</span>
+</pre></div>
+
+
+<p>当我们输入下面的代码时:</p>
+<div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">M</span> <span class="c"># 22</span>
+</pre></div>
+
+
+<p>Python按照下面的顺序搜索:</p>
+<ol>
+<li><code>a.__dict__</code></li>
+<li><code>Son.__dict__</code></li>
+<li><code>Mother.__dict__</code></li>
+<li><code>Father.__dict__</code></li>
+<li><code>object.__dict__</code></li>
+</ol>
+<p>使用先到先得的规则.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Mother</span><span class="p">():</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="mi">22</span>
+<span class="k">class</span> <span class="nc">Father</span><span class="p">():</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">34</span>
+<span class="k">class</span> <span class="nc">Son</span><span class="p">(</span><span class="n">Mother</span><span class="p">,</span> <span class="n">Father</span><span class="p">):</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">50</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">Son</span><span class="p">()</span>
+<span class="n">a</span><span class="o">.</span><span class="n">F</span> <span class="c"># Output: 50</span>
+</pre></div>
+
+
+<p>这就是为什么我们得到50而不是34的原因.</p>
+<ol>
+<li>首先Python看了看<strong>a</strong>(Son的实例)的的命名空间内部, 但是找不到任何叫做<strong>"F"</strong>的东西</li>
+<li>然后是时候看看<strong>Son</strong>(我们实例的类)的命名空间内部了, 并且找到了<strong>"F"</strong></li>
+</ol>
+<p>那在Father中定义的F呢?</p>
+<p>如我所说, 先到先得, 在我们的<strong>__MRO__</strong>中, Son的命名空间是在Father命名空间之前的.</p>
+<p>如果我们找一个在__mro__的命名空间中不存在的引用会发生什么呢?</p>
+<div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">DXIUISD</span>
+<span class="o">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span>                            <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">242</span><span class="o">-</span><span class="n">bcb50197f1e4</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="o">----&gt;</span> <span class="mi">1</span> <span class="n">a</span><span class="o">.</span><span class="n">DXIUISD</span>
+
+<span class="ne">AttributeError</span><span class="p">:</span> <span class="s">&#39;A&#39;</span> <span class="nb">object</span> <span class="n">has</span> <span class="n">no</span> <span class="n">attribute</span> <span class="s">&#39;DXIUISD&#39;</span>
+</pre></div>
+
+
+<p>你得到了一个AttributeError.</p>
+<p><strong>但是棘手的部分在哪里?</strong></p>
+<p>MRO以及上面解释的所有事情, 都只在你尝试<strong>访问</strong>一个属性或者方法时才会发生. 通常<strong>访问</strong>的意思是使用object.attribute或者object.method的方式.</p>
+<p>当你尝试<strong>赋值</strong>一个属性或者方法(如object.attribute=10)时, 你会在<strong>对象的命名空间中进行(实例或者类)</strong>.</p>
+<p>你可以使用一些高级的魔法来改变这个特性(元类、继承、描述器、属性等...), 但这是<strong>一般</strong>的工作方式.</p>
+<p>所以当我们输入:</p>
+<div class="highlight"><pre><span class="n">Son</span><span class="o">.</span><span class="n">F</span>
+</pre></div>
+
+
+<p>Python会在命名空间中, 根据__mro__的顺序查找该属性.</p>
+<div class="highlight"><pre><span class="n">Son</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="mi">50</span>
+</pre></div>
+
+
+<p>但是像上面这样就和__mro__没什么关系, <strong>Python会创建一个新的属性或者如果该属性存在的话改变该属性</strong>.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">Mother</span><span class="p">():</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">34</span>
+<span class="k">class</span> <span class="nc">Son</span><span class="p">(</span><span class="n">Mother</span><span class="p">):</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">F</span> <span class="o">=</span> <span class="mi">50</span>
+
+<span class="n">Mother</span><span class="o">.</span><span class="n">F</span> <span class="c"># 34</span>
+<span class="n">Son</span><span class="o">.</span><span class="n">F</span> <span class="c"># 50 # operation 1</span>
+<span class="k">del</span><span class="p">(</span><span class="n">Son</span><span class="o">.</span><span class="n">F</span><span class="p">)</span> <span class="c"># remove F from Son.__dict__ # operation 2</span>
+<span class="n">Son</span><span class="o">.</span><span class="n">F</span> <span class="c"># 34 # operation 3</span>
+<span class="n">Son</span><span class="o">.</span><span class="n">F</span> <span class="o">=</span> <span class="mi">30</span> <span class="c"># operation 4</span>
+<span class="n">Son</span><span class="o">.</span><span class="n">F</span> <span class="c"># 30</span>
+</pre></div>
+
+
+<p>清楚它如何工作的了吗?</p>
+<ol>
+<li>Son.F的结果是50是因为F在Son的命名空间中定义</li>
+<li>我们从Son的命名空间中删除F</li>
+<li>在Son的命名空间中没有"F", 接下来Python会在Mother的命名空间中查找, 并且找到F = 34</li>
+<li>这个赋值命令, Son.F = 30, 是在Son的命名空间中完成的, 现在我们在Son的命名空间中又发现了新的F, 所以Son.F是30</li>
+</ol>
+<p>下面是Son命名空间的变化</p>
+<div class="highlight"><pre><span class="p">{</span><span class="s">&#39;S&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;F&#39;</span><span class="p">:</span> <span class="mi">50</span><span class="p">}</span> <span class="c"># After 1</span>
+<span class="p">{</span><span class="s">&#39;S&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,}</span> <span class="c"># After 2</span>
+<span class="p">{</span><span class="s">&#39;S&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">&#39;F&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">}</span> <span class="c"># After 4</span>
+</pre></div>
+
+
+<h2>__init__方法</h2>
+<p>init的方法是一个特殊的方法, 用来定制我们的实例, 它在我们创建一个实例的时候运行.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+
+
+<p>翻译过来就是"<em>当你运行A(something)的时候创建一个实例, 并且赋值somthing给self.x</em>".</p>
+<p>让我们看看命名空间.</p>
+<div class="highlight"><pre><span class="n">A</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># (mappingproxy({&#39;__init__&#39;: &lt;function A.__init__ at 0x103ecab70&gt;, &#39;C&#39;: 10})</span>
+<span class="n">a</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># {&#39;x&#39;: 10}</span>
+<span class="n">b</span><span class="o">.</span><span class="n">__dict__</span> <span class="c">#  {&#39;x&#39;: 50}</span>
+</pre></div>
+
+
+<p><strong>A</strong>有它的属性, C以及__init__, <strong>a</strong>和<strong>b</strong>拥有他们的x.</p>
+<p><strong>a</strong>和<strong>b</strong>的属性成为<strong>实例属性</strong>, 它们<strong>属于实例</strong>.</p>
+<p>现在应该清楚下面的输出了:</p>
+<div class="highlight"><pre>A.C, a.C, b.C # (10, 10, 10)
+</pre></div>
+
+
+<p><strong>a</strong>和<strong>b</strong>在他们的命名空间中都没有C属性, 所以Python在<strong>A</strong>的命名空间中查找并且找到了一些东西(通过MRO).</p>
+<p>但是当我们做下面的事情的时候会发生什么呢?</p>
+<div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">a</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># {&#39;C&#39;: 50, &#39;x&#39;: 10}</span>
+</pre></div>
+
+
+<p>我们在<strong>a</strong>的命名空间中创建了一个新的引用.</p>
+<div class="highlight"><pre><span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># (10, 50, 10)</span>
+</pre></div>
+
+
+<p>这就是为什么我们得到这个结果, 因为现在当我们在<strong>a</strong>里面找C的时候, 我们找到了.</p>
+<p>让我们再看一下<strong>A</strong>, <strong>a</strong>, <strong>b</strong>的<strong>__dict__</strong></p>
+<div class="highlight"><pre><span class="n">A</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># (mappingproxy({&#39;__init__&#39;: &lt;function A.__init__ at 0x103ecab70&gt;, &#39;C&#39;: 10})</span>
+<span class="n">a</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># {&#39;C&#39;: 50, &#39;x&#39;: 10}</span>
+<span class="n">b</span><span class="o">.</span><span class="n">__dict__</span> <span class="c">#  {&#39;x&#39;: 10}</span>
+</pre></div>
+
+
+<p>那么我们改变A.C会怎么样呢?</p>
+<div class="highlight"><pre><span class="n">A</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># (20, 50, 20)</span>
+</pre></div>
+
+
+<p>a.C任然是50, 但是b.C仍然在<strong>A</strong>的命名空间中查找, 因为它自己的命名空间中没有任何叫做"C"的东西.</p>
+<div class="highlight"><pre><span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span>
+<span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">70</span><span class="p">)</span>
+</pre></div>
+
+
+<p>现在实例<strong>a</strong>, <strong>b</strong>以及类<strong>A</strong>都在它们的命名空间中有一个"C"了.</p>
+<div class="highlight"><pre><span class="n">A</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># (mappingproxy({&#39;__init__&#39;: &lt;function A.__init__ at 0x103ecab70&gt;, &#39;C&#39;: 10})</span>
+<span class="n">a</span><span class="o">.</span><span class="n">__dict__</span> <span class="c"># {&#39;C&#39;: 50, &#39;x&#39;: 10}</span>
+<span class="n">b</span><span class="o">.</span><span class="n">__dict__</span> <span class="c">#  {&#39;C&#39;: 70, &#39;x&#39;: 50}</span>
+</pre></div>
+
+
+<h2>我能从一个实例获取到类的属性吗?</h2>
+<p>是的, 但是如果你在自己的命名空间中有一个同名的引用, 就需要显示调用.</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">p</span><span class="p">()</span> <span class="c"># 10 10</span>
+<span class="n">b</span><span class="o">.</span><span class="n">p</span><span class="p">()</span> <span class="c"># 10 50</span>
+</pre></div>
+
+
+<p>所以我们在方法中使用了<strong>A.C</strong>的硬编码.</p>
+<p>有什么更好的办法吗?</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="c"># First</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="c"># Second</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">a</span><span class="o">.</span><span class="n">p</span><span class="p">()</span> <span class="c"># 10 10</span>
+<span class="n">b</span><span class="o">.</span><span class="n">p</span><span class="p">()</span> <span class="c"># 10 50</span>
+</pre></div>
+
+
+<p>个人更加喜欢第二种(对我来说更加清楚).</p>
+<h2>但是如果...?</h2>
+<p>我们有这样的代码:</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+    <span class="n">C</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">def</span> <span class="nf">p</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+
+
+<p>然后我们输入:</p>
+<div class="highlight"><pre><span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># ([], [], [])</span>
+<span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># ([50], [50], [50])</span>
+<span class="n">b</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># ([50, 10], [50, 10], [50, 10])</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># ([10], [10], [10])</span>
+</pre></div>
+
+
+<p>类属性<strong>A.C</strong>这次看上去真的被共享了, 而不是像我们之前使用的类属性一样只是<em>初始共享</em>.</p>
+<p>所以为什么我们还可以append或者pop元素, 而不发生任何意外呢?</p>
+<p><strong>因为我们没有做任何赋值的操作.</strong></p>
+<p>我们的实例和类在可变的对象上工作, <strong>使用引用(C)来获得对象的指针然后直接在上面修改</strong>.</p>
+<div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span> <span class="o">*</span> <span class="mi">2</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># ([10], [10, 10], [10])</span>
+</pre></div>
+
+
+<p>在一次赋值之后, <strong>a.C</strong>在它的命名空间中有了一个新的引用.</p>
+<p>但是棘手的部分在这里... 如果我们用下面的代码来替代最后一次输的代码:</p>
+<div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">C</span> <span class="o">*=</span> <span class="mi">2</span>
+<span class="n">A</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">C</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">C</span> <span class="c"># ?</span>
+</pre></div>
+
+
+<p>输出会是什么?</p>
+<div class="highlight"><pre><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+</pre></div>
+
+
+<p>以上结果中, 我们并没有做任何新的赋值, 仍然在引用的对象上直接修改.</p>
+<p>为什么?</p>
+<p><strong>这是因为自增赋值(+=, -=, *=, /=, ...)的工作方式</strong></p>
+<p>对于列表或者可变对象, 这个运算符号并没有做任何<em>赋值</em>, 而是"原地"完成操作, 我们只是直接在<strong>引用的对象</strong>上更新而已. *译者注: 该操作会将类属性的引用添加到实例属性中, 所以在实例的__dict__中能够找到相关的引用, 但是和类中的引用共享内存空间(相同id), 所以在实例的可变类型中应用该操作会直接修改类中的引用.</p>
+<p>所以回到最初的问题...</p>
+<div class="highlight"><pre><span class="k">class</span> <span class="nc">A</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">A</span><span class="p">()</span>
+
+<span class="n">b</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">a</span><span class="o">.</span><span class="n">x</span> <span class="c"># ?</span>
+</pre></div>
+
+
+<p>答案是1因为b.x = 11在<strong>b</strong>的命名空间中创建了一个新的属性(实例属性).</p>
+<p><strong>a</strong>的命名空间仍然是空的, 所以<strong>a.x</strong>会在<strong>A</strong>的命名空间中查找并且找到一个等于1的<strong>x</strong>.</p>
+<p>如果你像在Python的面向对象上走的更远的话, 我想没有比<a href="https://speakerdeck.com/lgiordani/object-oriented-python-from-scratch">Leonardo Giordani's training</a>更好的了.</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing" data-title="[翻译]Python中的类、实例和属性" data-url="http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing', '[翻译]Python中的类、实例和属性' , 'http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
