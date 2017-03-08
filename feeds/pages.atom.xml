@@ -249,7 +249,7 @@
 &lt;p&gt;在实例和类以及类的父类之间给出一个顺序的过程称为&lt;strong&gt;linearization&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;在Python的MRO背后, 使用了一个叫&lt;a href="https://www.python.org/download/releases/2.3/mro/"&gt;C3&lt;/a&gt;的算法, 主要记住以下一点:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;孩子优先于父母, 并且尊重在&lt;code&gt;__bases__&lt;/code&gt;中出现的顺序.&lt;/li&gt;
+&lt;li&gt;孩子优先于父母, 并且尊重在&lt;strong&gt;__bases__&lt;/strong&gt;中出现的顺序.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;bases就是我们作为参数放到类后面的东西: class Name(bases).&lt;/p&gt;
 &lt;ul&gt;
@@ -257,7 +257,7 @@
 &lt;li&gt;类&lt;strong&gt;A&lt;/strong&gt;是类&lt;strong&gt;Mother&lt;/strong&gt;和&lt;strong&gt;Father&lt;/strong&gt;的一个孩子&lt;/li&gt;
 &lt;li&gt;类&lt;strong&gt;Mother&lt;/strong&gt;和&lt;strong&gt;Father&lt;/strong&gt;都是object的孩子&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;使用&lt;code&gt;__bases__&lt;/code&gt;可以一个类的父母的元组, 使用&lt;code&gt;__class__&lt;/code&gt;可以得到实例的类:&lt;/p&gt;
+&lt;p&gt;使用__bases__可以一个类的父母的元组, 使用__class__可以得到实例的类:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__class__&lt;/span&gt; &lt;span class="c"&gt;# __main__.A,&lt;/span&gt;
 &lt;span class="n"&gt;Son&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__bases__&lt;/span&gt; &lt;span class="c"&gt;# (__main__.Mother, __main__.Father)&lt;/span&gt;
 &lt;span class="n"&gt;Mother&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;__bases__&lt;/span&gt; &lt;span class="c"&gt;# (object,)&lt;/span&gt;

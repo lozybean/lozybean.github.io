@@ -359,7 +359,7 @@
 <p>在实例和类以及类的父类之间给出一个顺序的过程称为<strong>linearization</strong>.</p>
 <p>在Python的MRO背后, 使用了一个叫<a href="https://www.python.org/download/releases/2.3/mro/">C3</a>的算法, 主要记住以下一点:</p>
 <ul>
-<li>孩子优先于父母, 并且尊重在<code>__bases__</code>中出现的顺序.</li>
+<li>孩子优先于父母, 并且尊重在<strong>__bases__</strong>中出现的顺序.</li>
 </ul>
 <p>bases就是我们作为参数放到类后面的东西: class Name(bases).</p>
 <ul>
@@ -367,7 +367,7 @@
 <li>类<strong>A</strong>是类<strong>Mother</strong>和<strong>Father</strong>的一个孩子</li>
 <li>类<strong>Mother</strong>和<strong>Father</strong>都是object的孩子</li>
 </ul>
-<p>使用<code>__bases__</code>可以一个类的父母的元组, 使用<code>__class__</code>可以得到实例的类:</p>
+<p>使用__bases__可以一个类的父母的元组, 使用__class__可以得到实例的类:</p>
 <div class="highlight"><pre><span class="n">a</span><span class="o">.</span><span class="n">__class__</span> <span class="c"># __main__.A,</span>
 <span class="n">Son</span><span class="o">.</span><span class="n">__bases__</span> <span class="c"># (__main__.Mother, __main__.Father)</span>
 <span class="n">Mother</span><span class="o">.</span><span class="n">__bases__</span> <span class="c"># (object,)</span>
