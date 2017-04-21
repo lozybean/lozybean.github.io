@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>Linux服务器磁盘阵列分区与挂载 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="linux,raid" />
+        <meta name="description" content="磁盘阵列 磁盘阵列, 全称: 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks, wiki主页. 基本思想就是将多块容量相对较小的磁盘组合成一个巨大的磁盘. 磁盘阵列是一个独立的存储逻辑单元, 相对于物理磁盘, 又称虚拟磁盘. 磁盘阵列相对单个小容量的硬盘具有下列优点: 数据集中, 不需要分散放到每个小容量硬盘里, 更容易管理; 增加容错性, 除了RAID0之外, 其他档次的磁盘阵列均有一定的容错能力, 当然相对的磁盘空间会相对减少, 不同档次的磁盘阵列对于容错能力, 实际存储大小, 安全性等都有不同的取舍. 根据不同服务器厂家提供的方式创建好RAID阵列之后, 就可以在设备中看到该磁盘: fdisk -l | grep &#39;sd&#39; 在未分区的磁盘中, 可以看到新添加的磁盘阵列, 如/dev/sdb. 分区表 分区表是磁盘中的一块特殊区域, 用来区分管理磁盘空间. 主要有两种分区表: MBR分区表(wiki主页) 和 GPT分区表(wiki主页). MBR分区表最大支持四个主分区, 每个分区最大支持2TB. 而GPT分区表没有分区数限制, 且最大支持128EB ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Linux服务器磁盘阵列分区与挂载"/>
+        <meta property="og:url" content="http://www.lyon0804.com/linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai.html"/>
+        <meta property="og:description" content="磁盘阵列 磁盘阵列, 全称: 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks, wiki主页. 基本思想就是将多块容量相对较小的磁盘组合成一个巨大的磁盘. 磁盘阵列是一个独立的存储逻辑单元, 相对于物理磁盘, 又称虚拟磁盘. 磁盘阵列相对单个小容量的硬盘具有下列优点: 数据集中, 不需要分散放到每个小容量硬盘里, 更容易管理; 增加容错性, 除了RAID0之外, 其他档次的磁盘阵列均有一定的容错能力, 当然相对的磁盘空间会相对减少, 不同档次的磁盘阵列对于容错能力, 实际存储大小, 安全性等都有不同的取舍. 根据不同服务器厂家提供的方式创建好RAID阵列之后, 就可以在设备中看到该磁盘: fdisk -l | grep &#39;sd&#39; 在未分区的磁盘中, 可以看到新添加的磁盘阵列, 如/dev/sdb. 分区表 分区表是磁盘中的一块特殊区域, 用来区分管理磁盘空间. 主要有两种分区表: MBR分区表(wiki主页) 和 GPT分区表(wiki主页). MBR分区表最大支持四个主分区, 每个分区最大支持2TB. 而GPT分区表没有分区数限制, 且最大支持128EB ..."/>
+        <meta property="article:published_time" content="2017-04-21" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="linux" />
+            <meta property="article:tag" content="raid" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai.html"
+                       rel="bookmark"
+                       title="Permalink to Linux服务器磁盘阵列分区与挂载">
+                        Linux服务器磁盘阵列分区与挂载
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-04-21T00:00:00+08:00"> Fri 21 April 2017</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/linux.html">linux</a>
+        /
+	<a href="http://www.lyon0804.com/tag/raid.html">raid</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>磁盘阵列</h2>
+<p>磁盘阵列, 全称: 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks, <a href="https://zh.wikipedia.org/wiki/RAID">wiki主页</a>. 基本思想就是将多块容量相对较小的磁盘组合成一个巨大的磁盘.</p>
+<p>磁盘阵列是一个独立的存储逻辑单元, 相对于物理磁盘, 又称虚拟磁盘.</p>
+<p>磁盘阵列相对单个小容量的硬盘具有下列优点:</p>
+<ol>
+<li>数据集中, 不需要分散放到每个小容量硬盘里, 更容易管理;</li>
+<li>增加容错性, 除了RAID0之外, 其他档次的磁盘阵列均有一定的容错能力, 当然相对的磁盘空间会相对减少, 不同档次的磁盘阵列对于容错能力, 实际存储大小, 安全性等都有不同的取舍.</li>
+</ol>
+<p>根据不同服务器厂家提供的方式创建好RAID阵列之后, 就可以在设备中看到该磁盘:</p>
+<div class="highlight"><pre>fdisk -l | grep &#39;sd&#39;
+</pre></div>
+
+
+<p>在未分区的磁盘中, 可以看到新添加的磁盘阵列, 如<code>/dev/sdb</code>.</p>
+<h2>分区表</h2>
+<p>分区表是磁盘中的一块特殊区域, 用来区分管理磁盘空间.</p>
+<p>主要有两种分区表: MBR分区表(<a href="https://zh.wikipedia.org/wiki/主引导记录">wiki主页</a>) 和 GPT分区表(<a href="https://zh.wikipedia.org/wiki/GUID磁碟分割表">wiki主页</a>).</p>
+<p>MBR分区表最大支持四个主分区, 每个分区最大支持2TB. 而GPT分区表没有分区数限制, 且最大支持128EB. </p>
+<p>对于较大的存储阵列来说, 只有使用GPT分区表来进行分区.</p>
+<h2>使用parted工具进行分区</h2>
+<p>键入命令:</p>
+<div class="highlight"><pre>parted /dev/sdb
+</pre></div>
+
+
+<p>选择<code>/dev/sdb</code>为当前磁盘, 并进入命令模式, 在命令模式下依次输入:</p>
+<div class="highlight"><pre>&gt; mklable gpt  # 选择gpt分区表
+&gt; mkpart primary 0 -1 # 创建主分区, 大小为阵列全部大小
+</pre></div>
+
+
+<p>此时, 可能提示该大小未对其, 没有达到最佳性能, 指的是服务器磁盘没有进行64K对齐, 将开头128个selector空出, 再次创建主分区即可:</p>
+<div class="highlight"><pre>&gt; mkpart primary 128 -1  # 空出前128个selector
+&gt; print  # 查看已经分区的情况
+&gt; quit # 确认无误后退出
+</pre></div>
+
+
+<h2>linux文件系统与格式化</h2>
+<p>linux文件系统主要有ext3, ext4, xfs和btrfs这四种, 每种文件系统都有其优缺点, 可以参考<a href="https://www.cnblogs.com/tommyli/p/3201047.html">这篇博文</a>以及<a href="https://linux.cn/article-7083-1.html">这篇博文</a>. </p>
+<p>以XFS文件系统为例, 利用mkfs格式化阵列:</p>
+<div class="highlight"><pre>mkfs.xfs /dev/sdb
+</pre></div>
+
+
+<p>稍作等待即可; 若选择ext3等格式, 则为了加快格式化速度, 需要加入<code>-T largefile</code>参数.</p>
+<h2>挂载与自动挂载</h2>
+<p>使用mount命令将格式化后的阵列挂载到相应目录:</p>
+<div class="highlight"><pre>mount /dev/sdb /bio02
+</pre></div>
+
+
+<p>修改<code>/etc/fstab</code>文件, 在最后输入: </p>
+<div class="highlight"><pre>/dev/sdb /bio02 vfs defaults 0 0
+</pre></div>
+
+
+<p>可参考<a href="http://winhyt.iteye.com/blog/980749">这篇博文</a>.</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai" data-title="Linux服务器磁盘阵列分区与挂载" data-url="http://www.lyon0804.com/linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai', 'Linux服务器磁盘阵列分区与挂载' , 'http://www.lyon0804.com/linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>

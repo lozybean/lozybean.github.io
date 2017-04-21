@@ -1,5 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2017-03-07T00:00:00+08:00</updated><entry><title>[翻译]Python中的类、实例和属性</title><link href="http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html" rel="alternate"></link><updated>2017-03-07T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-03-07:fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html</id><summary type="html">&lt;p&gt;本文已获得原作者同意翻译并转载, &lt;a href="https://www.chrisbarra.me/posts/classes-instances-and-attributes-in-python.html?nsukey=8bjWaPynrRb%2B8YFaWVC4sr0RzDBpwDmxHhRk8Uoj%2BpV4KH31tPmapBv2VOXALNNUvycR%2FT6NeoPodERRAw77ClzhS15DK%2FPkR5pU0GqkF6JZy9mvKPCo%2FEdxZSah1E2jjKE9NcKDB4Xxyi2olcAHItpQkVUXbyoTyQbSmI%2BcNleEdf9XguyRQeuJoLzaSAtW"&gt;原文链接&lt;/a&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2017-04-21T00:00:00+08:00</updated><entry><title>Linux服务器磁盘阵列分区与挂载</title><link href="http://www.lyon0804.com/linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai.html" rel="alternate"></link><updated>2017-04-21T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-04-21:linuxfu-wu-qi-ci-pan-zhen-lie-fen-qu-yu-gua-zai.html</id><summary type="html">&lt;h2&gt;磁盘阵列&lt;/h2&gt;
+&lt;p&gt;磁盘阵列, 全称: 独立硬盘冗余阵列（RAID, Redundant Array of Independent Disks, &lt;a href="https://zh.wikipedia.org/wiki/RAID"&gt;wiki主页&lt;/a&gt;. 基本思想就是将多块容量相对较小的磁盘组合成一个巨大的磁盘.&lt;/p&gt;
+&lt;p&gt;磁盘阵列是一个独立的存储逻辑单元, 相对于物理磁盘, 又称虚拟磁盘.&lt;/p&gt;
+&lt;p&gt;磁盘阵列相对单个小容量的硬盘具有下列优点:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;数据集中, 不需要分散放到每个小容量硬盘里, 更容易管理;&lt;/li&gt;
+&lt;li&gt;增加容错性, 除了RAID0之外, 其他档次的磁盘阵列均有一定的容错能力, 当然相对的磁盘空间会相对减少, 不同档次的磁盘阵列对于容错能力, 实际存储大小, 安全性等都有不同的取舍.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;根据不同服务器厂家提供的方式创建好RAID阵列之后, 就可以在设备中看到该磁盘:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;fdisk -l | grep &amp;#39;sd&amp;#39;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在未分区的磁盘中, 可以看到新添加的磁盘阵列, 如&lt;code&gt;/dev/sdb&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;分区表&lt;/h2&gt;
+&lt;p&gt;分区表是磁盘中的一块特殊区域, 用来区分管理磁盘空间.&lt;/p&gt;
+&lt;p&gt;主要有两种分区表: MBR分区表(&lt;a href="https://zh.wikipedia.org/wiki/主引导记录"&gt;wiki主页&lt;/a&gt;) 和 GPT分区表(&lt;a href="https://zh.wikipedia.org/wiki/GUID磁碟分割表"&gt;wiki主页&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;MBR分区表最大支持四个主分区, 每个分区最大支持2TB. 而GPT分区表没有分区数限制, 且最大支持128EB. &lt;/p&gt;
+&lt;p&gt;对于较大的存储阵列来说, 只有使用GPT分区表来进行分区.&lt;/p&gt;
+&lt;h2&gt;使用parted工具进行分区&lt;/h2&gt;
+&lt;p&gt;键入命令:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;parted /dev/sdb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;选择&lt;code&gt;/dev/sdb&lt;/code&gt;为当前磁盘, 并进入命令模式, 在命令模式下依次输入:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; mklable gpt  # 选择gpt分区表
+&amp;gt; mkpart primary 0 -1 # 创建主分区, 大小为阵列全部大小
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;此时, 可能提示该大小未对其, 没有达到最佳性能, 指的是服务器磁盘没有进行64K对齐, 将开头128个selector空出, 再次创建主分区即可:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&amp;gt; mkpart primary 128 -1  # 空出前128个selector
+&amp;gt; print  # 查看已经分区的情况
+&amp;gt; quit # 确认无误后退出
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;linux文件系统与格式化&lt;/h2&gt;
+&lt;p&gt;linux文件系统主要有ext3, ext4, xfs和btrfs这四种, 每种文件系统都有其优缺点, 可以参考&lt;a href="https://www.cnblogs.com/tommyli/p/3201047.html"&gt;这篇博文&lt;/a&gt;以及&lt;a href="https://linux.cn/article-7083-1.html"&gt;这篇博文&lt;/a&gt;. &lt;/p&gt;
+&lt;p&gt;以XFS文件系统为例, 利用mkfs格式化阵列:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkfs.xfs /dev/sdb
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;稍作等待即可; 若选择ext3等格式, 则为了加快格式化速度, 需要加入&lt;code&gt;-T largefile&lt;/code&gt;参数.&lt;/p&gt;
+&lt;h2&gt;挂载与自动挂载&lt;/h2&gt;
+&lt;p&gt;使用mount命令将格式化后的阵列挂载到相应目录:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mount /dev/sdb /bio02
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;修改&lt;code&gt;/etc/fstab&lt;/code&gt;文件, 在最后输入: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;/dev/sdb /bio02 vfs defaults 0 0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;可参考&lt;a href="http://winhyt.iteye.com/blog/980749"&gt;这篇博文&lt;/a&gt;.&lt;/p&gt;</summary><category term="linux"></category><category term="raid"></category></entry><entry><title>[翻译]Python中的类、实例和属性</title><link href="http://www.lyon0804.com/fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html" rel="alternate"></link><updated>2017-03-07T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-03-07:fan-yi-pythonzhong-de-lei-shi-li-he-shu-xing.html</id><summary type="html">&lt;p&gt;本文已获得原作者同意翻译并转载, &lt;a href="https://www.chrisbarra.me/posts/classes-instances-and-attributes-in-python.html?nsukey=8bjWaPynrRb%2B8YFaWVC4sr0RzDBpwDmxHhRk8Uoj%2BpV4KH31tPmapBv2VOXALNNUvycR%2FT6NeoPodERRAw77ClzhS15DK%2FPkR5pU0GqkF6JZy9mvKPCo%2FEdxZSah1E2jjKE9NcKDB4Xxyi2olcAHItpQkVUXbyoTyQbSmI%2BcNleEdf9XguyRQeuJoLzaSAtW"&gt;原文链接&lt;/a&gt;&lt;/p&gt;
 &lt;h2&gt;回归基础&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="baby_python" src="http://wx4.sinaimg.cn/mw690/95202659ly1fdemafx3mjj21vs0xwq60.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;几天前我得到一个问题.&lt;/p&gt;
