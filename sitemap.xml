@@ -5,30 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/</loc>
-<lastmod>2017-04-21T21:14:51-00:00</lastmod>
+<lastmod>2017-06-06T09:09:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/archives.html</loc>
-<lastmod>2017-04-21T21:14:51-00:00</lastmod>
+<lastmod>2017-06-06T09:09:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/tags.html</loc>
-<lastmod>2017-04-21T21:14:51-00:00</lastmod>
+<lastmod>2017-06-06T09:09:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.lyon0804.com/categories.html</loc>
-<lastmod>2017-04-21T21:14:51-00:00</lastmod>
+<lastmod>2017-06-06T09:09:06-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.lyon0804.com/ltfpchuan-shu-ruo-gan-wen-ti-zong-jie.html</loc>
+<lastmod>2017-06-06T00:00:00+08:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -320,7 +327,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/category/pages.html</loc>
-<lastmod>2017-04-21T00:00:00+08:06</lastmod>
+<lastmod>2017-06-06T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -383,7 +390,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/tag/linux.html</loc>
-<lastmod>2017-04-21T00:00:00+08:06</lastmod>
+<lastmod>2017-06-06T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -438,8 +445,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.lyon0804.com/tag/gitpages.html</loc>
-<lastmod>2015-09-11T00:00:00+08:06</lastmod>
+<loc>http://www.lyon0804.com/tag/ftp.html</loc>
+<lastmod>2017-06-06T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -517,6 +524,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.lyon0804.com/tag/ctdna.html</loc>
 <lastmod>2017-02-22T00:00:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.lyon0804.com/tag/lftp.html</loc>
+<lastmod>2017-06-06T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -655,6 +669,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.lyon0804.com/tag/gitpages.html</loc>
+<lastmod>2015-09-11T00:00:00+08:06</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.lyon0804.com/tag/bian-ma.html</loc>
 <lastmod>2015-10-24T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
@@ -663,7 +684,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.lyon0804.com/author/lyon.html</loc>
-<lastmod>2017-04-21T00:00:00+08:06</lastmod>
+<lastmod>2017-06-06T00:00:00+08:06</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
