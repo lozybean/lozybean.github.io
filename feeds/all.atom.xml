@@ -1,5 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2017-06-06T00:00:00+08:00</updated><entry><title>LTFP传输若干问题总结</title><link href="http://www.lyon0804.com/ltfpchuan-shu-ruo-gan-wen-ti-zong-jie.html" rel="alternate"></link><updated>2017-06-06T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-06-06:ltfpchuan-shu-ruo-gan-wen-ti-zong-jie.html</id><summary type="html">&lt;h2&gt;FTP服务&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2017-07-19T00:00:00+08:00</updated><entry><title>SGE极简安装指南</title><link href="http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html" rel="alternate"></link><updated>2017-07-19T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-07-19:sgeji-jian-an-zhuang-zhi-nan.html</id><summary type="html">&lt;h2&gt;计算集群&lt;/h2&gt;
+&lt;p&gt;通过集群软件, 将很多的计算机整合到一起, 使用者只需要在单一计算机投递任务, 任务即可根据资源状态分派到不同的机器上进行计算任务.&lt;/p&gt;
+&lt;p&gt;计算集群除了很小的本地硬盘之外(用于系统和存放工作环境所需的软件), 往往不具有大型存储, 需要结合分布式存储等存储方案使用.&lt;/p&gt;
+&lt;h3&gt;SGE介绍&lt;/h3&gt;
+&lt;p&gt;SGE原名: Sun Grid Engine, 是Sun公司开发的集群管理工具. 在Sun公司被Oracle收购之后, 更名为Oracle Grid Engine, 并不再提供免费版本. &lt;/p&gt;
+&lt;p&gt;Liverpool大学维护了一个分支, 改名为&lt;a href="https://arc.liv.ac.uk/trac/SGE"&gt;Son of Grid Engine&lt;/a&gt;并保持着免费版本的更新.&lt;/p&gt;
+&lt;p&gt;本文在8.1.9(更新时间2016-03-02)版本上进行的极简安装说明.&lt;/p&gt;
+&lt;h3&gt;集群组成&lt;/h3&gt;
+&lt;p&gt;集群组成指计算集群在物理上的结构, 表示集群由哪些节点(计算机)组成.&lt;/p&gt;
+&lt;p&gt;本文方案由下列类型的节点组成集群:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;控制节点
+运行sge_qmaster进程, 负责SGE软件管理的主机, 并负责集群资源管理分发等任务.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;计算节点
+运行sge_execd进程, 负责进行实际计算任务, 一般而言具有较高性能.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;登陆节点
+投递主机, 该主机是用户登入集群的入口, 用户在该主机投递任务, 进行日常操作等.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;SGE元素&lt;/h3&gt;
+&lt;p&gt;SGE元素指在SGE软件中的名词概念:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;admin user
+可修改任务状态、SGE配置的用户.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;user
+一般用户, 可使用集群, 并投递任务的用户. 一般用户在第一次投递任务之后会自动加入到用户列表中. &lt;strong&gt;所有用户必须在所有主机上添加, 并保持uid和gid一致&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;administrative host
+只有当主机是admin hosts时, 才可以安装SGE软件, 查看和修改集群状态等. 控制节点必然是administrative host.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;exec host
+当主机是exec host时, 该主机执行具体计算任务, exec host必须是计算节点, 即必须运行sge_execd进程.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;submit host
+该主机是具有投递任务权限的主机, 一般而言, 所有节点都会设置为submit host.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;queue
+主机队列, 若干主机可以属于一个队列. 通过队列可以将不同类型的主机进行分类, 在投递任务时, 有针对性地投递到相应的队列上.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;SGE安装&lt;/h2&gt;
+&lt;h3&gt;安装环境&lt;/h3&gt;
+&lt;p&gt;本文的教程环境, 使用虚拟化技术, 在实体机上最小化安装4台CentOS 6.7系统的虚拟机.&lt;/p&gt;
+&lt;p&gt;分别作为一台管理节点, 两台计算节点, 一台登陆节点. &lt;/p&gt;
+&lt;p&gt;所有虚拟机都必须设置在相同局域网网段中, 本文中的网段为&lt;code&gt;172.30.184.0/24&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;STEP1: 节点准备&lt;/h3&gt;
+&lt;p&gt;所有节点添加HOSTS，注意HOST NAME和虚拟机名称必须相同. 主机名称可以使用&lt;code&gt;hostname&lt;/code&gt;命令查看.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;172.30.184.61 master&lt;/span&gt;
+&lt;span class="s2"&gt;172.30.184.62 exec_01&lt;/span&gt;
+&lt;span class="s2"&gt;172.30.184.63 exec_02&lt;/span&gt;
+&lt;span class="s2"&gt;172.30.184.64 submit_01&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &amp;gt;&amp;gt; /etc/hosts
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在所有节点上安装NFS.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;yum -y install nfs-utils rpcbind
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在所有节点上添加sgeadmin用户, 作为集群的admin user.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;groupadd -g &lt;span class="m"&gt;501&lt;/span&gt; sgeadmin
+useradd -u &lt;span class="m"&gt;501&lt;/span&gt; sgeadmin -g sgeadmin
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在管理节点上启动NFS服务, 并使得/sge_rpm和/opt/sge两个目录共享.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;/sge_rpm  172.30.184.0/24(rw,insecure,no_all_squash,no_root_squash,sync)&lt;/span&gt;
+&lt;span class="s2"&gt;/opt/sge  172.30.184.0/24(rw,insecure,no_all_squash,no_root_squash,sync)&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&amp;gt;/etc/exports
+
+service rpcbind start
+service nfs start
+chkconfig rpcbind on
+chkconfig nfs on
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在管理节点上, 编辑/etc/sysconfig/iptables, 在reject上方添加以下内容:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;# 其中2049和20049是NFS端口, 6444和6445是SGE相关端口, 根据实际环境做相应调整&lt;/span&gt;
+-A INPUT -m state --state NEW -m tcp -p tcp --dport &lt;span class="m"&gt;2049&lt;/span&gt; -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport &lt;span class="m"&gt;2049&lt;/span&gt; -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport &lt;span class="m"&gt;20049&lt;/span&gt; -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport &lt;span class="m"&gt;20049&lt;/span&gt; -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport &lt;span class="m"&gt;6444&lt;/span&gt; -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport &lt;span class="m"&gt;6444&lt;/span&gt; -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport &lt;span class="m"&gt;6445&lt;/span&gt; -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport &lt;span class="m"&gt;6445&lt;/span&gt; -j ACCEPT
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;并重启防火墙&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;service iptables restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在管理节点上, 下载RPM, 下载地址为: https://arc.liv.ac.uk/downloads/SGE/releases/&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;yum install -y wget
+mkdir /sge_rpm
+&lt;span class="nb"&gt;cd&lt;/span&gt; /sge_rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-debuginfo-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-devel-8.1.9-1.el6.noarch.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-drmaa4ruby-8.1.9-1.el6.noarch.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-execd-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-guiinst-8.1.9-1.el6.noarch.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-qmaster-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-qmon-8.1.9-1.el6.x86_64.rpm
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在所有计算节点和登陆节点挂载&lt;code&gt;/sge_rpm&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mkdir /sge_rpm
+mount master:/sge_rpm /sge_rpm
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在所有节点上安装rpm包:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /sge_rpm
+yum install -y epel-release
+yum localinstall -y gridengine-*
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;STEP2: Master Host&lt;/h3&gt;
+&lt;p&gt;安装SGE qmaster, &lt;code&gt;-&amp;gt;&lt;/code&gt;开头的命令是指安装过程中的交互式过程简要描述, 除了&lt;code&gt;!&lt;/code&gt;开头行之外, 可全部默认.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /opt/sge
+./install_qmaster
+-&amp;gt; Agree lincese
+-&amp;gt; Install other than &amp;gt;root&amp;lt; &amp;gt;&amp;gt; y
+-&amp;gt; ! enter a valid user name &amp;gt;&amp;gt; sgeadmin
+-&amp;gt; Install path: /opt/sge &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; SGE TCP/IP communication server: Using a network service &lt;span class="o"&gt;[&lt;/span&gt;2&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; Cell name: default &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt; 
+-&amp;gt; Cluster name: p6444 &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; qmaster spool directory: /opt/sge/default/spool/qmaster &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; Install Windows Execution Hosts: n  
+-&amp;gt; Verify and &lt;span class="nb"&gt;set &lt;/span&gt;the file permissions: y  
+-&amp;gt; All hosts in a single domain: y  
+-&amp;gt; Enable the JMX MBean server: n  
+-&amp;gt; spooling method: classic &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; SGE group id range: 20000-20100 &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; spool directory &lt;span class="k"&gt;for&lt;/span&gt; execution hosts: /opt/sge/default/spool &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt; 
+-&amp;gt; ! administrator_mail: example@foo.com
+-&amp;gt; change configuration parameters: n
+-&amp;gt; start qmaster at machine boot: y
+-&amp;gt; use a file which contains the list of hosts: n
+-&amp;gt; ! adding admin and submit hosts:
+Hosts: master
+Hosts: exec_01
+Hosts: exec_02
+-&amp;gt; add shadow host: n
+-&amp;gt; creating default queue: all.q
+-&amp;gt; Scheduler Tuning: 1&lt;span class="o"&gt;)&lt;/span&gt; Normal
+-&amp;gt; Agree: y
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;: SGE安装的节点必须是admin hosts, 所以在计算节点安装完成之前, 所有的计算节点也必须是admin hosts. 若以上步骤没有添加计算节点, 则可以使用&lt;code&gt;qconf -ah exec_01&lt;/code&gt; 命令, 将计算节点添加到admin hosts列表中.&lt;/p&gt;
+&lt;p&gt;添加环境变量, 本示例中, 使用BASH登陆服务器, 其他SHELL客户端参考安装最后一步的说明添加.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;. /opt/sge/default/common/settings.sh
+cp /opt/sge/default/common/settings.sh /etc/profile.d/sge.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;STEP3: 计算节点&lt;/h3&gt;
+&lt;p&gt;挂载并自动挂载&lt;code&gt;/opt/sge&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mount master:/opt/sge /opt/sge
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;master:/opt/sge /opt/sge nfs defaults 0 0&amp;quot;&lt;/span&gt;&amp;gt;&amp;gt;/etc/fstab
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;添加环境变量&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;. /opt/sge/default/common/settings.sh
+cp /opt/sge/default/common/settings.sh /etc/profile.d/sge.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;安装SGE execd, 可一直使用默认值, 一路回车即可.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /opt/sge
+./install_execd
+-&amp;gt; Agree lincese
+-&amp;gt; &lt;span class="nv"&gt;$SGE_ROOT&lt;/span&gt;: /opt/sge &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; cell name: default &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; SET sge_execd TCP/IP port: &lt;span class="m"&gt;6445&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; check hostname resolving
+-&amp;gt; change spool directory: n &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; start execd at machine boot: y &lt;span class="o"&gt;[&lt;/span&gt;default&lt;span class="o"&gt;]&lt;/span&gt;
+-&amp;gt; starting execution daemon
+-&amp;gt; add queue &lt;span class="k"&gt;for&lt;/span&gt; this host: n
+-&amp;gt; see previous screen: n
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;将计算节点添加为submit host&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;qconf -as exec_01
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;STEP4: 登陆节点&lt;/h3&gt;
+&lt;p&gt;挂载并自动挂载&lt;code&gt;/opt/sge&lt;/code&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;mount master:/opt/sge /opt/sge
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;master:/opt/sge /opt/sge nfs defaults 0 0&amp;quot;&lt;/span&gt;&amp;gt;&amp;gt;/etc/fstab
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;添加环境变量&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;. /opt/sge/default/common/settings.sh
+cp /opt/sge/default/common/settings.sh /etc/profile.d/sge.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;进入管理节点, 并输入以下命令:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;qconf -as submit_01
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;即可将该节点设置为登陆节点.&lt;/p&gt;
+&lt;h2&gt;集群管理&lt;/h2&gt;
+&lt;p&gt;在admin host上, 使用管理员账号可进行集群管理. 主要使用&lt;code&gt;qconf&lt;/code&gt;命令进行管理, 该命令完整的介绍见: &lt;a href="http://gridscheduler.sourceforge.net/htmlman/manuals.html"&gt;Grid Engine man pages&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;一般而言, &lt;code&gt;qconf&lt;/code&gt;命令的参数以&lt;code&gt;s&lt;/code&gt;开头的是查看, &lt;code&gt;a&lt;/code&gt;开头的是直接添加, 以&lt;code&gt;A&lt;/code&gt;开头的是通过配置文件添加, 以&lt;code&gt;m&lt;/code&gt;开头的是修改, 以&lt;code&gt;M&lt;/code&gt;开头的是通过配置文件修改, 以&lt;code&gt;d&lt;/code&gt;开头的是删除.&lt;/p&gt;
+&lt;p&gt;以下介绍添加队列时的一个trick.&lt;/p&gt;
+&lt;p&gt;可使用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;qconf -sq queue_name &amp;gt;/tmp/tmp.q
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;命令, 将一个和将要添加的队列相近的队列信息打印到临时文件中, 并在该文件中修改队列名称、使用的shell、队列中的主机列表(slots项)等进行修改.&lt;/p&gt;
+&lt;p&gt;再使用&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;qconf -Aq /tmp/tmp.q
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;命令添加队列.&lt;/p&gt;</summary><category term="linux"></category><category term="sge"></category><category term="sun grid engine"></category></entry><entry><title>LTFP传输若干问题总结</title><link href="http://www.lyon0804.com/ltfpchuan-shu-ruo-gan-wen-ti-zong-jie.html" rel="alternate"></link><updated>2017-06-06T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-06-06:ltfpchuan-shu-ruo-gan-wen-ti-zong-jie.html</id><summary type="html">&lt;h2&gt;FTP服务&lt;/h2&gt;
 &lt;p&gt;在一般的FTP服务中, 都会开启20端口和21端口, 其中21端口作为传输控制流信息, 20端口则用来传输数据. FTP的服务端程序主要有vsftp等.&lt;/p&gt;
 &lt;h3&gt;FTP主动(PORT)模式&lt;/h3&gt;
 &lt;p&gt;主动模式中, FTP客户端首先登录FTP服务器,连接其21端口, 并发送用户名和密码进行验证. 在登录成功后, 首先需要开放一个随机端口(1024以上), 并发送一个PORT命令, 把随机端口号发送到FTP服务器. FTP服务器接收到PORT命令以及随机端口号之后, 通过20端口和客户端的随机端口进行数据传输.

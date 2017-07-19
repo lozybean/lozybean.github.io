@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>SGE极简安装指南 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="linux,sge,sun grid engine" />
+        <meta name="description" content="计算集群 通过集群软件, 将很多的计算机整合到一起, 使用者只需要在单一计算机投递任务, 任务即可根据资源状态分派到不同的机器上进行计算任务. 计算集群除了很小的本地硬盘之外(用于系统和存放工作环境所需的软件), 往往不具有大型存储, 需要结合分布式存储等存储方案使用. SGE介绍 SGE原名: Sun Grid Engine, 是Sun公司开发的集群管理工具. 在Sun公司被Oracle收购之后, 更名为Oracle Grid Engine, 并不再提供免费版本. Liverpool大学维护了一个分支, 改名为Son of Grid Engine并保持着免费版本的更新. 本文在8.1.9(更新时间2016-03-02)版本上进行的极简安装说明. 集群组成 集群组成指计算集群在物理上的结构, 表示集群由哪些节点(计算机)组成. 本文方案由下列类型的节点组成集群: 控制节点 运行sge_qmaster进程, 负责SGE软件管理的主机, 并负责集群资源管理分发等任务. 计算节点 运行sge_execd进程, 负责进行实际计算任务, 一般而言具有较高性能. 登陆节点 投递主机, 该主机是用户登入集群的入口, 用户在该主机投递任务 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="SGE极简安装指南"/>
+        <meta property="og:url" content="http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html"/>
+        <meta property="og:description" content="计算集群 通过集群软件, 将很多的计算机整合到一起, 使用者只需要在单一计算机投递任务, 任务即可根据资源状态分派到不同的机器上进行计算任务. 计算集群除了很小的本地硬盘之外(用于系统和存放工作环境所需的软件), 往往不具有大型存储, 需要结合分布式存储等存储方案使用. SGE介绍 SGE原名: Sun Grid Engine, 是Sun公司开发的集群管理工具. 在Sun公司被Oracle收购之后, 更名为Oracle Grid Engine, 并不再提供免费版本. Liverpool大学维护了一个分支, 改名为Son of Grid Engine并保持着免费版本的更新. 本文在8.1.9(更新时间2016-03-02)版本上进行的极简安装说明. 集群组成 集群组成指计算集群在物理上的结构, 表示集群由哪些节点(计算机)组成. 本文方案由下列类型的节点组成集群: 控制节点 运行sge_qmaster进程, 负责SGE软件管理的主机, 并负责集群资源管理分发等任务. 计算节点 运行sge_execd进程, 负责进行实际计算任务, 一般而言具有较高性能. 登陆节点 投递主机, 该主机是用户登入集群的入口, 用户在该主机投递任务 ..."/>
+        <meta property="article:published_time" content="2017-07-19" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="linux" />
+            <meta property="article:tag" content="sge" />
+            <meta property="article:tag" content="sun grid engine" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html"
+                       rel="bookmark"
+                       title="Permalink to SGE极简安装指南">
+                        SGE极简安装指南
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-07-19T00:00:00+08:00"> Wed 19 July 2017</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/linux.html">linux</a>
+        /
+	<a href="http://www.lyon0804.com/tag/sge.html">sge</a>
+        /
+	<a href="http://www.lyon0804.com/tag/sun-grid-engine.html">sun grid engine</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>计算集群</h2>
+<p>通过集群软件, 将很多的计算机整合到一起, 使用者只需要在单一计算机投递任务, 任务即可根据资源状态分派到不同的机器上进行计算任务.</p>
+<p>计算集群除了很小的本地硬盘之外(用于系统和存放工作环境所需的软件), 往往不具有大型存储, 需要结合分布式存储等存储方案使用.</p>
+<h3>SGE介绍</h3>
+<p>SGE原名: Sun Grid Engine, 是Sun公司开发的集群管理工具. 在Sun公司被Oracle收购之后, 更名为Oracle Grid Engine, 并不再提供免费版本. </p>
+<p>Liverpool大学维护了一个分支, 改名为<a href="https://arc.liv.ac.uk/trac/SGE">Son of Grid Engine</a>并保持着免费版本的更新.</p>
+<p>本文在8.1.9(更新时间2016-03-02)版本上进行的极简安装说明.</p>
+<h3>集群组成</h3>
+<p>集群组成指计算集群在物理上的结构, 表示集群由哪些节点(计算机)组成.</p>
+<p>本文方案由下列类型的节点组成集群:</p>
+<ol>
+<li>
+<p>控制节点
+运行sge_qmaster进程, 负责SGE软件管理的主机, 并负责集群资源管理分发等任务.</p>
+</li>
+<li>
+<p>计算节点
+运行sge_execd进程, 负责进行实际计算任务, 一般而言具有较高性能.</p>
+</li>
+<li>
+<p>登陆节点
+投递主机, 该主机是用户登入集群的入口, 用户在该主机投递任务, 进行日常操作等.</p>
+</li>
+</ol>
+<h3>SGE元素</h3>
+<p>SGE元素指在SGE软件中的名词概念:</p>
+<ol>
+<li>
+<p>admin user
+可修改任务状态、SGE配置的用户.</p>
+</li>
+<li>
+<p>user
+一般用户, 可使用集群, 并投递任务的用户. 一般用户在第一次投递任务之后会自动加入到用户列表中. <strong>所有用户必须在所有主机上添加, 并保持uid和gid一致</strong>.</p>
+</li>
+<li>
+<p>administrative host
+只有当主机是admin hosts时, 才可以安装SGE软件, 查看和修改集群状态等. 控制节点必然是administrative host.</p>
+</li>
+<li>
+<p>exec host
+当主机是exec host时, 该主机执行具体计算任务, exec host必须是计算节点, 即必须运行sge_execd进程.</p>
+</li>
+<li>
+<p>submit host
+该主机是具有投递任务权限的主机, 一般而言, 所有节点都会设置为submit host.</p>
+</li>
+<li>
+<p>queue
+主机队列, 若干主机可以属于一个队列. 通过队列可以将不同类型的主机进行分类, 在投递任务时, 有针对性地投递到相应的队列上.</p>
+</li>
+</ol>
+<h2>SGE安装</h2>
+<h3>安装环境</h3>
+<p>本文的教程环境, 使用虚拟化技术, 在实体机上最小化安装4台CentOS 6.7系统的虚拟机.</p>
+<p>分别作为一台管理节点, 两台计算节点, 一台登陆节点. </p>
+<p>所有虚拟机都必须设置在相同局域网网段中, 本文中的网段为<code>172.30.184.0/24</code>.</p>
+<h3>STEP1: 节点准备</h3>
+<p>所有节点添加HOSTS，注意HOST NAME和虚拟机名称必须相同. 主机名称可以使用<code>hostname</code>命令查看.</p>
+<div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;</span>
+<span class="s2">172.30.184.61 master</span>
+<span class="s2">172.30.184.62 exec_01</span>
+<span class="s2">172.30.184.63 exec_02</span>
+<span class="s2">172.30.184.64 submit_01</span>
+<span class="s2">&quot;</span> &gt;&gt; /etc/hosts
+</pre></div>
+
+
+<p>在所有节点上安装NFS.</p>
+<div class="highlight"><pre>yum -y install nfs-utils rpcbind
+</pre></div>
+
+
+<p>在所有节点上添加sgeadmin用户, 作为集群的admin user.</p>
+<div class="highlight"><pre>groupadd -g <span class="m">501</span> sgeadmin
+useradd -u <span class="m">501</span> sgeadmin -g sgeadmin
+</pre></div>
+
+
+<p>在管理节点上启动NFS服务, 并使得/sge_rpm和/opt/sge两个目录共享.</p>
+<div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;</span>
+<span class="s2">/sge_rpm  172.30.184.0/24(rw,insecure,no_all_squash,no_root_squash,sync)</span>
+<span class="s2">/opt/sge  172.30.184.0/24(rw,insecure,no_all_squash,no_root_squash,sync)</span>
+<span class="s2">&quot;</span>&gt;/etc/exports
+
+service rpcbind start
+service nfs start
+chkconfig rpcbind on
+chkconfig nfs on
+</pre></div>
+
+
+<p>在管理节点上, 编辑/etc/sysconfig/iptables, 在reject上方添加以下内容:</p>
+<div class="highlight"><pre><span class="c"># 其中2049和20049是NFS端口, 6444和6445是SGE相关端口, 根据实际环境做相应调整</span>
+-A INPUT -m state --state NEW -m tcp -p tcp --dport <span class="m">2049</span> -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport <span class="m">2049</span> -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport <span class="m">20049</span> -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport <span class="m">20049</span> -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport <span class="m">6444</span> -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport <span class="m">6444</span> -j ACCEPT
+-A INPUT -m state --state NEW -m tcp -p tcp --dport <span class="m">6445</span> -j ACCEPT
+-A INPUT -m state --state NEW -m udp -p udp --dport <span class="m">6445</span> -j ACCEPT
+</pre></div>
+
+
+<p>并重启防火墙</p>
+<div class="highlight"><pre>service iptables restart
+</pre></div>
+
+
+<p>在管理节点上, 下载RPM, 下载地址为: https://arc.liv.ac.uk/downloads/SGE/releases/</p>
+<div class="highlight"><pre>yum install -y wget
+mkdir /sge_rpm
+<span class="nb">cd</span> /sge_rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-debuginfo-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-devel-8.1.9-1.el6.noarch.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-drmaa4ruby-8.1.9-1.el6.noarch.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-execd-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-guiinst-8.1.9-1.el6.noarch.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-qmaster-8.1.9-1.el6.x86_64.rpm
+wget -c https://arc.liv.ac.uk/downloads/SGE/releases/8.1.9/gridengine-qmon-8.1.9-1.el6.x86_64.rpm
+</pre></div>
+
+
+<p>在所有计算节点和登陆节点挂载<code>/sge_rpm</code>:</p>
+<div class="highlight"><pre>mkdir /sge_rpm
+mount master:/sge_rpm /sge_rpm
+</pre></div>
+
+
+<p>在所有节点上安装rpm包:</p>
+<div class="highlight"><pre><span class="nb">cd</span> /sge_rpm
+yum install -y epel-release
+yum localinstall -y gridengine-*
+</pre></div>
+
+
+<h3>STEP2: Master Host</h3>
+<p>安装SGE qmaster, <code>-&gt;</code>开头的命令是指安装过程中的交互式过程简要描述, 除了<code>!</code>开头行之外, 可全部默认.</p>
+<div class="highlight"><pre><span class="nb">cd</span> /opt/sge
+./install_qmaster
+-&gt; Agree lincese
+-&gt; Install other than &gt;root&lt; &gt;&gt; y
+-&gt; ! enter a valid user name &gt;&gt; sgeadmin
+-&gt; Install path: /opt/sge <span class="o">[</span>default<span class="o">]</span>
+-&gt; SGE TCP/IP communication server: Using a network service <span class="o">[</span>2<span class="o">]</span>
+-&gt; Cell name: default <span class="o">[</span>default<span class="o">]</span> 
+-&gt; Cluster name: p6444 <span class="o">[</span>default<span class="o">]</span>
+-&gt; qmaster spool directory: /opt/sge/default/spool/qmaster <span class="o">[</span>default<span class="o">]</span>
+-&gt; Install Windows Execution Hosts: n  
+-&gt; Verify and <span class="nb">set </span>the file permissions: y  
+-&gt; All hosts in a single domain: y  
+-&gt; Enable the JMX MBean server: n  
+-&gt; spooling method: classic <span class="o">[</span>default<span class="o">]</span>
+-&gt; SGE group id range: 20000-20100 <span class="o">[</span>default<span class="o">]</span>
+-&gt; spool directory <span class="k">for</span> execution hosts: /opt/sge/default/spool <span class="o">[</span>default<span class="o">]</span> 
+-&gt; ! administrator_mail: example@foo.com
+-&gt; change configuration parameters: n
+-&gt; start qmaster at machine boot: y
+-&gt; use a file which contains the list of hosts: n
+-&gt; ! adding admin and submit hosts:
+Hosts: master
+Hosts: exec_01
+Hosts: exec_02
+-&gt; add shadow host: n
+-&gt; creating default queue: all.q
+-&gt; Scheduler Tuning: 1<span class="o">)</span> Normal
+-&gt; Agree: y
+</pre></div>
+
+
+<p><strong>注意</strong>: SGE安装的节点必须是admin hosts, 所以在计算节点安装完成之前, 所有的计算节点也必须是admin hosts. 若以上步骤没有添加计算节点, 则可以使用<code>qconf -ah exec_01</code> 命令, 将计算节点添加到admin hosts列表中.</p>
+<p>添加环境变量, 本示例中, 使用BASH登陆服务器, 其他SHELL客户端参考安装最后一步的说明添加.</p>
+<div class="highlight"><pre>. /opt/sge/default/common/settings.sh
+cp /opt/sge/default/common/settings.sh /etc/profile.d/sge.sh
+</pre></div>
+
+
+<h3>STEP3: 计算节点</h3>
+<p>挂载并自动挂载<code>/opt/sge</code></p>
+<div class="highlight"><pre>mount master:/opt/sge /opt/sge
+<span class="nb">echo</span> <span class="s2">&quot;master:/opt/sge /opt/sge nfs defaults 0 0&quot;</span>&gt;&gt;/etc/fstab
+</pre></div>
+
+
+<p>添加环境变量</p>
+<div class="highlight"><pre>. /opt/sge/default/common/settings.sh
+cp /opt/sge/default/common/settings.sh /etc/profile.d/sge.sh
+</pre></div>
+
+
+<p>安装SGE execd, 可一直使用默认值, 一路回车即可.</p>
+<div class="highlight"><pre><span class="nb">cd</span> /opt/sge
+./install_execd
+-&gt; Agree lincese
+-&gt; <span class="nv">$SGE_ROOT</span>: /opt/sge <span class="o">[</span>default<span class="o">]</span>
+-&gt; cell name: default <span class="o">[</span>default<span class="o">]</span>
+-&gt; SET sge_execd TCP/IP port: <span class="m">6445</span> <span class="o">[</span>default<span class="o">]</span>
+-&gt; check hostname resolving
+-&gt; change spool directory: n <span class="o">[</span>default<span class="o">]</span>
+-&gt; start execd at machine boot: y <span class="o">[</span>default<span class="o">]</span>
+-&gt; starting execution daemon
+-&gt; add queue <span class="k">for</span> this host: n
+-&gt; see previous screen: n
+</pre></div>
+
+
+<p>将计算节点添加为submit host</p>
+<div class="highlight"><pre>qconf -as exec_01
+</pre></div>
+
+
+<h3>STEP4: 登陆节点</h3>
+<p>挂载并自动挂载<code>/opt/sge</code></p>
+<div class="highlight"><pre>mount master:/opt/sge /opt/sge
+<span class="nb">echo</span> <span class="s2">&quot;master:/opt/sge /opt/sge nfs defaults 0 0&quot;</span>&gt;&gt;/etc/fstab
+</pre></div>
+
+
+<p>添加环境变量</p>
+<div class="highlight"><pre>. /opt/sge/default/common/settings.sh
+cp /opt/sge/default/common/settings.sh /etc/profile.d/sge.sh
+</pre></div>
+
+
+<p>进入管理节点, 并输入以下命令:</p>
+<div class="highlight"><pre>qconf -as submit_01
+</pre></div>
+
+
+<p>即可将该节点设置为登陆节点.</p>
+<h2>集群管理</h2>
+<p>在admin host上, 使用管理员账号可进行集群管理. 主要使用<code>qconf</code>命令进行管理, 该命令完整的介绍见: <a href="http://gridscheduler.sourceforge.net/htmlman/manuals.html">Grid Engine man pages</a>.</p>
+<p>一般而言, <code>qconf</code>命令的参数以<code>s</code>开头的是查看, <code>a</code>开头的是直接添加, 以<code>A</code>开头的是通过配置文件添加, 以<code>m</code>开头的是修改, 以<code>M</code>开头的是通过配置文件修改, 以<code>d</code>开头的是删除.</p>
+<p>以下介绍添加队列时的一个trick.</p>
+<p>可使用</p>
+<div class="highlight"><pre>qconf -sq queue_name &gt;/tmp/tmp.q
+</pre></div>
+
+
+<p>命令, 将一个和将要添加的队列相近的队列信息打印到临时文件中, 并在该文件中修改队列名称、使用的shell、队列中的主机列表(slots项)等进行修改.</p>
+<p>再使用</p>
+<div class="highlight"><pre>qconf -Aq /tmp/tmp.q
+</pre></div>
+
+
+<p>命令添加队列.</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="sgeji-jian-an-zhuang-zhi-nan" data-title="SGE极简安装指南" data-url="http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'sgeji-jian-an-zhuang-zhi-nan', 'SGE极简安装指南' , 'http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
