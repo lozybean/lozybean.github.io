@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/all.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2017-09-08T00:00:00+08:00</updated><entry><title>clinvar数据库升级</title><link href="http://www.lyon0804.com/clinvarshu-ju-ku-sheng-ji.html" rel="alternate"></link><updated>2017-09-08T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-09-08:clinvarshu-ju-ku-sheng-ji.html</id><summary type="html">&lt;h2&gt;Clinvar数据库&lt;/h2&gt;
-&lt;p&gt;Clinvar数据库是一个变异致病性数据库, &lt;a href="http://www.lyon0804.com/clinvarshu-ju-ku-de-shi-yong.html"&gt;之前的文章&lt;/a&gt; 有讲到如何正确使用clinvar数据库.&lt;/p&gt;
+&lt;p&gt;Clinvar数据库是一个变异致病性数据库, &lt;a href="http://www.lyon0804.com/clinvarshu-ju-ku-de-shi-yong.html"&gt;之前的文章&lt;/a&gt; 有讲到如何正确使用clinvar数据库. 本文将在前文基础上, 总结clinvar数据库使用中的问题, 并且介绍如何使用vcf2.0数据库以及submission数据库解决这些问题.&lt;/p&gt;
 &lt;p&gt;除了前文中提到的问题之外, Clinvar提供的vcf数据库还有其他的问题存在, 这些问题有:&lt;/p&gt;
 &lt;h3&gt;标注不清&lt;/h3&gt;
 &lt;p&gt;clinvar旧版本的vcf数据库中, 以一个rs号为单位, 使用rs number作为变异的ID, 记录中会展现每个rs号的所有Allele, 而实际上&lt;strong&gt;CNLHGVS&lt;/strong&gt;注释显示, 注释内容只对其中一个Allele有效, 或者不同的Allele结论不同. 在&lt;a href="http://www.lyon0804.com/clinvarshu-ju-ku-de-shi-yong.html"&gt;之前的文章&lt;/a&gt;中有更加详细的问题描述以及解决方式.&lt;/p&gt;
