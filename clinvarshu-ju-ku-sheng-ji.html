@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>clinvar数据库升级 - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/clinvarshu-ju-ku-sheng-ji.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="clinvar,database,bioinformatics" />
+        <meta name="description" content="Clinvar数据库 Clinvar数据库是一个变异致病性数据库, 之前的文章 有讲到如何正确使用clinvar数据库. 除了前文中提到的问题之外, Clinvar提供的vcf数据库还有其他的问题存在, 这些问题有: 标注不清 clinvar旧版本的vcf数据库中, 以一个rs号为单位, 使用rs number作为变异的ID, 记录中会展现每个rs号的所有Allele, 而实际上CNLHGVS注释显示, 注释内容只对其中一个Allele有效, 或者不同的Allele结论不同. 在之前的文章中有更加详细的问题描述以及解决方式. 而在实际的clinvar数据库中(以及网页上), 有一个存在的唯一标识: Variation ID, 该ID信息在旧版本的vcf文件中丢失, 只提供Variant Accession的唯一标识, 该标识是变异+疾病(Variation + Condition)的识别标识, 而非Variation的识别标识. CLNSIG描述不清 旧版本的vcf文件中, CLNSIG的注释以数字标明, 各数字意义为: 0 - Uncertain significance 1 - not provided 2 - Benign 3 - Likely benign ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="clinvar数据库升级"/>
+        <meta property="og:url" content="http://www.lyon0804.com/clinvarshu-ju-ku-sheng-ji.html"/>
+        <meta property="og:description" content="Clinvar数据库 Clinvar数据库是一个变异致病性数据库, 之前的文章 有讲到如何正确使用clinvar数据库. 除了前文中提到的问题之外, Clinvar提供的vcf数据库还有其他的问题存在, 这些问题有: 标注不清 clinvar旧版本的vcf数据库中, 以一个rs号为单位, 使用rs number作为变异的ID, 记录中会展现每个rs号的所有Allele, 而实际上CNLHGVS注释显示, 注释内容只对其中一个Allele有效, 或者不同的Allele结论不同. 在之前的文章中有更加详细的问题描述以及解决方式. 而在实际的clinvar数据库中(以及网页上), 有一个存在的唯一标识: Variation ID, 该ID信息在旧版本的vcf文件中丢失, 只提供Variant Accession的唯一标识, 该标识是变异+疾病(Variation + Condition)的识别标识, 而非Variation的识别标识. CLNSIG描述不清 旧版本的vcf文件中, CLNSIG的注释以数字标明, 各数字意义为: 0 - Uncertain significance 1 - not provided 2 - Benign 3 - Likely benign ..."/>
+        <meta property="article:published_time" content="2017-09-08" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="clinvar" />
+            <meta property="article:tag" content="database" />
+            <meta property="article:tag" content="bioinformatics" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/clinvarshu-ju-ku-sheng-ji.html"
+                       rel="bookmark"
+                       title="Permalink to clinvar数据库升级">
+                        clinvar数据库升级
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-09-08T00:00:00+08:00"> Fri 08 September 2017</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/clinvar.html">clinvar</a>
+        /
+	<a href="http://www.lyon0804.com/tag/database.html">database</a>
+        /
+	<a href="http://www.lyon0804.com/tag/bioinformatics.html">bioinformatics</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>Clinvar数据库</h2>
+<p>Clinvar数据库是一个变异致病性数据库, <a href="http://www.lyon0804.com/clinvarshu-ju-ku-de-shi-yong.html">之前的文章</a> 有讲到如何正确使用clinvar数据库.</p>
+<p>除了前文中提到的问题之外, Clinvar提供的vcf数据库还有其他的问题存在, 这些问题有:</p>
+<h3>标注不清</h3>
+<p>clinvar旧版本的vcf数据库中, 以一个rs号为单位, 使用rs number作为变异的ID, 记录中会展现每个rs号的所有Allele, 而实际上<strong>CNLHGVS</strong>注释显示, 注释内容只对其中一个Allele有效, 或者不同的Allele结论不同. 在<a href="http://www.lyon0804.com/clinvarshu-ju-ku-de-shi-yong.html">之前的文章</a>中有更加详细的问题描述以及解决方式.</p>
+<p>而在实际的clinvar数据库中(以及网页上), 有一个存在的唯一标识: <strong>Variation ID</strong>, 该ID信息在旧版本的vcf文件中丢失, 只提供Variant Accession的唯一标识, 该标识是变异+疾病(Variation + Condition)的识别标识, 而非Variation的识别标识.</p>
+<h3>CLNSIG描述不清</h3>
+<p>旧版本的vcf文件中, CLNSIG的注释以数字标明, 各数字意义为:</p>
+<ul>
+<li>0 - Uncertain significance</li>
+<li>1 - not provided</li>
+<li>2 - Benign</li>
+<li>3 - Likely benign</li>
+<li>4 - Likely pathogenic</li>
+<li>5 - Pathogenic</li>
+<li>6 - drug response</li>
+<li>7 - histocompatibility</li>
+<li>255 - other</li>
+</ul>
+<p>并且在vcf文件中, CLNSIG的注释以REVIEW为单位, 同一个位点的同一种疾病对应的结果, 如果有不同的结论, 则直接标注为255(other), 这对注释结果带来困扰.</p>
+<p>如VariationID为134651, <code>NM_001127500.2(MET):c.4141G&gt;A (p.Ala1381Thr)</code> <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/134651/">clinvar链接</a> 这一条变异, 网页显示为</p>
+<p><img alt="134651" src="http://wx2.sinaimg.cn/large/95202659gy1fjp4au3lj4j20h108z3yq.jpg" /></p>
+<p>而在下载vcf文件中的显示为:</p>
+<div class="highlight"><pre><span class="nt">7</span>       <span class="nt">116436092</span>       <span class="nt">rs45578433</span>      <span class="nt">G</span>       <span class="nt">A</span>       <span class="o">.</span>       <span class="o">.</span>       <span class="nt">RS</span><span class="o">=</span><span class="nt">45578433</span><span class="o">;</span><span class="nt">RSPOS</span><span class="o">=</span><span class="nt">116436092</span><span class="o">;</span><span class="nt">dbSNPBuildID</span><span class="o">=</span><span class="nt">127</span><span class="o">;</span><span class="nt">SSR</span><span class="o">=</span><span class="nt">0</span><span class="o">;</span><span class="nt">SAO</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">VP</span><span class="o">=</span><span class="nt">0x050068000a05040436100100</span><span class="o">;</span><span class="nt">GENEINFO</span><span class="o">=</span><span class="nt">MET</span><span class="nd">:4233</span><span class="o">;</span><span class="nt">WGT</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">VC</span><span class="o">=</span><span class="nt">SNV</span><span class="o">;</span><span class="nt">PM</span><span class="o">;</span><span class="nt">PMC</span><span class="o">;</span><span class="nt">NSM</span><span class="o">;</span><span class="nt">REF</span><span class="o">;</span><span class="nt">ASP</span><span class="o">;</span><span class="nt">VLD</span><span class="o">;</span><span class="nt">HD</span><span class="o">;</span><span class="nt">KGPhase1</span><span class="o">;</span><span class="nt">KGPhase3</span><span class="o">;</span><span class="nt">LSD</span><span class="o">;</span><span class="nt">CLNALLE</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">CLNHGVS</span><span class="o">=</span><span class="nt">NC_000007</span><span class="nc">.13</span><span class="nd">:g</span><span class="nc">.116436092G</span><span class="o">&gt;</span><span class="nt">A</span><span class="o">;</span><span class="nt">CLNSRC</span><span class="o">=.;</span><span class="nt">CLNORIGIN</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">CLNSRCID</span><span class="o">=.;</span><span class="nt">CLNSIG</span><span class="o">=</span><span class="nt">1</span><span class="o">|</span><span class="nt">255</span><span class="o">;</span><span class="nt">CLNDSDB</span><span class="o">=</span><span class="nt">MedGen</span><span class="o">|</span><span class="nt">MedGen</span><span class="nd">:OMIM:Orphanet:SNOMED_CT</span><span class="o">;</span><span class="nt">CLNDSDBID</span><span class="o">=</span><span class="nt">CN169374</span><span class="o">|</span><span class="nt">C0007134</span><span class="nd">:605074:ORPHA217071:41607009</span><span class="o">;</span><span class="nt">CLNDBN</span><span class="o">=</span><span class="nt">not_specified</span><span class="o">|</span><span class="nt">Renal_cell_carcinoma</span><span class="err">\</span><span class="nt">x2c_papillary</span><span class="err">\</span><span class="nt">x2c_1</span><span class="o">;</span><span class="nt">CLNREVSTAT</span><span class="o">=</span><span class="nt">no_assertion</span><span class="o">|</span><span class="nt">conf</span><span class="o">;</span><span class="nt">CLNACC</span><span class="o">=</span><span class="nt">RCV000121350</span><span class="nc">.1</span><span class="o">|</span><span class="nt">RCV000205626</span><span class="nc">.4</span><span class="o">;</span><span class="nt">CAF</span><span class="o">=</span><span class="nt">0</span><span class="nc">.9988</span><span class="o">,</span><span class="nt">0</span><span class="nc">.001198</span><span class="o">;</span><span class="nt">COMMON</span><span class="o">=</span><span class="nt">0</span>
+</pre></div>
+
+
+<p>其中的CLNSIG显示<code>1|255</code>, CLNREVSTAT显示<code>no_assertion|conf</code>, 经查, 发现CLNSIG标注255的原因是因为对于<em>Renal cell carcinoma, papillary, 1</em>该疾病, 有两个Submissions分别报告为<em>Benign</em>和<em>Likely Benign</em>; 在vcf文件中简单判定该位点具有冲突结论, 故标注为255;</p>
+<p>对于实际解读来讲, 仅标记other(255)很难进行准确的判断, 只有将各种Submission的情况全部注释, 才能进行准确判读.</p>
+<p>另外一个更加深刻的例子:</p>
+<p>VariationID为127827, <code>NM_000546.5(TP53):c.91G&gt;A (p.Val31Ile)</code> <a href="https://www.ncbi.nlm.nih.gov/clinvar/variation/127827/">clinvar链接</a>这一条变异, 网页显示为</p>
+<p><img alt="127827" src="http://wx2.sinaimg.cn/large/95202659gy1fjp4awe236j20hy0ahweu.jpg" /></p>
+<p>该位点网页判读为有冲突结论, 而在下载的旧版本vcf文件中, 该位点显示为:</p>
+<div class="highlight"><pre><span class="nt">17</span>      <span class="nt">7579705</span> <span class="nt">rs201753350</span>     <span class="nt">C</span>       <span class="nt">A</span><span class="o">,</span><span class="nt">T</span>     <span class="o">.</span>       <span class="o">.</span>       <span class="nt">RS</span><span class="o">=</span><span class="nt">201753350</span><span class="o">;</span><span class="nt">RSPOS</span><span class="o">=</span><span class="nt">7579705</span><span class="o">;</span><span class="nt">dbSNPBuildID</span><span class="o">=</span><span class="nt">137</span><span class="o">;</span><span class="nt">SSR</span><span class="o">=</span><span class="nt">0</span><span class="o">;</span><span class="nt">SAO</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">VP</span><span class="o">=</span><span class="nt">0x050068420a05040436100100</span><span class="o">;</span><span class="nt">GENEINFO</span><span class="o">=</span><span class="nt">TP53</span><span class="nd">:7157</span><span class="o">;</span><span class="nt">WGT</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">VC</span><span class="o">=</span><span class="nt">SNV</span><span class="o">;</span><span class="nt">PM</span><span class="o">;</span><span class="nt">PMC</span><span class="o">;</span><span class="nt">NSM</span><span class="o">;</span><span class="nt">REF</span><span class="o">;</span><span class="nt">U5</span><span class="o">;</span><span class="nt">R5</span><span class="o">;</span><span class="nt">ASP</span><span class="o">;</span><span class="nt">VLD</span><span class="o">;</span><span class="nt">HD</span><span class="o">;</span><span class="nt">KGPhase1</span><span class="o">;</span><span class="nt">KGPhase3</span><span class="o">;</span><span class="nt">LSD</span><span class="o">;</span><span class="nt">CLNALLE</span><span class="o">=</span><span class="nt">1</span><span class="o">,</span><span class="nt">2</span><span class="o">;</span><span class="nt">CLNHGVS</span><span class="o">=</span><span class="nt">NC_000017</span><span class="nc">.10</span><span class="nd">:g</span><span class="nc">.7579705C</span><span class="o">&gt;</span><span class="nt">A</span><span class="o">,</span><span class="nt">NC_000017</span><span class="nc">.10</span><span class="nd">:g</span><span class="nc">.7579705C</span><span class="o">&gt;</span><span class="nt">T</span><span class="o">;</span><span class="nt">CLNSRC</span><span class="o">=.,</span><span class="nt">UniProtKB_</span><span class="o">(</span><span class="nt">protein</span><span class="o">);</span><span class="nt">CLNORIGIN</span><span class="o">=</span><span class="nt">1</span><span class="o">,</span><span class="nt">1</span><span class="o">;</span><span class="nt">CLNSRCID</span><span class="o">=.,</span><span class="nt">P04637</span><span class="nf">#VAR_044554</span><span class="o">;</span><span class="nt">CLNSIG</span><span class="o">=</span><span class="nt">0</span><span class="o">,</span><span class="nt">0</span><span class="o">|</span><span class="nt">3</span><span class="o">|</span><span class="nt">3</span><span class="o">|</span><span class="nt">255</span><span class="o">;</span><span class="nt">CLNDSDB</span><span class="o">=</span><span class="nt">MedGen</span><span class="nd">:SNOMED_CT</span><span class="o">,</span><span class="nt">MedGen</span><span class="nd">:SNOMED_CT</span><span class="o">|</span><span class="nt">MedGen</span><span class="o">|</span><span class="nt">MedGen</span><span class="nd">:Orphanet:SNOMED_CT</span><span class="o">|</span><span class="nt">MedGen</span><span class="nd">:OMIM</span><span class="o">;</span><span class="nt">CLNDSDBID</span><span class="o">=</span><span class="nt">C0027672</span><span class="nd">:699346009</span><span class="o">,</span><span class="nt">C0027672</span><span class="nd">:699346009</span><span class="o">|</span><span class="nt">CN169374</span><span class="o">|</span><span class="nt">C0085390</span><span class="nd">:ORPHA524:428850001</span><span class="o">|</span><span class="nt">C1835398</span><span class="nd">:151623</span><span class="o">;</span><span class="nt">CLNDBN</span><span class="o">=</span><span class="nt">Hereditary_cancer-predisposing_syndrome</span><span class="o">,</span><span class="nt">Hereditary_cancer-predisposing_syndrome</span><span class="o">|</span><span class="nt">not_specified</span><span class="o">|</span><span class="nt">Li-Fraumeni_syndrome</span><span class="o">|</span><span class="nt">Li-Fraumeni_syndrome_1</span><span class="o">;</span><span class="nt">CLNREVSTAT</span><span class="o">=</span><span class="nt">single</span><span class="o">,</span><span class="nt">single</span><span class="o">|</span><span class="nt">single</span><span class="o">|</span><span class="nt">mult</span><span class="o">|</span><span class="nt">conf</span><span class="o">;</span><span class="nt">CLNACC</span><span class="o">=</span><span class="nt">RCV000222526</span><span class="nc">.1</span><span class="o">,</span><span class="nt">RCV000115742</span><span class="nc">.7</span><span class="o">|</span><span class="nt">RCV000122173</span><span class="nc">.2</span><span class="o">|</span><span class="nt">RCV000123100</span><span class="nc">.4</span><span class="o">|</span><span class="nt">RCV000409871</span><span class="nc">.1</span><span class="o">;</span><span class="nt">CAF</span><span class="o">=</span><span class="nt">0</span><span class="nc">.9982</span><span class="o">,.,</span><span class="nt">0</span><span class="nc">.001797</span><span class="o">;</span><span class="nt">COMMON</span><span class="o">=</span><span class="nt">1</span>
+</pre></div>
+
+
+<p>首先该记录具有具体注释每个Allele的情况, 另外, 这里的CLNSIG对于<code>T</code>这个ALT, 仅注释为<code>0|3|3|255</code>, 原因是对于四种疾病, 前三种没有冲突, 可以明确注明, 但是最后一种疾病有两个冲突的Submission, 分别报道为: <em>Likely pathogenic</em> 和 <em>Uncertain significance</em>, 故注明255. 如果不去细究这个冲突, 仅仅是看vcf文件的结果, 很有可能趋向于Likely Benign(3), 而忽略该位点具有疑似致病报道.</p>
+<h2>数据库升级</h2>
+<p>为了解决旧版本vcf数据库中的问题, clinvar官方团队在2017年2月份在FTP站点中, 额外提供了一个vcf2.0版本的数据库. 该数据库目前为beta(测试)版本, 并且在说明文件中指出, 目前可能有不完善的地方.</p>
+<p><img alt="vcf2.0" src="http://wx1.sinaimg.cn/large/95202659gy1fjp4ayz5mfj20bh0fy751.jpg" /></p>
+<p>该版本的数据库解决了之前数据库中存在的若干问题:</p>
+<ol>
+<li>新版本数据库以Variation ID为单位, 对每一个位置的每一个allele分别注释, 避免以rs号为单位, Allele和注释冲突的问题;</li>
+<li>新版本数据库中CLNSIG使用了更加明确的文字描述, 当出现有冲突时, 明确标明<em>Conflicting_interpretations_of_pathogenicity</em>, 而不是仅标注other(255), 如第二个例子;</li>
+<li>当就版本数据库中, 冲突不严重时, 如第一个例子, 新版本数据库直接注释为<em>Benign/Likely_benign</em>, 和网页上描述一致, 不再标注other(255);</li>
+<li>当变异属于某个单体型时, 添加该单体型的致病描述;</li>
+</ol>
+<p>新版本数据库中, CLNSIG使用了更准确的文字描述, 分为:</p>
+<ul>
+<li>Benign</li>
+<li>Benign/Likely_benign</li>
+<li>Likely_benign</li>
+<li>Likely_pathogenic</li>
+<li>Pathogenic</li>
+<li>Pathogenic/Likely_pathogenic</li>
+<li>Uncertain_significance</li>
+<li>Conflicting_interpretations_of_pathogenicity</li>
+<li>Affects</li>
+<li>association</li>
+<li>drug_response</li>
+<li>protective</li>
+<li>risk_factor</li>
+<li>not_provided</li>
+<li>other</li>
+</ul>
+<p>具体含义见<a href="https://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/">clinvar网站</a></p>
+<p>前两个例子, 在新版本的vcf文件中, 都会</p>
+<p>第一个例子显示为:</p>
+<div class="highlight"><pre><span class="nt">7</span>       <span class="nt">116436092</span>       <span class="nt">134651</span>  <span class="nt">G</span>       <span class="nt">A</span>       <span class="o">.</span>       <span class="o">.</span>       <span class="nt">AF_EXAC</span><span class="o">=</span><span class="nt">0</span><span class="nc">.00044</span><span class="o">;</span><span class="nt">AF_TGP</span><span class="o">=</span><span class="nt">0</span><span class="nc">.0012</span><span class="o">;</span><span class="nt">ALLELEID</span><span class="o">=</span><span class="nt">138390</span><span class="o">;</span><span class="nt">CLNDISDB</span><span class="o">=</span><span class="nt">MedGen</span><span class="nd">:C0007134</span><span class="o">,</span><span class="nt">OMIM</span><span class="nd">:605074</span><span class="o">,</span><span class="nt">Orphanet</span><span class="nd">:ORPHA217071</span><span class="o">,</span><span class="nt">SNOMED_CT</span><span class="nd">:41607009</span><span class="o">|</span><span class="nt">MedGen</span><span class="nd">:CN169374</span><span class="o">;</span><span class="nt">CLNDN</span><span class="o">=</span><span class="nt">Renal_cell_carcinoma</span><span class="o">,</span><span class="nt">_papillary</span><span class="o">,</span><span class="nt">_1</span><span class="o">|</span><span class="nt">not_specified</span><span class="o">;</span><span class="nt">CLNHGVS</span><span class="o">=</span><span class="nt">NC_000007</span><span class="nc">.13</span><span class="nd">:g</span><span class="nc">.116436092G</span><span class="o">&gt;</span><span class="nt">A</span><span class="o">;</span><span class="nt">CLNREVSTAT</span><span class="o">=</span><span class="nt">criteria_provided</span><span class="o">,</span><span class="nt">_multiple_submitters</span><span class="o">,</span><span class="nt">_no_conflicts</span><span class="o">;</span><span class="nt">CLNSIG</span><span class="o">=</span><span class="nt">Benign</span><span class="o">/</span><span class="nt">Likely_benign</span><span class="o">,</span><span class="nt">_not_provided</span><span class="o">;</span><span class="nt">CLNVC</span><span class="o">=</span><span class="nt">single_nucleotide_variant</span><span class="o">;</span><span class="nt">CLNVCSO</span><span class="o">=</span><span class="nt">SO</span><span class="nd">:0001483</span><span class="o">;</span><span class="nt">CLNVI</span><span class="o">=</span><span class="nt">Illumina_Clinical_Services_Laboratory</span><span class="o">,</span><span class="nt">Illumina</span><span class="nd">:104349</span><span class="o">;</span><span class="nt">GENEINFO</span><span class="o">=</span><span class="nt">MET</span><span class="nd">:4233</span><span class="o">;</span><span class="nt">MC</span><span class="o">=</span><span class="nt">SO</span><span class="nd">:0001583</span><span class="o">|</span><span class="nt">missense_variant</span><span class="o">;</span><span class="nt">ORIGIN</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">RS</span><span class="o">=</span><span class="nt">45578433</span>
+</pre></div>
+
+
+<p>其中CLNSIG为<em>Benign/Likely_benign,_not_provided</em> (旧版本为<code>1|255</code>(not provided, other))</p>
+<p>第二个例子显示为:</p>
+<div class="highlight"><pre><span class="nt">17</span>      <span class="nt">7579705</span> <span class="nt">127827</span>  <span class="nt">C</span>       <span class="nt">T</span>       <span class="o">.</span>       <span class="o">.</span>       <span class="nt">AF_TGP</span><span class="o">=</span><span class="nt">0</span><span class="nc">.0018</span><span class="o">;</span><span class="nt">ALLELEID</span><span class="o">=</span><span class="nt">133284</span><span class="o">;</span><span class="nt">CLNDISDB</span><span class="o">=</span><span class="nt">MedGen</span><span class="nd">:C0027672</span><span class="o">,</span><span class="nt">SNOMED_CT</span><span class="nd">:699346009</span><span class="o">|</span><span class="nt">MedGen</span><span class="nd">:C0085390</span><span class="o">,</span><span class="nt">Orphanet</span><span class="nd">:ORPHA524</span><span class="o">,</span><span class="nt">SNOMED_CT</span><span class="nd">:428850001</span><span class="o">|</span><span class="nt">MedGen</span><span class="nd">:C1835398</span><span class="o">,</span><span class="nt">OMIM</span><span class="nd">:151623</span><span class="o">|</span><span class="nt">MedGen</span><span class="nd">:CN169374</span><span class="o">;</span><span class="nt">CLNDN</span><span class="o">=</span><span class="nt">Hereditary_cancer-predisposing_syndrome</span><span class="o">|</span><span class="nt">Li-Fraumeni_syndrome</span><span class="o">|</span><span class="nt">Li-Fraumeni_syndrome_1</span><span class="o">|</span><span class="nt">not_specified</span><span class="o">;</span><span class="nt">CLNHGVS</span><span class="o">=</span><span class="nt">NC_000017</span><span class="nc">.10</span><span class="nd">:g</span><span class="nc">.7579705C</span><span class="o">&gt;</span><span class="nt">T</span><span class="o">;</span><span class="nt">CLNREVSTAT</span><span class="o">=</span><span class="nt">criteria_provided</span><span class="o">,</span><span class="nt">_conflicting_interpretations</span><span class="o">;</span><span class="nt">CLNSIG</span><span class="o">=</span><span class="nt">Conflicting_interpretations_of_pathogenicity</span><span class="o">;</span><span class="nt">CLNVC</span><span class="o">=</span><span class="nt">single_nucleotide_variant</span><span class="o">;</span><span class="nt">CLNVCSO</span><span class="o">=</span><span class="nt">SO</span><span class="nd">:0001483</span><span class="o">;</span><span class="nt">CLNVI</span><span class="o">=</span><span class="nt">Illumina_Clinical_Services_Laboratory</span><span class="o">,</span><span class="nt">Illumina</span><span class="nd">:663209</span><span class="o">,</span><span class="nt">UniProtKB_</span><span class="o">(</span><span class="nt">protein</span><span class="o">)</span><span class="nd">:P04637</span><span class="nf">#VAR_044554</span><span class="o">;</span><span class="nt">GENEINFO</span><span class="o">=</span><span class="nt">TP53</span><span class="nd">:7157</span><span class="o">;</span><span class="nt">MC</span><span class="o">=</span><span class="nt">SO</span><span class="nd">:0001583</span><span class="o">|</span><span class="nt">missense_variant</span><span class="o">,</span><span class="nt">SO</span><span class="nd">:0001623</span><span class="o">|</span><span class="nt">5_prime_UTR_variant</span><span class="o">,</span><span class="nt">SO</span><span class="nd">:0001636</span><span class="o">|</span><span class="nt">2KB_upstream_variant</span><span class="o">;</span><span class="nt">ORIGIN</span><span class="o">=</span><span class="nt">1</span><span class="o">;</span><span class="nt">RS</span><span class="o">=</span><span class="nt">201753350</span>
+</pre></div>
+
+
+<p>该位点在新版本中, 仅allele: T单独作为一个记录显示, 并且CNLSIG表示为<em>Conflicting_interpretations_of_pathogenicity</em>, 而不是<code>255</code>(other).</p>
+<h2>Submissions</h2>
+<p>新版本的数据库中, 虽然对冲突的情况使用了更加明确的标识, 但是仍然没有展现每个Submission详细的信息, 只能通过网页查找更详细的Submission信息才能更好做出判断.</p>
+<p>由于新版本数据库添加了<strong>Variation ID</strong>这个唯一识别标识, 使用该标识, 从FTP提供的<em>submission_summary.txt.gz</em>文件中, 通过该标识可以提取所有的Submissions.</p>
+<div class="highlight"><pre>127827  Uncertain significance  Dec 10, 2015    -       OMIM:151623     C1835398:Li-Fraumeni syndrome 1 criteria provided, single submitter     clinical testing        unknown:na      Counsyl SCV000487895.1  TP53
+127827  Uncertain significance  Feb 09, 2017    -       Hereditary cancer-predisposing syndrome C0027672:Hereditary cancer-predisposing syndrome        criteria provided, single submitter     clinical testing        germline:1      Ambry Genetics  SCV000187523.4  TP53
+127827  Likely pathogenic       Mar 18, 2016    -       OMIM:151623     C1835398:Li-Fraumeni syndrome 1 criteria provided, single submitter     reference population    germline:3      Soonchunhyang University Bucheon Hospital,Soonchunhyang University Medical Center       SCV000267534.1  TP53
+127827  Likely benign   Apr 12, 2017    This variant is considered likely benign or benign based on one or more of the following criteria: it is a conservative change, it occurs at a poorly conserved position in the protein, it is predicted to be benign by multiple in silico algorithms, and/or has population frequency not consistent with disease.    not specified   CN169374:not specified  criteria provided, single submitter     clinical testing        germline:na     GeneDx  SCV000149651.5  TP53
+127827  not provided    Sep 19, 2013    -       AllHighlyPenetrant      CN169374:not specified  no assertion provided   reference population    germline:na     ITMI    SCV000086388.1  -
+127827  Likely benign   Jun 14, 2016    -       Li-Fraumeni Syndrome    C0085390:Li-Fraumeni syndrome   criteria provided, single submitter     clinical testing        germline:na     Illumina Clinical Services Laboratory,Illumina  SCV000407074.2  TP53
+127827  Likely benign   Jan 18, 2017    -       MedGen:C0085390 C0085390:Li-Fraumeni syndrome   criteria provided, single submitter     clinical testing        germline:na     Invitae SCV000166401.4  TP53
+</pre></div>
+
+
+<h2>注释方法升级</h2>
+<h3>建立数据库</h3>
+<p>为了更加明确地注释clinvar中的内容, 在注释时应当使用新版本vcf数据库进行注释, 并且在遇到<em>Conflicting_interpretations_of_pathogenicity</em>时, 额外注释submissions以便解读.</p>
+<p>为了实现该注释方式, 首先需要下载vcf2.0中的vcf文件, 以及tab_delimited中的<code>submission_summary.txt.gz</code>文件, 并分别建立MongoDB数据库.</p>
+<p>为了提升查询的速度, 对<code>submission_summary.txt.gz</code>建立数据库时, 应当建立<strong>VariationID</strong>的索引. vcf2.0数据库的索引按照查询习惯建立, 一般都会建立<code>chr+pos+ref+alt</code>的索引.</p>
+<p>数据库建立示例代码:</p>
+<div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: utf-8 -*- \#</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">@author = &#39;liangzb&#39;</span>
+<span class="sd">@date = &#39;2017/9/7 0007&#39;</span>
+
+<span class="sd">Requirements:</span>
+<span class="sd">1. python3.6 +</span>
+<span class="sd">2. pyvcf</span>
+<span class="sd">3. pymongo</span>
+
+<span class="sd">This database is stand on ClinVar&#39;s tab-delimiter files;</span>
+<span class="sd"> AlleleID can be find in clinvar *vcf2.0* database,</span>
+<span class="sd"> The transformation of VariationID and AlleleID is from *hgvs4variation.txt.gz*;</span>
+<span class="sd"> Submission database is from *submission_summary.txt.gz*</span>
+
+<span class="sd">All the above files can be found on ClinVar ftp server.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">import</span> <span class="nn">gzip</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+
+<span class="kn">from</span> <span class="nn">vcf</span> <span class="kn">import</span> <span class="n">Reader</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="kn">import</span> <span class="n">MongoClient</span>
+
+<span class="n">server_ip</span> <span class="o">=</span> <span class="s">&#39;xx.xx.xx.xx&#39;</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">(</span><span class="n">server_ip</span><span class="p">,</span> <span class="mi">27017</span><span class="p">,</span> <span class="n">document_class</span><span class="o">=</span><span class="n">OrderedDict</span><span class="p">)</span>
+<span class="n">clinvar_tab_version</span> <span class="o">=</span> <span class="s">&#39;20170904&#39;</span>
+<span class="n">clinvar_version_2</span> <span class="o">=</span> <span class="s">&#39;20170905&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">trans_b37_hg19</span><span class="p">(</span><span class="n">chrom</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">chrom</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;chr&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">chrom</span> <span class="o">==</span> <span class="s">&#39;MT&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;chrM&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s">&#39;chr&#39;</span> <span class="o">+</span> <span class="n">chrom</span>
+    <span class="k">return</span> <span class="n">chrom</span>
+
+
+<span class="k">def</span> <span class="nf">admin_acquire</span><span class="p">(</span><span class="n">fn</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;admin&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;123&#39;</span><span class="p">)</span>
+        <span class="n">fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">logout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;123&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+
+<span class="k">class</span> <span class="nc">Base</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">clinvar</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">&#39;user&#39;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s">&#39;123&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="k">def</span> <span class="nf">check_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">collection_names</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">enable_versions</span> <span class="o">=</span> <span class="s">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="o">.</span><span class="n">collection_names</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix</span><span class="p">)])</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s">&quot;version do not exists in database: {self.collection_name}! &quot;</span>
+                             <span class="n">f</span><span class="s">&quot;please check and use the version in:[ {enable_versions} ]&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">IDTable</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This database is not necessary;</span>
+<span class="sd">        according to README_VCF.txt:</span>
+<span class="sd">        *some Variation IDs may be missing from the files*,</span>
+<span class="sd">        maybe it can be supplementary someway.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">clinvar_tab_version</span><span class="p">,</span> <span class="n">assembly</span><span class="o">=</span><span class="s">&#39;GRCh37&#39;</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;id_table_&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span> <span class="o">=</span> <span class="n">f</span><span class="s">&#39;{self.prefix}{version}&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assembly</span> <span class="o">=</span> <span class="n">assembly</span>
+
+    <span class="k">def</span> <span class="nf">create_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s">&quot;allele_id&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;assembly&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s">&quot;variation_id&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;assembly&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+
+    <span class="nd">@admin_acquire</span>
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#&#39;</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="n">symbol</span><span class="p">,</span> <span class="n">gene_id</span><span class="p">,</span> <span class="n">variation_id</span><span class="p">,</span> <span class="n">allele_id</span><span class="p">,</span> <span class="n">type_</span><span class="p">,</span> <span class="n">assembly</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">type_</span> <span class="o">!=</span> <span class="s">&#39;genomic&#39;</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">document</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">&#39;variation_id&#39;</span><span class="p">:</span> <span class="n">variation_id</span><span class="p">,</span>
+                    <span class="s">&#39;allele_id&#39;</span><span class="p">:</span> <span class="n">allele_id</span><span class="p">,</span>
+                    <span class="s">&#39;assembly&#39;</span><span class="p">:</span> <span class="n">assembly</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_index</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">get_allele_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variation_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span>
+            <span class="s">&#39;variation_id&#39;</span><span class="p">:</span> <span class="n">variation_id</span><span class="p">,</span>
+            <span class="s">&#39;assembly&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembly</span>
+        <span class="p">})[</span><span class="s">&#39;allele_id&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_variation_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">allele_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span>
+            <span class="s">&#39;allele_id&#39;</span><span class="p">:</span> <span class="n">allele_id</span><span class="p">,</span>
+            <span class="s">&#39;assembly&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembly</span>
+        <span class="p">})[</span><span class="s">&#39;variation_id&#39;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">SubmissionSummary</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">clinvar_tab_version</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;submission_&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span> <span class="o">=</span> <span class="n">f</span><span class="s">&#39;{self.prefix}{version}&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">create_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s">&quot;VariationID&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+
+    <span class="nd">@admin_acquire</span>
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_index</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">gzip</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="s">&#39;rt&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+            <span class="c"># find header line</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fp</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;##&#39;</span><span class="p">):</span>
+                    <span class="k">continue</span>
+                <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;#VariationID</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">):</span>
+                    <span class="n">header</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s">&#39;#</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)</span>
+                    <span class="k">break</span>
+            <span class="n">Row</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s">&#39;Row&#39;</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span>
+            <span class="n">csv_reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">reader</span><span class="p">(</span><span class="n">fp</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">csv_reader</span><span class="p">:</span>
+                <span class="n">row</span> <span class="o">=</span> <span class="n">Row</span><span class="p">(</span><span class="o">*</span><span class="n">r</span><span class="p">)</span><span class="o">.</span><span class="n">_asdict</span><span class="p">()</span>
+                <span class="n">variation_id</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s">&#39;VariationID&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;VariationID&#39;</span><span class="p">:</span> <span class="n">variation_id</span><span class="p">},</span> <span class="p">{</span>
+                    <span class="s">&quot;$push&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;Submissions&#39;</span><span class="p">:</span> <span class="n">row</span><span class="p">}</span>
+                <span class="p">},</span> <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_submissions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variation_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&quot;VariationID&quot;</span><span class="p">:</span> <span class="n">variation_id</span><span class="p">})</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">record</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">record</span><span class="p">[</span><span class="s">&quot;Submissions&quot;</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">Clinvar</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">clinvar_version_2</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">&#39;clinvar_v2_&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span> <span class="o">=</span> <span class="n">f</span><span class="s">&#39;{self.prefix}{version}&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">collection_name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">create_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">create_index</span><span class="p">([(</span><span class="s">&#39;chr&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;pos&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;ref&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&#39;alt&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+
+    <span class="nd">@admin_acquire</span>
+    <span class="k">def</span> <span class="nf">insert</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vcf_file</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">drop</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">vcf_file</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+
+            <span class="n">vcf_reader</span> <span class="o">=</span> <span class="n">Reader</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+            <span class="n">vcf_reader</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s">&#39;reference&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;hg19&#39;</span>
+            <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="n">vcf_reader</span><span class="p">:</span>
+                <span class="n">document</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s">&#39;chr&#39;</span><span class="p">:</span> <span class="n">trans_b37_hg19</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">CHROM</span><span class="p">),</span>
+                    <span class="s">&#39;pos&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">POS</span><span class="p">),</span>
+                    <span class="s">&#39;_id&#39;</span><span class="p">:</span> <span class="n">record</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span>
+                    <span class="s">&#39;ref&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">REF</span><span class="p">),</span>
+                    <span class="s">&#39;alt&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">record</span><span class="o">.</span><span class="n">ALT</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="p">}</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">record</span><span class="o">.</span><span class="n">INFO</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="s">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span> <span class="k">if</span> <span class="n">v</span><span class="p">])</span>
+                    <span class="n">document</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">})</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">document</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_index</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chrom</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">alt</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&#39;chr&#39;</span><span class="p">:</span> <span class="n">chrom</span><span class="p">,</span>
+                                         <span class="s">&#39;pos&#39;</span><span class="p">:</span> <span class="n">pos</span><span class="p">,</span>
+                                         <span class="s">&#39;ref&#39;</span><span class="p">:</span> <span class="n">ref</span><span class="p">,</span>
+                                         <span class="s">&#39;alt&#39;</span><span class="p">:</span> <span class="n">alt</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">search_with_submission</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">chrom</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">pos</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">ref</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">alt</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">record</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">chrom</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">ref</span><span class="p">,</span> <span class="n">alt</span><span class="p">)</span>
+        <span class="n">variation_id</span> <span class="o">=</span> <span class="n">record</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]</span>
+        <span class="n">record</span><span class="p">[</span><span class="s">&#39;Submissions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">submission</span><span class="o">.</span><span class="n">get_submissions</span><span class="p">(</span><span class="n">variation_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">record</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variation_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collection</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&#39;_id&#39;</span><span class="p">:</span> <span class="n">variation_id</span><span class="p">})</span>
+
+
+<span class="k">def</span> <span class="nf">get_submissions_with_allele_id</span><span class="p">(</span><span class="n">allele_id</span><span class="p">):</span>
+    <span class="n">variation_id</span> <span class="o">=</span> <span class="n">id_table</span><span class="o">.</span><span class="n">get_variation_id</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">allele_id</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">submission</span><span class="o">.</span><span class="n">get_submissions</span><span class="p">(</span><span class="n">variation_id</span><span class="p">)</span>
+
+
+<span class="n">id_table</span> <span class="o">=</span> <span class="n">IDTable</span><span class="p">()</span>
+<span class="n">submission</span> <span class="o">=</span> <span class="n">SubmissionSummary</span><span class="p">()</span>
+<span class="n">clinvar</span> <span class="o">=</span> <span class="n">Clinvar</span><span class="p">()</span>
+</pre></div>
+
+
+<h3>查询方法升级</h3>
+<p>在查询方法上, 为了最大限度清晰地注释变异的结果, 除了vcf2.0数据库的注释之外, 还应当在发现有冲突结论时, 遍历<em>submissions</em>数据库(如上面代码中的<code>search_with_submission</code>方法), 并将可能致病的结论明确表示出来.</p>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="clinvarshu-ju-ku-sheng-ji" data-title="clinvar数据库升级" data-url="http://www.lyon0804.com/clinvarshu-ju-ku-sheng-ji.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'clinvarshu-ju-ku-sheng-ji', 'clinvar数据库升级' , 'http://www.lyon0804.com/clinvarshu-ju-ku-sheng-ji.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
