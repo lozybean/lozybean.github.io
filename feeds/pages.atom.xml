@@ -1,5 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2017-07-19T00:00:00+08:00</updated><entry><title>SGE极简安装指南</title><link href="http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html" rel="alternate"></link><updated>2017-07-19T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-07-19:sgeji-jian-an-zhuang-zhi-nan.html</id><summary type="html">&lt;h2&gt;计算集群&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Café de Lyon</title><link href="http://www.lyon0804.com/" rel="alternate"></link><link href="http://www.lyon0804.com/feeds/pages.atom.xml" rel="self"></link><id>http://www.lyon0804.com/</id><updated>2017-08-17T00:00:00+08:00</updated><entry><title>MyVariantInfo以及JBrowse</title><link href="http://www.lyon0804.com/myvariantinfoyi-ji-jbrowse.html" rel="alternate"></link><updated>2017-08-17T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-08-17:myvariantinfoyi-ji-jbrowse.html</id><summary type="html">&lt;h2&gt;基于web的变异注释工具: MyVariantInfo&lt;/h2&gt;
+&lt;p&gt;如果你是没有生物信息背景, 当看到一个位点, 或者一个变异的时候, 要如何快速找到该位点或者该变异位于那个基因, 是什么功能, 人群频率是多少等等呢?&lt;/p&gt;
+&lt;p&gt;没有必要再去各种数据库搜索, &lt;a href="http://myvariant.info"&gt;MyVariantInfo&lt;/a&gt; 网站提供了RESTFUL接口, 只需要输入简单的网页地址, 即可看到你想要的所有信息. 在浏览器输入&lt;a href="http://myvariant.info/demo/"&gt;http://myvariant.info/demo/&lt;/a&gt;, 快速感受一下使用示例吧!&lt;/p&gt;
+&lt;p&gt;如通过一个rs号来查询相关信息. rs号应该是最常见的位点表示形式了, 查询形式也很简单:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;http://myvariant.info/v1/query?q=rs75321043
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;在上面网页地址的&lt;code&gt;q=&lt;/code&gt;后面, 输入你想要查询的rs号, 然后到浏览器中, 就可以看到该位点的所有注释结果了.&lt;/p&gt;
+&lt;p&gt;当你看到一大段'代码'的时候, 别慌! 这是一种json格式, 只要有点耐心, 你就会发现不管是1000g/exac等人群频率, polyphen/sift等各种预测值, dbsnp/ensembl/clinvar等各种数据库的注释结果, 几乎涵盖了所有生物信息注释的内容.&lt;/p&gt;
+&lt;p&gt;看到这里, 你是不是觉得: &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这个网站好是好, 就是json格式不容易看了, 如果弄成可视化的就好了!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那么以下内容你就要好好介绍给生物信息的同学, 让他们来帮忙搭建一个定制的基因组浏览器.&lt;/p&gt;
+&lt;h2&gt;JBrowse&lt;/h2&gt;
+&lt;p&gt;JBrowse是一个可定制的基因组浏览器, 该浏览器可以通过定制显示的内容, 展现各种个性化的内容, 上文提到的MyVariantInfo当然不在话下.&lt;/p&gt;
+&lt;h3&gt;下载&lt;/h3&gt;
+&lt;p&gt;JBrowse下载非常简单, 使用&lt;code&gt;wget&lt;/code&gt;直接下载安装包即可:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;wget -c http://jbrowse.org/releases/JBrowse-1.12.3/JBrowse-1.12.3.zip
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;安装&lt;/h3&gt;
+&lt;p&gt;JBrowse是一个网页服务, 所以首先要安装一个网页后台服务, 比如最常见的&lt;code&gt;apache&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;yum install apache
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;JBrowse本身的安装就异常简单了, 只需要直接运行安装包中的安装文件即可:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;unzip JBrowse-1.12.3.zip
+&lt;span class="nb"&gt;cd &lt;/span&gt;JBrowse-1.12.3.zip
+./setup.sh
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;配置&lt;/h3&gt;
+&lt;p&gt;JBrowse的关键步骤在于配置, 首先, 需要配置&lt;code&gt;apache&lt;/code&gt;, 开一个url供JBrowse使用:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="s2"&gt;Alias /JBrowse /path/to/JBrowser/JBrowse-1.12.3&lt;/span&gt;
+
+&lt;span class="s2"&gt;&amp;lt;Location /JBrowse&amp;gt;&lt;/span&gt;
+&lt;span class="s2"&gt;  Order deny,allow&lt;/span&gt;
+&lt;span class="s2"&gt;  Allow from all&lt;/span&gt;
+&lt;span class="s2"&gt;&amp;lt;/Location&amp;gt;&lt;/span&gt;
+
+&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; &amp;gt;/etc/httpd/conf.d/jbrowse.conf
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后重启&lt;code&gt;apache&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;service httpd restart
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;接下来直接打开&lt;code&gt;http://localhost/JBrowse&lt;/code&gt;页面, 就可以看到最初的JBrowse了, 当然现在还没有任何定制的内容.&lt;/p&gt;
+&lt;h3&gt;加入参考基因组&lt;/h3&gt;
+&lt;p&gt;使用JBrowse自带的脚本, 添加本地参考基因组:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;./bin/prepare-refseqs.pl --fasta &amp;lt;reference.fa&amp;gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;该命令会生成一个&lt;code&gt;data&lt;/code&gt;目录, 之后我们的所有应用配置也在该目录中.&lt;/p&gt;
+&lt;p&gt;重新打开页面, 是不是看到了可选的序列了呢?&lt;/p&gt;
+&lt;h3&gt;加入MyVariantInfo&lt;/h3&gt;
+&lt;p&gt;有了序列查询功能当然不够, 重要的是每个位点的注释信息, 本文的重头戏来了, 下面会说明如何配置MyVariantInfo到JBrowse中.&lt;/p&gt;
+&lt;h4&gt;安装MyVariantViewer插件&lt;/h4&gt;
+&lt;p&gt;在JBrowse目录下输入:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;git clone https://github.com/elsiklab/myvariantviewer.git plugins/MyVariantTviewer
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后编辑&lt;code&gt;jbrowse.conf&lt;/code&gt;文件, 加入:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="k"&gt;[ plugins.MyVariantViewer ]&lt;/span&gt;
+&lt;span class="na"&gt;location&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;plugins/MyVariantViewer&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;配置Track&lt;/h3&gt;
+&lt;p&gt;JBrowse有许多的Track, 每个track可承载独立的内容, 要将MyVariantInfo的信息整合到JBrowse中, 就必须要添加Track, 如想要添加&lt;code&gt;exac&lt;/code&gt;的信息, 则需要编辑&lt;code&gt;data/trackList.json&lt;/code&gt;, 在&lt;code&gt;tracks&lt;/code&gt;数组中, 加入:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;style&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;quot;color&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;#b33&amp;quot;&lt;/span&gt;
+    &lt;span class="p"&gt;},&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;baseUrl&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;https://myvariant.info/v1/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;storeClass&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;MyVariantViewer/Store/SeqFeature/Variants&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;urlTemplate&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;query?q={refseq}:{start}-{end} AND _exists_:exac&amp;amp;size=1000&amp;amp;email=colin.diesh@gmail.com&amp;amp;fields=exac&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;CanvasFeatures&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;category&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;MyVariant.info&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;optimizer&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;label&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;MyVariant.info exac&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;quot;glyph&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;MyVariantViewer/View/FeatureGlyph/Diamond&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;通过定制&lt;code&gt;urlTemplate&lt;/code&gt;以及其他的相关设置, 即可将MyVariantInfo中可以注释的内容, 全部搬到JBrowse中.&lt;/p&gt;
+&lt;h3&gt;添加vcf的track&lt;/h3&gt;
+&lt;p&gt;除了MyVariantInfo之外, 本地有建立好的vcf文件也可以通过JBrowse进行加载, 但是JBrowse只支持bgzip压缩, 且建立tabix索引的vcf文件, 所以首先要对vcf文件进行处理:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;bgzip myfile.vcf
+tabix -p vcf myfile.vcf.gz
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;然后在&lt;code&gt;tracks.json&lt;/code&gt;的&lt;code&gt;tracks&lt;/code&gt;数组中添加类似下面的内容即可: &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;label&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;mytrack&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;urlTemplate&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;myfile.vcf.gz&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+   &lt;span class="nt"&gt;&amp;quot;storeClass&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;JBrowse/Store/SeqFeature/VCFTabix&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; 
+   &lt;span class="nt"&gt;&amp;quot;type&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;CanvasVariants&amp;quot;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;效果展示&lt;/h2&gt;
+&lt;p&gt;示例效果: 如搜索13号染色体上的某一段内容, JBrowse可自动从MyVariantInfo中拉取相关信息, 并全数展示到网页上, 点击每一个小方块, 可显示注释的详细信息, 当然网页上的其他小按钮小功能就不一一介绍了~&lt;/p&gt;
+&lt;p&gt;&lt;img alt="效果" src="http://wx3.sinaimg.cn/large/95202659gy1fjp7mjhvc2j21kw0zpwtj.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;示例的配置文件可参考:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://gist.githubusercontent.com/lozybean/5a2fa731d544997dd88796ed72b3c695/raw/bebfa7a72bb02076104c5fa93ffe9a34d3d4cf2d/trackList.json"&gt;trackList.json&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://gist.githubusercontent.com/lozybean/5a2fa731d544997dd88796ed72b3c695/raw/bebfa7a72bb02076104c5fa93ffe9a34d3d4cf2d/functions.conf"&gt;functions.conf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://gist.githubusercontent.com/lozybean/5a2fa731d544997dd88796ed72b3c695/raw/bebfa7a72bb02076104c5fa93ffe9a34d3d4cf2d/tracks.conf"&gt;tracks.conf&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="variant"></category><category term="annotation"></category><category term="jbrowse"></category></entry><entry><title>SGE极简安装指南</title><link href="http://www.lyon0804.com/sgeji-jian-an-zhuang-zhi-nan.html" rel="alternate"></link><updated>2017-07-19T00:00:00+08:00</updated><author><name>lyon</name></author><id>tag:www.lyon0804.com,2017-07-19:sgeji-jian-an-zhuang-zhi-nan.html</id><summary type="html">&lt;h2&gt;计算集群&lt;/h2&gt;
 &lt;p&gt;通过集群软件, 将很多的计算机整合到一起, 使用者只需要在单一计算机投递任务, 任务即可根据资源状态分派到不同的机器上进行计算任务.&lt;/p&gt;
 &lt;p&gt;计算集群除了很小的本地硬盘之外(用于系统和存放工作环境所需的软件), 往往不具有大型存储, 需要结合分布式存储等存储方案使用.&lt;/p&gt;
 &lt;h3&gt;SGE介绍&lt;/h3&gt;

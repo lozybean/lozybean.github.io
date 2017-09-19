@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+<html lang="cn"
+>
+<head>
+    <title>MyVariantInfo以及JBrowse - Café de Lyon</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="wb:webmaster" content="3cba1a80be39e3a2" />
+
+
+
+<link rel="canonical" href="http://www.lyon0804.com/myvariantinfoyi-ji-jbrowse.html">
+
+        <meta name="author" content="lyon" />
+        <meta name="keywords" content="variant,annotation,jbrowse" />
+        <meta name="description" content="基于web的变异注释工具: MyVariantInfo 如果你是没有生物信息背景, 当看到一个位点, 或者一个变异的时候, 要如何快速找到该位点或者该变异位于那个基因, 是什么功能, 人群频率是多少等等呢? 没有必要再去各种数据库搜索, MyVariantInfo 网站提供了RESTFUL接口, 只需要输入简单的网页地址, 即可看到你想要的所有信息. 在浏览器输入http://myvariant.info/demo/, 快速感受一下使用示例吧! 如通过一个rs号来查询相关信息. rs号应该是最常见的位点表示形式了, 查询形式也很简单: http://myvariant.info/v1/query?q=rs75321043 在上面网页地址的q=后面, 输入你想要查询的rs号, 然后到浏览器中, 就可以看到该位点的所有注释结果了. 当你看到一大段&#39;代码&#39;的时候, 别慌! 这是一种json格式, 只要有点耐心, 你就会发现不管是1000g/exac等人群频率, polyphen/sift等各种预测值, dbsnp/ensembl/clinvar等各种数据库的注释结果, 几乎涵盖了所有生物信息注释的内容. 看到这里 ..." />
+
+        <meta property="og:site_name" content="Café de Lyon" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="MyVariantInfo以及JBrowse"/>
+        <meta property="og:url" content="http://www.lyon0804.com/myvariantinfoyi-ji-jbrowse.html"/>
+        <meta property="og:description" content="基于web的变异注释工具: MyVariantInfo 如果你是没有生物信息背景, 当看到一个位点, 或者一个变异的时候, 要如何快速找到该位点或者该变异位于那个基因, 是什么功能, 人群频率是多少等等呢? 没有必要再去各种数据库搜索, MyVariantInfo 网站提供了RESTFUL接口, 只需要输入简单的网页地址, 即可看到你想要的所有信息. 在浏览器输入http://myvariant.info/demo/, 快速感受一下使用示例吧! 如通过一个rs号来查询相关信息. rs号应该是最常见的位点表示形式了, 查询形式也很简单: http://myvariant.info/v1/query?q=rs75321043 在上面网页地址的q=后面, 输入你想要查询的rs号, 然后到浏览器中, 就可以看到该位点的所有注释结果了. 当你看到一大段&#39;代码&#39;的时候, 别慌! 这是一种json格式, 只要有点耐心, 你就会发现不管是1000g/exac等人群频率, polyphen/sift等各种预测值, dbsnp/ensembl/clinvar等各种数据库的注释结果, 几乎涵盖了所有生物信息注释的内容. 看到这里 ..."/>
+        <meta property="article:published_time" content="2017-08-17" />
+            <meta property="article:section" content="pages" />
+            <meta property="article:tag" content="variant" />
+            <meta property="article:tag" content="annotation" />
+            <meta property="article:tag" content="jbrowse" />
+            <meta property="article:author" content="lyon" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.lyon0804.com/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.lyon0804.com/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.lyon0804.com/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.lyon0804.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Café de Lyon ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.lyon0804.com/" class="navbar-brand">
+<img src="http://www.lyon0804.com/static/img/logo.png" width="30px"/> Café de Lyon            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="http://www.lyon0804.com/category/bioinformatics.html">Bioinformatics</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/learning.html">Learning</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://www.lyon0804.com/category/pages.html">Pages</a>
+                        </li>
+                        <li >
+                            <a href="http://www.lyon0804.com/category/photo.html">Photo</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.lyon0804.com/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.lyon0804.com/myvariantinfoyi-ji-jbrowse.html"
+                       rel="bookmark"
+                       title="Permalink to MyVariantInfo以及JBrowse">
+                        MyVariantInfo以及JBrowse
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2017-08-17T00:00:00+08:00"> Thu 17 August 2017</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.lyon0804.com/tag/variant.html">variant</a>
+        /
+	<a href="http://www.lyon0804.com/tag/annotation.html">annotation</a>
+        /
+	<a href="http://www.lyon0804.com/tag/jbrowse.html">jbrowse</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2>基于web的变异注释工具: MyVariantInfo</h2>
+<p>如果你是没有生物信息背景, 当看到一个位点, 或者一个变异的时候, 要如何快速找到该位点或者该变异位于那个基因, 是什么功能, 人群频率是多少等等呢?</p>
+<p>没有必要再去各种数据库搜索, <a href="http://myvariant.info">MyVariantInfo</a> 网站提供了RESTFUL接口, 只需要输入简单的网页地址, 即可看到你想要的所有信息. 在浏览器输入<a href="http://myvariant.info/demo/">http://myvariant.info/demo/</a>, 快速感受一下使用示例吧!</p>
+<p>如通过一个rs号来查询相关信息. rs号应该是最常见的位点表示形式了, 查询形式也很简单:</p>
+<div class="highlight"><pre>http://myvariant.info/v1/query?q=rs75321043
+</pre></div>
+
+
+<p>在上面网页地址的<code>q=</code>后面, 输入你想要查询的rs号, 然后到浏览器中, 就可以看到该位点的所有注释结果了.</p>
+<p>当你看到一大段'代码'的时候, 别慌! 这是一种json格式, 只要有点耐心, 你就会发现不管是1000g/exac等人群频率, polyphen/sift等各种预测值, dbsnp/ensembl/clinvar等各种数据库的注释结果, 几乎涵盖了所有生物信息注释的内容.</p>
+<p>看到这里, 你是不是觉得: </p>
+<blockquote>
+<p>这个网站好是好, 就是json格式不容易看了, 如果弄成可视化的就好了!</p>
+</blockquote>
+<p>那么以下内容你就要好好介绍给生物信息的同学, 让他们来帮忙搭建一个定制的基因组浏览器.</p>
+<h2>JBrowse</h2>
+<p>JBrowse是一个可定制的基因组浏览器, 该浏览器可以通过定制显示的内容, 展现各种个性化的内容, 上文提到的MyVariantInfo当然不在话下.</p>
+<h3>下载</h3>
+<p>JBrowse下载非常简单, 使用<code>wget</code>直接下载安装包即可:</p>
+<div class="highlight"><pre>wget -c http://jbrowse.org/releases/JBrowse-1.12.3/JBrowse-1.12.3.zip
+</pre></div>
+
+
+<h3>安装</h3>
+<p>JBrowse是一个网页服务, 所以首先要安装一个网页后台服务, 比如最常见的<code>apache</code>:</p>
+<div class="highlight"><pre>yum install apache
+</pre></div>
+
+
+<p>JBrowse本身的安装就异常简单了, 只需要直接运行安装包中的安装文件即可:</p>
+<div class="highlight"><pre>unzip JBrowse-1.12.3.zip
+<span class="nb">cd </span>JBrowse-1.12.3.zip
+./setup.sh
+</pre></div>
+
+
+<h3>配置</h3>
+<p>JBrowse的关键步骤在于配置, 首先, 需要配置<code>apache</code>, 开一个url供JBrowse使用:</p>
+<div class="highlight"><pre><span class="nb">echo</span> <span class="s2">&quot;</span>
+<span class="s2">Alias /JBrowse /path/to/JBrowser/JBrowse-1.12.3</span>
+
+<span class="s2">&lt;Location /JBrowse&gt;</span>
+<span class="s2">  Order deny,allow</span>
+<span class="s2">  Allow from all</span>
+<span class="s2">&lt;/Location&gt;</span>
+
+<span class="s2">&quot;</span> &gt;/etc/httpd/conf.d/jbrowse.conf
+</pre></div>
+
+
+<p>然后重启<code>apache</code>:</p>
+<div class="highlight"><pre>service httpd restart
+</pre></div>
+
+
+<p>接下来直接打开<code>http://localhost/JBrowse</code>页面, 就可以看到最初的JBrowse了, 当然现在还没有任何定制的内容.</p>
+<h3>加入参考基因组</h3>
+<p>使用JBrowse自带的脚本, 添加本地参考基因组:</p>
+<div class="highlight"><pre>./bin/prepare-refseqs.pl --fasta &lt;reference.fa&gt;
+</pre></div>
+
+
+<p>该命令会生成一个<code>data</code>目录, 之后我们的所有应用配置也在该目录中.</p>
+<p>重新打开页面, 是不是看到了可选的序列了呢?</p>
+<h3>加入MyVariantInfo</h3>
+<p>有了序列查询功能当然不够, 重要的是每个位点的注释信息, 本文的重头戏来了, 下面会说明如何配置MyVariantInfo到JBrowse中.</p>
+<h4>安装MyVariantViewer插件</h4>
+<p>在JBrowse目录下输入:</p>
+<div class="highlight"><pre>git clone https://github.com/elsiklab/myvariantviewer.git plugins/MyVariantTviewer
+</pre></div>
+
+
+<p>然后编辑<code>jbrowse.conf</code>文件, 加入:</p>
+<div class="highlight"><pre><span class="k">[ plugins.MyVariantViewer ]</span>
+<span class="na">location</span> <span class="o">=</span> <span class="s">plugins/MyVariantViewer</span>
+</pre></div>
+
+
+<h3>配置Track</h3>
+<p>JBrowse有许多的Track, 每个track可承载独立的内容, 要将MyVariantInfo的信息整合到JBrowse中, 就必须要添加Track, 如想要添加<code>exac</code>的信息, 则需要编辑<code>data/trackList.json</code>, 在<code>tracks</code>数组中, 加入:</p>
+<div class="highlight"><pre><span class="p">{</span>
+    <span class="nt">&quot;style&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="nt">&quot;color&quot;</span> <span class="p">:</span> <span class="s2">&quot;#b33&quot;</span>
+    <span class="p">},</span>
+    <span class="nt">&quot;baseUrl&quot;</span> <span class="p">:</span> <span class="s2">&quot;https://myvariant.info/v1/&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;storeClass&quot;</span> <span class="p">:</span> <span class="s2">&quot;MyVariantViewer/Store/SeqFeature/Variants&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;urlTemplate&quot;</span> <span class="p">:</span> <span class="s2">&quot;query?q={refseq}:{start}-{end} AND _exists_:exac&amp;size=1000&amp;email=colin.diesh@gmail.com&amp;fields=exac&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;type&quot;</span> <span class="p">:</span> <span class="s2">&quot;CanvasFeatures&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;category&quot;</span><span class="p">:</span> <span class="s2">&quot;MyVariant.info&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;optimizer&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="nt">&quot;label&quot;</span> <span class="p">:</span> <span class="s2">&quot;MyVariant.info exac&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;glyph&quot;</span> <span class="p">:</span> <span class="s2">&quot;MyVariantViewer/View/FeatureGlyph/Diamond&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>通过定制<code>urlTemplate</code>以及其他的相关设置, 即可将MyVariantInfo中可以注释的内容, 全部搬到JBrowse中.</p>
+<h3>添加vcf的track</h3>
+<p>除了MyVariantInfo之外, 本地有建立好的vcf文件也可以通过JBrowse进行加载, 但是JBrowse只支持bgzip压缩, 且建立tabix索引的vcf文件, 所以首先要对vcf文件进行处理:</p>
+<div class="highlight"><pre>bgzip myfile.vcf
+tabix -p vcf myfile.vcf.gz
+</pre></div>
+
+
+<p>然后在<code>tracks.json</code>的<code>tracks</code>数组中添加类似下面的内容即可: </p>
+<div class="highlight"><pre><span class="p">{</span>
+   <span class="nt">&quot;label&quot;</span><span class="p">:</span> <span class="s2">&quot;mytrack&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;urlTemplate&quot;</span><span class="p">:</span> <span class="s2">&quot;myfile.vcf.gz&quot;</span><span class="p">,</span>
+   <span class="nt">&quot;storeClass&quot;</span><span class="p">:</span> <span class="s2">&quot;JBrowse/Store/SeqFeature/VCFTabix&quot;</span><span class="p">,</span> 
+   <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;CanvasVariants&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<h2>效果展示</h2>
+<p>示例效果: 如搜索13号染色体上的某一段内容, JBrowse可自动从MyVariantInfo中拉取相关信息, 并全数展示到网页上, 点击每一个小方块, 可显示注释的详细信息, 当然网页上的其他小按钮小功能就不一一介绍了~</p>
+<p><img alt="效果" src="http://wx3.sinaimg.cn/large/95202659gy1fjp7mjhvc2j21kw0zpwtj.jpg" /></p>
+<p>示例的配置文件可参考:</p>
+<ul>
+<li><a href="https://gist.githubusercontent.com/lozybean/5a2fa731d544997dd88796ed72b3c695/raw/bebfa7a72bb02076104c5fa93ffe9a34d3d4cf2d/trackList.json">trackList.json</a></li>
+<li><a href="https://gist.githubusercontent.com/lozybean/5a2fa731d544997dd88796ed72b3c695/raw/bebfa7a72bb02076104c5fa93ffe9a34d3d4cf2d/functions.conf">functions.conf</a></li>
+<li><a href="https://gist.githubusercontent.com/lozybean/5a2fa731d544997dd88796ed72b3c695/raw/bebfa7a72bb02076104c5fa93ffe9a34d3d4cf2d/tracks.conf">tracks.conf</a></li>
+</ul>
+            </div>
+            <!-- /.entry-content -->
+
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+<!--         <div class="ds-thread" data-thread-key="myvariantinfoyi-ji-jbrowse" data-title="MyVariantInfo以及JBrowse" data-url="http://www.lyon0804.com/myvariantinfoyi-ji-jbrowse.html"></div> -->
+		<script type="text/javascript">
+     		var duoshuoQuery = {short_name:"lyon0804"};
+    		(function() {
+    			var ds = document.createElement('script');
+    			ds.type = 'text/javascript';ds.async = true;
+    			ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    			ds.charset = 'UTF-8';
+    			(document.getElementsByTagName('head')[0]
+    			 || document.getElementsByTagName('body')[0]).appendChild(ds);
+    		})();
+    	</script>
+        <script type="text/javascript">
+            function toggleDuoshuoComments(container, id, title, url){
+                if(jQuery(container).has("div").length>0){
+                    jQuery(container).empty();
+                    return;
+                }
+                var el = document.createElement('div');
+                el.setAttribute('class','ds-thread');
+                el.setAttribute('data-thread-key', id);
+                el.setAttribute('data-title',title);
+                el.setAttribute('data-url', url);
+                DUOSHUO.EmbedThread(el);
+                jQuery(container).append(el);
+            }
+        </script>
+        <a href="javascript:void(0);" onclick="toggleDuoshuoComments('#comment-box', 'myvariantinfoyi-ji-jbrowse', 'MyVariantInfo以及JBrowse' , 'http://www.lyon0804.com/myvariantinfoyi-ji-jbrowse.html');">
+        查看评论</a>
+        <div id="comment-box" ></div>
+        <hr/>
+    	<noscript>Please enable JavaScript to view the <a href="http://duoshuo.com/">comments powered by
+        Duoshuo.</a></noscript>
+    	<a href="http://duoshuo.com" class="dsq-brlink">comments powered by <span>Duoshuo</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+            <!-- <div class="list-group-item"> -->
+            <!-- <h4> -->
+            <!-- <i class="fa fa-home fa-lg"></i> -->
+            <!-- <span class="icon-label">Social</span></h4> -->
+              <ul class="list-group" id="social">
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://github.com/lozybean">
+                     <i class="fa fa-github-square fa-lg"></i><!--  github -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+                   <!-- <li class="list-group-item"> -->
+                   <div class="social-item">
+                   <a href="http://weibo.com/lyon0804">
+                     <i class="fa fa-weibo fa-lg"></i><!--  weibo -->
+                   </a>
+                   </div>
+                   <!-- </li> -->
+              </ul>
+            <!-- </div> -->
+         <div class="col-xs-10">&copy; 2017 lyon
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3(modified by lyon)</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2" id="back-top">
+            <!-- <p class="pull-right"><i class="fa fa-arrow-up"></i>  -->
+            <a href="#top" title="回到顶部"></a>
+            </p>
+         </div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.lyon0804.com/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.lyon0804.com/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.lyon0804.com/theme/js/respond.min.js"></script>
+
+
+</body>
+</html>
